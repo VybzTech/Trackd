@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { CheckCircle, Briefcase, TrendingUp, Bookmark } from 'lucide-react';
 import { DashboardStats } from '@/types';
+import { RiBriefcaseLine, RiUserVoiceLine, RiTrophyLine, RiBookmarkLine } from 'react-icons/ri';
 
 interface DashboardSummaryProps {
   stats: DashboardStats;
@@ -10,74 +10,86 @@ interface DashboardSummaryProps {
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.32 } },
 };
 
+const CARDS = (stats: DashboardStats) => [
+  {
+    icon: RiBriefcaseLine,
+    label: 'Total Applications',
+    value: stats.totalApplications,
+    sub: `${stats.applied} active`,
+    gradient: 'from-[var(--vybz-blue)] to-blue-700',
+    glow: 'rgba(0,82,255,0.2)',
+  },
+  {
+    icon: RiUserVoiceLine,
+    label: 'Interviewing',
+    value: stats.interviewing,
+    sub: 'In progress',
+    gradient: 'from-purple-500 to-purple-700',
+    glow: 'rgba(168,85,247,0.2)',
+  },
+  {
+    icon: RiTrophyLine,
+    label: 'Offers',
+    value: stats.offers,
+    sub: stats.offers > 0 ? 'Congratulations!' : 'Keep going',
+    gradient: 'from-emerald-500 to-green-700',
+    glow: 'rgba(16,185,129,0.2)',
+  },
+  {
+    icon: RiBookmarkLine,
+    label: 'Bookmarked',
+    value: stats.bookmarked,
+    sub: 'Saved to review',
+    gradient: 'from-amber-500 to-orange-600',
+    glow: 'rgba(245,158,11,0.2)',
+  },
+];
+
 export function DashboardSummary({ stats }: DashboardSummaryProps) {
-  const summaryCards = [
-    {
-      icon: Briefcase,
-      label: 'Total Applications',
-      value: stats.totalApplications,
-      color: 'from-blue-500 to-blue-600',
-    },
-    {
-      icon: TrendingUp,
-      label: 'Interviewing',
-      value: stats.interviewing,
-      color: 'from-purple-500 to-purple-600',
-    },
-    {
-      icon: CheckCircle,
-      label: 'Offers',
-      value: stats.offers,
-      color: 'from-green-500 to-green-600',
-    },
-    {
-      icon: Bookmark,
-      label: 'Bookmarked',
-      value: stats.bookmarked,
-      color: 'from-amber-500 to-amber-600',
-    },
-  ];
+  const cards = CARDS(stats);
 
   return (
     <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
+      className="grid grid-cols-2 lg:grid-cols-4 gap-3"
     >
-      {summaryCards.map((card, idx) => {
+      {cards.map((card, idx) => {
         const Icon = card.icon;
         return (
           <motion.div
             key={idx}
             variants={itemVariants}
-            whileHover={{ y: -4 }}
-            className="card-3d group cursor-pointer"
+            whileHover={{ y: -3, transition: { duration: 0.15 } }}
+            className="card-3d cursor-default group relative overflow-hidden"
           >
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-slate-400 mb-2">
-                  {card.label}
-                </p>
-                <p className="text-3xl font-bold text-white font-heading">
+            {/* Glow bg */}
+            <div
+              className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+              style={{ background: `radial-gradient(ellipse at top left, ${card.glow}, transparent 70%)` }}
+            />
+
+            <div className="relative z-10 flex items-start justify-between">
+              <div className="min-w-0">
+                <p className="text-xs font-medium text-slate-500 mb-2">{card.label}</p>
+                <p className="text-3xl font-bold text-white font-heading leading-none mb-1">
                   {card.value}
                 </p>
+                <p className="text-[11px] text-slate-600">{card.sub}</p>
               </div>
               <div
-                className={`p-3 rounded-lg bg-gradient-to-br ${card.color} text-white group-hover:scale-110 transition-transform`}
+                className={`w-10 h-10 rounded-xl bg-gradient-to-br ${card.gradient} flex items-center justify-center flex-shrink-0 shadow-3d-flat group-hover:scale-110 transition-transform duration-200`}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-5 h-5 text-white" />
               </div>
             </div>
           </motion.div>

@@ -1,53 +1,52 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download, Zap } from 'lucide-react';
-import { Job } from '@/types';
 import { useState, useEffect } from 'react';
+import { Job } from '@/types';
+import { RiCloseLine, RiDownloadLine, RiFlashlightLine, RiFileCopyLine } from 'react-icons/ri';
 
 interface AIGenerationModalProps {
   job: Job;
   onClose: () => void;
-  onGenerate: (coverLetter: string) => void;
+  onGenerate?: (coverLetter: string) => void;
 }
 
-const mockCoverLetter = `Dear Hiring Manager,
+function buildCoverLetter(
+  jobTitle: string,
+  companyName: string,
+  relevantSkill: string,
+  stack: string,
+  industry: string,
+): string {
+  return `Dear Hiring Manager,
 
-I am excited to apply for the ${jobTitle} position at ${companyName}. With my extensive experience in ${relevantSkill} and proven track record of delivering high-impact solutions, I am confident in my ability to contribute significantly to your team.
+I am excited to apply for the ${jobTitle} position at ${companyName}. With my extensive experience in ${relevantSkill} and a proven track record of delivering high-impact solutions, I am confident in my ability to contribute meaningfully to your team from day one.
 
-Throughout my career, I have developed deep expertise in the technologies and methodologies critical to this role, particularly in ${stack}. My passion for ${industry} combined with my technical skills positions me uniquely to add immediate value to your organization.
+Throughout my career, I have developed deep expertise in the technologies that are central to this role — particularly ${stack}. I thrive in fast-paced environments and consistently deliver quality work that scales. My passion for the ${industry} space, combined with a systematic engineering approach, positions me uniquely to add immediate, compounding value to your organization.
 
-I am particularly drawn to this opportunity because of your company's commitment to innovation and excellence. I am excited about the prospect of collaborating with your talented team and contributing to your mission.
+What draws me most to ${companyName} is your commitment to innovation and technical excellence. I have followed your work closely and am genuinely excited by the engineering challenges this role presents. I am confident that my background aligns strongly with what you are looking for.
 
-Thank you for considering my application. I look forward to discussing how my skills and experience align with your needs.
+I would love the opportunity to discuss how my experience can accelerate your team's goals. Thank you sincerely for your consideration.
 
 Best regards,
-Alex Chen`;
+Alex Chen
+alex@example.com | linkedin.com/in/alexchen | github.com/alexchen`;
+}
 
-export function AIGenerationModal({
-  job,
-  onClose,
-  onGenerate,
-}: AIGenerationModalProps) {
+export function AIGenerationModal({ job, onClose, onGenerate }: AIGenerationModalProps) {
   const [displayText, setDisplayText] = useState('');
   const [isGenerating, setIsGenerating] = useState(true);
+  const [copied, setCopied] = useState(false);
+
   const jobTitle = job.role.title;
   const companyName = job.company.name;
   const relevantSkill = job.technicalRequirements?.requiredSkills?.[0] || 'software development';
   const stack = job.technicalRequirements?.stack?.join(', ') || 'modern technologies';
   const industry = job.company.industry || 'technology';
 
-  const finalCoverLetter = mockCoverLetter
-    .replace('${jobTitle}', jobTitle)
-    .replace('${companyName}', companyName)
-    .replace('${relevantSkill}', relevantSkill)
-    .replace('${stack}', stack)
-    .replace('${industry}', industry);
+  const finalCoverLetter = buildCoverLetter(jobTitle, companyName, relevantSkill, stack, industry);
 
-  // Simulate streaming text generation
   useEffect(() => {
-    if (!isGenerating) return;
-
     let charIndex = 0;
     const interval = setInterval(() => {
       if (charIndex <= finalCoverLetter.length) {
@@ -57,10 +56,16 @@ export function AIGenerationModal({
         setIsGenerating(false);
         clearInterval(interval);
       }
-    }, 15);
-
+    }, 12);
     return () => clearInterval(interval);
-  }, [isGenerating, finalCoverLetter]);
+  }, [finalCoverLetter]);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(finalCoverLetter).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   return (
     <AnimatePresence>
@@ -68,71 +73,102 @@ export function AIGenerationModal({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        onClick={(e) => e.target === e.currentTarget && onClose()}
       >
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.9, opacity: 0 }}
-          className="bg-slate-800 border border-slate-700 rounded-lg max-w-2xl w-full max-h-96 flex flex-col"
+          initial={{ scale: 0.92, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.92, opacity: 0, y: 20 }}
+          transition={{ type: 'spring', stiffness: 340, damping: 30 }}
+          className="bg-slate-800 border border-slate-700 rounded-xl max-w-2xl w-full flex flex-col max-h-[82vh] shadow-3d-lift"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-slate-700">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700/70">
+            <div className="flex items-center gap-2.5">
               <motion.div
                 animate={{ rotate: isGenerating ? 360 : 0 }}
-                transition={{ duration: 2, repeat: isGenerating ? Infinity : 0 }}
+                transition={{ duration: 1.8, repeat: isGenerating ? Infinity : 0, ease: 'linear' }}
+                className="w-8 h-8 rounded-lg bg-[var(--vybz-blue)]/15 flex items-center justify-center"
               >
-                <Zap className="w-5 h-5 text-[var(--vybz-blue)]" />
+                <RiFlashlightLine className="w-4 h-4 text-[var(--vybz-blue)]" />
               </motion.div>
-              <h2 className="text-lg font-semibold text-white">
-                {isGenerating ? 'Generating Cover Letter...' : 'Cover Letter Generated'}
-              </h2>
+              <div>
+                <h2 className="text-sm font-semibold text-white">
+                  {isGenerating ? 'Generating Cover Letter…' : 'Cover Letter Ready'}
+                </h2>
+                <p className="text-xs text-slate-500">{job.company.name} · {job.role.title}</p>
+              </div>
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white transition-colors"
+              className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors"
             >
-              <X className="w-5 h-5" />
+              <RiCloseLine className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto p-6">
-            <div className="text-sm text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
+          {/* AI Match score bar */}
+          {job.aiInsights?.matchScore && (
+            <div className="px-6 py-3 border-b border-slate-700/50 flex items-center gap-3">
+              <span className="text-xs text-slate-400">Match Score</span>
+              <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${job.aiInsights.matchScore}%` }}
+                  transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
+                  className="h-full bg-gradient-to-r from-[var(--vybz-blue)] to-blue-400 rounded-full"
+                />
+              </div>
+              <span className="text-xs font-bold text-white">{job.aiInsights.matchScore}%</span>
+            </div>
+          )}
+
+          {/* Streaming Text */}
+          <div className="flex-1 overflow-y-auto px-6 py-5">
+            <div className="text-[13px] text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
               {displayText}
               {isGenerating && (
                 <motion.span
                   animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                  className="inline-block w-2 h-4 bg-slate-300 ml-1"
+                  transition={{ duration: 0.6, repeat: Infinity }}
+                  className="inline-block w-[2px] h-[14px] bg-[var(--vybz-blue)] ml-0.5 align-middle"
                 />
               )}
             </div>
           </div>
 
-          {/* Footer */}
-          {!isGenerating && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex gap-2 p-6 border-t border-slate-700"
-            >
-              <button
-                onClick={onClose}
-                className="btn-3d flex-1"
+          {/* Footer — appears when done */}
+          <AnimatePresence>
+            {!isGenerating && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex gap-2 px-6 py-4 border-t border-slate-700/70"
               >
-                Close
-              </button>
-              <button
-                onClick={() => onGenerate(finalCoverLetter)}
-                className="btn-3d-primary flex-1 flex items-center justify-center gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Download
-              </button>
-            </motion.div>
-          )}
+                <button
+                  onClick={handleCopy}
+                  className="btn-3d flex items-center gap-2 px-4 py-2 text-sm text-slate-200 bg-slate-700 hover:bg-slate-600 rounded-lg"
+                >
+                  <RiFileCopyLine className="w-4 h-4" />
+                  {copied ? 'Copied!' : 'Copy'}
+                </button>
+                <button
+                  onClick={onClose}
+                  className="btn-3d px-4 py-2 text-sm text-slate-400 hover:text-white rounded-lg"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => { onGenerate?.(finalCoverLetter); onClose(); }}
+                  className="btn-3d-primary flex items-center gap-2 px-4 py-2 text-sm ml-auto rounded-lg"
+                >
+                  <RiDownloadLine className="w-4 h-4" />
+                  Export PDF
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </motion.div>
     </AnimatePresence>
