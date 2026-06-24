@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 16px;
+      background-color: #0B0F19;
+      color: #F3F4F6;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    h1 {
+      font-size: 1.25rem;
+      margin: 0;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+    }
+    .status-badge {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: max-content;
+    }
+    .btn-3d {
+      background-color: #0052FF;
+      color: #FFFFFF;
+      border: none;
+      padding: 10px 16px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      box-shadow: 0 4px 0px #003DCC, 0 6px 10px rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-3d:hover {
+      background-color: #1A62FF;
+      transform: translateY(1px);
+      box-shadow: 0 3px 0px #003DCC, 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .btn-3d:active {
+      transform: translateY(4px);
+      box-shadow: 0 0px 0px transparent, 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    #output-message {
+      font-size: 0.85rem;
+      color: #9CA3AF;
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1>Trackd Workspace</h1>
+      <span class="status-badge" id="source-indicator">Detecting...</span>
+    </div>
+    <p style="font-size: 0.85rem; margin: 0; color: #9CA3AF;">Extract contextual listing parameters instantly and pipeline data to your Frontend Review Inbox.</p>
+    <button id="scrape-action" class="btn-3d">Scrape & Pipeline Job</button>
+    <div id="output-message"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
