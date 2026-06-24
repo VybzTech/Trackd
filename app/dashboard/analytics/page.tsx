@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { mockJobs } from '@/lib/mock-data';
-import { RiBarChartBoxLine, RiPieChartLine, RiTrendingUpLine, RiArrowUpLine } from 'react-icons/ri';
+import { RiBarChartBoxLine, RiPieChartLine, RiLineChartLine, RiArrowUpLine } from 'react-icons/ri';
 
 export default function AnalyticsPage() {
   const statusBreakdown = {
@@ -103,7 +103,7 @@ export default function AnalyticsPage() {
         {/* Skills Matrix */}
         <motion.div variants={itemVariants} className="card-3d space-y-4">
           <div className="flex items-center gap-2">
-            <RiTrendingUpLine className="w-4 h-4 text-[var(--vybz-blue)]" />
+            <RiLineChartLine className="w-4 h-4 text-[var(--vybz-blue)]" />
             <h2 className="text-sm font-semibold text-white">Top Required Skills</h2>
           </div>
 

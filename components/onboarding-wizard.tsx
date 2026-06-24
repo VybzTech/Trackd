@@ -23,7 +23,7 @@ const STEP_LABELS = ['Career Details', 'Resume Intake', 'Extension Setup'];
 
 const stepVariants = {
   enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 48 : -48 }),
-  center: { opacity: 1, x: 0, transition: { duration: 0.32, ease: 'easeOut' } },
+  center: { opacity: 1, x: 0, transition: { duration: 0.32 } },
   exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -48 : 48, transition: { duration: 0.18 } }),
 };
 

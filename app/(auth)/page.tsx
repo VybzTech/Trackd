@@ -15,13 +15,13 @@ const containerVariants = {
   exit: {
     opacity: 0,
     scale: 1.04,
-    transition: { duration: 0.25, ease: 'easeIn' },
+    transition: { duration: 0.25 },
   },
 };
 
 const itemVariants = {
   hidden: { opacity: 0, y: 14 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.38, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.38 } },
 };
 
 export default function LoginPage() {
