@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Job } from '@/types';
 import { useState } from 'react';
-import { CheckCircle } from 'lucide-react';
+import { BiCheckCircle } from 'react-icons/bi';
 
 interface JobFormProps {
   job: Job;
@@ -185,7 +185,7 @@ export function JobForm({ job, onSubmit }: JobFormProps) {
           </>
         ) : (
           <>
-            <CheckCircle className="w-4 h-4" />
+            <BiCheckCircle className="w-4 h-4" />
             Approve & Commit to Tracker
           </>
         )}

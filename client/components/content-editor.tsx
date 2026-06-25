@@ -3,9 +3,9 @@
 import { motion } from 'framer-motion';
 import { Job } from '@/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Zap } from 'lucide-react';
 import { AIGenerationModal } from './ai-modal';
 import { useState } from 'react';
+import { FiFileText, FiZap } from 'react-icons/fi';
 
 interface ContentEditorProps {
   content: string;
@@ -29,11 +29,11 @@ export function ContentEditor({
       <Tabs defaultValue="summary" className="w-full">
         <TabsList className="grid w-full grid-cols-2 bg-slate-700/50">
           <TabsTrigger value="summary" className="data-[state=active]:bg-slate-600">
-            <FileText className="w-4 h-4 mr-2" />
+            <FiFileText className="w-4 h-4 mr-2" />
             Summary
           </TabsTrigger>
           <TabsTrigger value="tailored" className="data-[state=active]:bg-slate-600">
-            <Zap className="w-4 h-4 mr-2" />
+            <FiZap className="w-4 h-4 mr-2" />
             AI Tailored
           </TabsTrigger>
         </TabsList>
@@ -47,7 +47,7 @@ export function ContentEditor({
             <textarea
               value={content}
               onChange={(e) => onChange(e.target.value)}
-              className="input-inset w-full px-4 py-3 text-sm h-48 resize-none font-mono"
+              className="input-inset w-full px-4   py-3 text-sm h-48 resize-none font-mono"
               placeholder="Edit your resume content..."
             />
           </div>

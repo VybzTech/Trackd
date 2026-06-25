@@ -6,7 +6,7 @@ import { InboxList } from '@/components/inbox-list';
 import { JobForm } from '@/components/job-form';
 import { mockJobs } from '@/lib/mock-data';
 import { Job } from '@/types';
-import { Inbox } from 'lucide-react';
+import { BsInbox } from 'react-icons/bs';
 
 // Simulate incoming jobs from extension/smart paste
 const incomingJobs = mockJobs.slice(0, 3);
@@ -30,7 +30,7 @@ export default function InboxPage() {
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center gap-3"
       >
-        <Inbox className="w-8 h-8 text-slate-400" />
+        <BsInbox className="w-8 h-8 text-slate-400" />
         <div>
           <h1 className="text-3xl font-bold text-white font-heading">Inbox</h1>
           <p className="text-slate-400 mt-1">Review and approve new job postings</p>

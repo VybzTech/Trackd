@@ -1,9 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { User, Save, Plus, X } from 'lucide-react';
 import { useState } from 'react';
 import { mockUser, mockResume } from '@/lib/mock-data';
+import { BiSave, BiUser } from 'react-icons/bi';
+import { FaPlus } from 'react-icons/fa';
+import { IoIosClose } from 'react-icons/io';
 
 export default function ProfilePage() {
   const [formData, setFormData] = useState({
@@ -56,7 +58,7 @@ export default function ProfilePage() {
     >
       {/* Header */}
       <motion.div variants={itemVariants} className="flex items-center gap-3">
-        <User className="w-8 h-8 text-slate-400" />
+        <BiUser className="w-8 h-8 text-slate-400" />
         <div>
           <h1 className="text-3xl font-bold text-white font-heading">Profile</h1>
           <p className="text-slate-400 mt-1">Manage your profile and preferences</p>
@@ -156,7 +158,7 @@ export default function ProfilePage() {
             onClick={handleAddSkill}
             className="btn-3d flex items-center gap-2 px-4"
           >
-            <Plus className="w-4 h-4" />
+            <FaPlus className="w-4 h-4" />
             Add
           </button>
         </div>
@@ -175,7 +177,7 @@ export default function ProfilePage() {
                 onClick={() => handleRemoveSkill(idx)}
                 className="text-slate-400 hover:text-white transition-colors"
               >
-                <X className="w-4 h-4" />
+                <IoIosClose className="w-4 h-4" />
               </button>
             </motion.div>
           ))}
@@ -206,7 +208,7 @@ export default function ProfilePage() {
       {/* Save Button */}
       <motion.div variants={itemVariants} className="flex gap-4">
         <button className="btn-3d-primary flex items-center gap-2 px-6 py-3">
-          <Save className="w-4 h-4" />
+          <BiSave className="w-4 h-4" />
           Save Changes
         </button>
         <button className="btn-3d px-6 py-3">Cancel</button>

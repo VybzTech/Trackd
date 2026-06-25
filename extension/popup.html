@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     body {
       width: 320px;
@@ -9,65 +13,90 @@
       padding: 16px;
       background-color: #0B0F19;
       color: #F3F4F6;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'Outfit', system-ui, -apple-system, sans-serif;
     }
+
     .container {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
     h1 {
-      font-size: 1.25rem;
+      font-size: 1.35rem;
+      font-weight: 800;
       margin: 0;
       color: #FFFFFF;
       letter-spacing: -0.02em;
     }
-    .status-badge {
+
+    .url-trunc {
       font-size: 0.75rem;
-      padding: 4px 8px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      width: max-content;
+      color: #9CA3AF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+      max-width: 100%;
     }
+
     .btn-3d {
-      background-color: #0052FF;
+      background-color: #3B82F6;
       color: #FFFFFF;
       border: none;
-      padding: 10px 16px;
-      font-weight: 600;
-      border-radius: 6px;
+      padding: 12px 16px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      font-family: 'Outfit', sans-serif;
+      border-radius: 8px;
       cursor: pointer;
-      transition: all 0.15s ease;
-      box-shadow: 0 4px 0px #003DCC, 0 6px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.1s ease;
+      box-shadow: 0 5px 0px 1px #1D4ED8;
+      /* , 0 10px 15px rgba(0, 0, 0, 0.4); */
       border-top: 1px solid rgba(255, 255, 255, 0.2);
+      margin-top: 7px;
     }
+
     .btn-3d:hover {
-      background-color: #1A62FF;
-      transform: translateY(1px);
-      box-shadow: 0 3px 0px #003DCC, 0 4px 8px rgba(0, 0, 0, 0.3);
+      background-color: #2563EB;
+      transform: translateY(2px);
+      box-shadow: 0 4px 0px #1E40AF, 0 6px 10px rgba(0, 0, 0, 0.4);
     }
+
     .btn-3d:active {
-      transform: translateY(4px);
-      box-shadow: 0 0px 0px transparent, 0 1px 2px rgba(0, 0, 0, 0.2);
+      transform: translateY(6px);
+      box-shadow: 0 0px 0px transparent, 0 2px 4px rgba(0, 0, 0, 0.3);
     }
+
     #output-message {
       font-size: 0.85rem;
       color: #9CA3AF;
       min-height: 20px;
+      margin-top: 4px;
+      font-weight: 600;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="header">
       <h1>Trackd Workspace</h1>
-      <span class="status-badge" id="source-indicator">Detecting...</span>
+      <p class="url-trunc" id="source-indicator">Detecting...</p>
     </div>
-    <p style="font-size: 0.85rem; margin: 0; color: #9CA3AF;">Extract contextual listing parameters instantly and pipeline data to your Frontend Review Inbox.</p>
+    <p style="font-size: 0.85rem; margin: 0; color: #9CA3AF;">Wait for the page load and scroll the content before
+      Extraction into data pipeline.</p>
     <button id="scrape-action" class="btn-3d">Scrape & Pipeline Job</button>
     <div id="output-message"></div>
   </div>
+  <script src="logger.js"></script>
   <script src="popup.js"></script>
 </body>
+
 </html>
