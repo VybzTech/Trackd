@@ -3944,3 +3944,178 @@ END SOURCE
 
 
 
+
+
+
+
+
+=======================================================================
+
+SOURCE: https://jobs.workable.com/search?query=frontend&selectedJobId=9b0738ec-4e80-4994-90cc-9e0e996878f2
+
+=======================================================================
+Payload: 
+=======================================================================
+Log in / Sign up
+Search jobs
+© Workable Technology Limited 2012-2026
+Terms & Conditions
+DSA
+Privacy Policy
+Cookie Settings
+Need Help?
+1,401 jobs
+Skip to the end of the job list
+Frontend Engineer
+at Techconnect.idHybridJakarta, Jakarta, IndonesiaGroup CompaniesContract
+Posted today
+Senior Frontend Engineer (React)
+at Titan OSHybridBarcelona, Catalonia, SpainTechnologyFull-time
+Posted today
+Frontend Team Lead
+at TalentgratorOn-sitePrague, Prague, CzechiaSaas Platform| iGamingFull-time
+Posted 1 day ago
+Frontend-разработчик (Vue 3 / TypeScript)
+at DMEDOn-siteTashkent, Tashkent, UzbekistanFull-time
+Posted 1 day ago
+Staff Frontend Engineer (React Native / Mobile)
+at FeeldRemoteLondon, England, United KingdomEngineeringFull-time
+Posted 1 day ago
+Frontend Developer (Chrome Extension)
+at Emerging Travel GroupRemoteKazakhstanEngineeringFull-time
+Posted 3 days ago
+Frontend Developer (Chrome Extension)
+at Emerging Travel GroupRemoteArmeniaEngineeringFull-time
+Posted 3 days ago
+Frontend Developer (Chrome Extension)
+at Emerging Travel GroupRemoteArgentinaEngineeringFull-time
+Posted 3 days ago
+Frontend Developer (Chrome Extension)
+at Emerging Travel GroupRemoteVietnamEngineeringFull-time
+Posted 3 days ago
+Frontend Developer (Chrome Extension)
+at Emerging Travel GroupRemoteThailandEngineeringFull-time
+Posted 3 days ago
+Frontend Developer (Chrome Extension)
+at Emerging Travel GroupRemoteGeorgiaEngineeringFull-time
+Posted 3 days ago
+Senior Software Engineer ( Frontend)
+at WritesonicRemoteIndiaFull-time
+Posted 3 days ago
+Frontend Development Engineer - Teknosys
+at JazzWorldOn-siteIslamabad, Islamabad Capital Territory, PakistanSoftwareFull-time
+Posted 7 days ago
+Senior Frontend Developer (m/f/d)
+at SkyCell AGHybridHyderabad, Telangana, IndiaITFull-time
+Posted 3 months ago
+Senior Frontend Engineer (Shopify) - LATAM
+at AOARemoteBrazilContract
+Posted 9 days ago
+Senior Frontend Engineer (Shopify) - LATAM
+at AOARemoteChileContract
+Posted 9 days ago
+Senior Frontend Engineer (Shopify) - LATAM
+at AOARemoteMexicoContract
+Posted 9 days ago
+Senior Frontend Engineer (Shopify) - LATAM
+at AOARemoteColombiaContract
+Posted 9 days ago
+Senior Frontend Engineer (Shopify) - LATAM
+at AOARemoteArgentinaContract
+Posted 9 days ago
+Senior Frontend Engineer (React) - LATAM
+at AOARemoteColombiaContract
+Posted 9 days ago
+Skip to the start of the job list
+
+Frontend Engineer
+at Techconnect.id
+HybridJakarta, Jakarta, IndonesiaGroup CompaniesContract
+Posted today
+Share job
+Apply now
+Description
+
+📌 CONTRACT DETAILS
+
+• Duration: 12-months fixed term (subject to change based on business needs)
+
+• Engagement: Through 3rd party/vendor
+
+• Work setup: Hybrid with dedicated full office hours
+
+Lead/Senior
+
+Lead the architecture, development, and delivery of scalable, high-performance web applications across multiple product lines.
+Strategize the frontend roadmap in partnership with Product, Design, and Engineering leadership — defining standards, tooling choices, and long-term technical direction.
+Authorize technical decisions on frontend architecture, component system design, state management patterns, and build infrastructure.
+Synergize efforts across frontend, backend, design, and QA teams to ensure seamless, end-to-end user experiences.
+Negotiate trade-offs between design fidelity, performance, accessibility, and delivery timelines, providing clear recommendations to stakeholders.
+Lead code reviews, set engineering standards, and drive adoption of best practices across the frontend engineering team.
+Evaluate emerging frontend technologies and frameworks; recommend adoption where they meaningfully improve quality, performance, or developer experience.
+Formulate and enforce frontend performance budgets, accessibility standards, and cross-browser compatibility requirements.
+Lead the strategy for dependency management, package upgrades, security patches, and shared library maintenance.
+Mentor and grow mid and junior engineers through structured feedback, pairing, and technical guidance.
+Plan and control frontend delivery milestones, proactively surfacing risks and coordinating resolution across teams.
+
+Mid/Junior
+
+Plan and develop UI components and features by translating designs and wireframes into clean, maintainable, and reusable code.
+Control the quality of your own work through thorough testing, debugging, and adherence to team coding standards.
+Evaluate and implement responsive, cross-browser compatible layouts across desktop, tablet, and mobile breakpoints.
+Formulate and document component-level solutions that align with the team's frontend architecture and design system.
+Collaborate closely with Product Managers, Designers, Backend Engineers, and QA to deliver cohesive user experiences.
+Recommend improvements to code quality, component reusability, or development tooling based on day-to-day experience.
+Participate in code reviews, incorporating feedback constructively to improve personal and team output.
+Plan and execute frontend optimizations for performance, accessibility, and SEO under guidance from senior engineers.
+Contribute to dependency maintenance tasks including package upgrades and basic compatibility checks.
+Stay current with frontend trends and evaluate new tools or techniques relevant to the team's work. 
+Requirements
+
+Lead/Senior
+
+7+ years of hands-on experience in frontend engineering, with a demonstrable track record of shipping production-grade web applications at scale.
+Deep expertise in JavaScript (ES6+), TypeScript, HTML5, and CSS3, with strong understanding of browser internals and rendering performance.
+Proven mastery of React.js (preferred) or Vue.js / Angular, including advanced patterns such as server-side rendering, code splitting, and micro-frontends.
+Extensive experience with state management solutions (Redux, Zustand, Pinia, or equivalent) and frontend data-fetching strategies.
+Strong command of frontend build tooling (Webpack, Vite, Rollup) and CI/CD pipelines for frontend applications.
+Deep experience with performance optimization — Core Web Vitals, lazy loading, caching strategies, and bundle analysis.
+Proven ability to design and maintain scalable component libraries and design system integrations.
+Experience leading dependency governance: package upgrade strategies, compatibility management, and vulnerability remediation.
+Strong command of testing practices — unit, integration, and end-to-end testing (Jest, Cypress, Playwright, or equivalent).
+Demonstrated ability to influence technical decisions and communicate clearly with non-technical stakeholders.
+Experience with RESTful and GraphQL API integration, including error handling and data normalization strategies.
+Good communication skills in both Bahasa Indonesia and English, written and spoken.
+
+Mid/Junior
+
+1–4 years of hands-on experience in frontend development, with at least one project delivered in a professional or academic setting.
+Solid proficiency in JavaScript (ES6+), HTML5, and CSS3, with a good understanding of how browsers render pages.
+Hands-on experience with React.js, Vue.js, or Angular; familiarity with component-based architecture and props/state patterns.
+Basic experience with state management libraries (Redux, Zustand, Vuex, or equivalent).
+Familiarity with RESTful API integration and working with JSON data in frontend applications.
+Experience using Git and collaborative development workflows (branching, pull requests, code reviews).
+Understanding of responsive design principles and CSS frameworks (e.g., Tailwind CSS, Bootstrap, or similar).
+Familiarity with frontend build tools and package managers (Webpack, Vite, npm, or yarn).
+Basic awareness of web performance principles and browser developer tools for debugging.
+Understanding of package management, including installing dependencies and identifying outdated or vulnerable packages.
+Strong problem-solving mindset with attention to detail and willingness to learn.
+Good communication skills in both Bahasa Indonesia and English, written and spoken.
+© Workable Technology Limited 2012-2026
+Terms & Conditions
+DSA
+Privacy Policy
+Cookie Settings
+Need Help?
+
+
+========================================================================================== 
+END SOURCE
+==========================================================================================
+==========================================================================================
+
+
+
+
+
+
