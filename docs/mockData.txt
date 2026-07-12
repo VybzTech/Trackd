@@ -1,0 +1,209 @@
+// src/lib/mockData.ts
+
+export interface JobApplication {
+  id: string;
+  jobTitle: string;
+  companyName: string;
+  companyLogoUrl: string;
+  department: string;
+  seniorityLevel: 'Junior' | 'Mid' | 'Senior' | 'Lead' | 'Executive';
+  workMode: 'Remote' | 'Hybrid' | 'Onsite';
+  industry: string;
+  companySize: string;
+  compensation: {
+    min: number;
+    max: number;
+    currency: string;
+    payType: 'Salary' | 'Hourly';
+    equity?: string;
+    benefits: string[];
+  };
+  status: 'Saved' | 'Applied' | 'Interviewing' | 'Offer Received' | 'Rejected/Closed';
+  source: 'LinkedIn' | 'Indeed' | 'Referral' | 'Company Site' | 'Paste';
+  appliedDate: string; 
+  deadline: string; 
+  techStack: string[];
+  atsKeywords: { keyword: string; matched: boolean; priority: 'Required' | 'Preferred' }[];
+  matchScore: number; 
+  historyLog: { timestamp: string; statusFrom: string; statusTo: string }[];
+}
+
+export interface UserProfile {
+  fullName: string;
+  currentTitle: string;
+  skills: string[];
+  resumeBullets: { id: string; category: string; bullet: string; suggestion: string }[];
+}
+
+export const mockJobs: JobApplication[] = [
+  {
+    id: "job-001",
+    jobTitle: "Senior Product Engineer",
+    companyName: "VybzTech Inc.",
+    companyLogoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=VybzTech",
+    department: "Core Platform",
+    seniorityLevel: "Senior",
+    workMode: "Remote",
+    industry: "SaaS / HRTech",
+    companySize: "50-100 employees",
+    compensation: { min: 120000, max: 150000, currency: "USD", payType: "Salary", equity: "0.25%", benefits: ["Health", "401k Match", "Remote Allowance"] },
+    status: "Interviewing",
+    source: "LinkedIn",
+    appliedDate: "2026-06-15",
+    deadline: "2026-07-10",
+    techStack: ["React", "Next.js", "Tailwind CSS", "Go", "PostgreSQL"],
+    atsKeywords: [
+      { keyword: "Product Architecture", matched: true, priority: "Required" },
+      { keyword: "Full-Stack Optimization", matched: true, priority: "Required" },
+      { keyword: "Headless Chrome Automation", matched: false, priority: "Preferred" }
+    ],
+    matchScore: 88,
+    historyLog: [
+      { timestamp: "2026-06-15T10:00:00Z", statusFrom: "Saved", statusTo: "Applied" },
+      { timestamp: "2026-06-22T14:30:00Z", statusFrom: "Applied", statusTo: "Interviewing" }
+    ]
+  },
+  {
+    id: "job-002",
+    jobTitle: "Full Stack Developer",
+    companyName: "Krestkore",
+    companyLogoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=Krestkore",
+    department: "Engineering",
+    seniorityLevel: "Mid",
+    workMode: "Hybrid",
+    industry: "Fintech",
+    companySize: "11-50 employees",
+    compensation: { min: 90000, max: 110000, currency: "USD", payType: "Salary", benefits: ["Gym Access", "Flexible Work Hours"] },
+    status: "Saved",
+    source: "Paste",
+    appliedDate: "2026-07-01",
+    deadline: "2026-07-28",
+    techStack: ["React Native", "Node.js", "Express", "MySQL"],
+    atsKeywords: [
+      { keyword: "USSD Implementations", matched: false, priority: "Required" },
+      { keyword: "Payment Gateway Integration", matched: true, priority: "Required" }
+    ],
+    matchScore: 52,
+    historyLog: []
+  },
+  {
+    id: "job-003",
+    jobTitle: "Lead Frontend Engineer",
+    companyName: "PayStream",
+    companyLogoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=PayStream",
+    department: "UI Foundation",
+    seniorityLevel: "Lead",
+    workMode: "Remote",
+    industry: "Fintech",
+    companySize: "500-1000 employees",
+    compensation: { min: 140000, max: 175000, currency: "USD", payType: "Salary", equity: "0.5%", benefits: ["Unlimited PTO", "Health / Dental"] },
+    status: "Applied",
+    source: "Company Site",
+    appliedDate: "2026-06-28",
+    deadline: "2026-07-15",
+    techStack: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    atsKeywords: [
+      { keyword: "Design System Scaling", matched: true, priority: "Required" },
+      { keyword: "Component Libraries", matched: true, priority: "Required" },
+      { keyword: "Framer Motion", matched: true, priority: "Preferred" }
+    ],
+    matchScore: 95,
+    historyLog: [
+      { timestamp: "2026-06-28T09:15:00Z", statusFrom: "Saved", statusTo: "Applied" }
+    ]
+  },
+  {
+    id: "job-004",
+    jobTitle: "Software Developer (Python/React)",
+    companyName: "SolarPulse",
+    companyLogoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=SolarPulse",
+    department: "Data Platforms",
+    seniorityLevel: "Mid",
+    workMode: "Onsite",
+    industry: "Renewable Energy",
+    companySize: "100-200 employees",
+    compensation: { min: 95000, max: 120000, currency: "USD", payType: "Salary", benefits: ["Commuter Subsidies", "Learning Budget"] },
+    status: "Offer Received",
+    source: "Referral",
+    appliedDate: "2026-06-02",
+    deadline: "2026-06-25",
+    techStack: ["Python", "FastAPI", "React", "Pandas"],
+    atsKeywords: [
+      { keyword: "Modbus TCP Data Logging", matched: true, priority: "Required" },
+      { keyword: "Inverter Hardware Integration", matched: false, priority: "Preferred" }
+    ],
+    matchScore: 74,
+    historyLog: [
+      { timestamp: "2026-06-02T11:00:00Z", statusFrom: "Saved", statusTo: "Applied" },
+      { timestamp: "2026-06-10T16:00:00Z", statusFrom: "Applied", statusTo: "Interviewing" },
+      { timestamp: "2026-06-29T10:30:00Z", statusFrom: "Interviewing", statusTo: "Offer Received" }
+    ]
+  },
+  {
+    id: "job-005",
+    jobTitle: "Product Engineer",
+    companyName: "NexusLabs",
+    companyLogoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=NexusLabs",
+    department: "Growth Engineering",
+    seniorityLevel: "Mid",
+    workMode: "Remote",
+    industry: "Web3 / SaaS",
+    companySize: "20-50 employees",
+    compensation: { min: 110000, max: 135000, currency: "USD", payType: "Salary", equity: "1.0%", benefits: ["Work anywhere", "Home office budget"] },
+    status: "Rejected/Closed",
+    source: "Indeed",
+    appliedDate: "2026-05-20",
+    deadline: "2026-06-12",
+    techStack: ["Next.js", "Tailwind CSS", "Node.js", "MongoDB"],
+    atsKeywords: [
+      { keyword: "Rapid Prototyping", matched: true, priority: "Required" },
+      { keyword: "A/B Testing Implementations", matched: false, priority: "Required" }
+    ],
+    matchScore: 61,
+    historyLog: [
+      { timestamp: "2026-05-20T14:00:00Z", statusFrom: "Saved", statusTo: "Applied" },
+      { timestamp: "2026-06-05T09:00:00Z", statusFrom: "Applied", statusTo: "Rejected/Closed" }
+    ]
+  }
+];
+
+export const mockProfile: UserProfile = {
+  fullName: "David Adeboyejo",
+  currentTitle: "Full Stack Developer & Product Engineer",
+  skills: ["React", "Next.js", "Tailwind CSS", "Node.js", "Python", "FastAPI", "React Native", "TypeScript"],
+  resumeBullets: [
+    {
+      id: "b1",
+      category: "Experience",
+      bullet: "Built responsive tracking dashboards using React and managed complex backends with Python.",
+      suggestion: "Architected analytical dashboards utilizing React, Vite, and Tailwind CSS, speeding up cross-platform render cycles by 200ms."
+    },
+    {
+      id: "b2",
+      category: "Experience",
+      bullet: "Handled product development workflows and USSD integration steps.",
+      suggestion: "Spearheaded core feature implementations for financial products, orchestrating payment gateway webhooks and dynamic USSD logic flows."
+    }
+  ]
+};
+
+export const mockAnalyticsSummary = {
+  kpis: {
+    totalApplications: 5,
+    responseRate: 40.0, // (Interviewing + Offer Received) / Total * 100
+    offerRate: 20.0,
+    avgTimeToResponseDays: 7.5
+  },
+  applicationsOverTime: [
+    { period: "May 2026", count: 1 },
+    { period: "June 2026", count: 3 },
+    { period: "July 2026", count: 1 }
+  ],
+  pipelineDistribution: [
+    { status: "Saved", value: 1, color: "#1d4ed8" },
+    { status: "Applied", value: 1, color: "#06b6d4" },
+    { status: "Interviewing", value: 1, color: "#f59e0b" },
+    { status: "Offer Received", value: 1, color: "#10b981" },
+    { status: "Rejected/Closed", value: 1, color: "#ef4444" }
+  ]
+};

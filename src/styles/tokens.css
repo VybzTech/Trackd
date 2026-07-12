@@ -1,0 +1,76 @@
+/* Theme tokens for Trackd
+   - Defines CSS variables used by both dark and light themes
+   - Toggle theme by setting `data-theme="dark"` or `data-theme="light"` on <html>
+   - Status colors are fixed and must not be changed.
+*/
+
+:root {
+  /* Status (fixed, from mockData.ts) */
+  --status-saved: #1d4ed8;
+  --status-applied: #06b6d4;
+  --status-interviewing: #f59e0b;
+  --status-offer: #10b981;
+  --status-rejected: #ef4444;
+
+  /* Common tokens (fallbacks) */
+  --glass-border: rgba(173,255,255,0.10);
+  --glass-foreground: rgba(255,255,255,0.07);
+}
+
+/* Dark theme (default) */
+html[data-theme="dark"] {
+  --bg-ground: #000871;
+  --bg-mid: #241571;
+  --brand-primary: #2438BD;
+  --brand-secondary: #0F52BA;
+  --glow-mid: #007FFF;
+  --glow-top: #52E8FF;
+  --accent-info: #007BA7;
+  --accent-energy: #0AFFFF;
+  --text-tint-1: #70B8FF;
+  --text-tint-2: #99CCFF;
+
+  --glass-bg: linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+  --glass-border: rgba(173,255,255,0.10);
+  --glass-shadow: 0 8px 32px rgba(0,8,113,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* Light theme variant */
+html[data-theme="light"] {
+  --bg-ground: #f7fafc; /* very light base */
+  --bg-mid: #e6eef8; /* subtle mid surface */
+  --brand-primary: #2438BD; /* keep brand color */
+  --brand-secondary: #0F52BA;
+  --glow-mid: #007FFF;
+  --glow-top: #52E8FF;
+  --accent-info: #007BA7;
+  --accent-energy: #0AFFFF;
+  --text-tint-1: #1f2937; /* dark text on light */
+  --text-tint-2: #4b5563;
+
+  /* glass surface for light background: lighter frosted look */
+  --glass-bg: linear-gradient(145deg, rgba(255,255,255,0.85), rgba(255,255,255,0.92));
+  --glass-border: rgba(16,24,40,0.06);
+  --glass-shadow: 0 6px 18px rgba(2,6,23,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* Shared utility classes (used by components) */
+.glass-surface {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.25rem;
+  box-shadow: var(--glass-shadow);
+}
+
+.status-pill-saved { background-color: var(--status-saved); }
+.status-pill-applied { background-color: var(--status-applied); }
+.status-pill-interviewing { background-color: var(--status-interviewing); }
+.status-pill-offer { background-color: var(--status-offer); }
+.status-pill-rejected { background-color: var(--status-rejected); }
+
+/* Small helper for reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

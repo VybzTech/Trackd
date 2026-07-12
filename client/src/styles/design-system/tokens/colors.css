@@ -1,0 +1,57 @@
+/* =============================================================
+   Trackd — Color tokens
+   Base: Halo dark substrate (deep-space canvas, light-as-data)
+   ============================================================= */
+
+:root {
+  /* ---------- Surface tiers ---------- */
+  --color-background: #0A0B0F;
+  --color-surface: #14151C;
+  --color-elevated: #1E2029;
+  --color-overlay: rgba(10, 11, 15, 0.72);
+
+  /* ---------- Borders ---------- */
+  --color-border: #2A2D38;
+  --color-border-strong: #3A3D4A;
+  --color-border-soft: rgba(255, 255, 255, 0.04);
+
+  /* ---------- Foreground ---------- */
+  --color-text-primary: #F2F4F8;
+  --color-text-secondary: #9AA0AE;
+  --color-text-muted: #5C6170;
+  --color-text-inverse: #0A0B0F;
+
+  /* ---------- Brand (Indigo) ---------- */
+  --color-primary: #5B6BFF;
+  --color-primary-hover: #7886FF;
+  --color-primary-pressed: #4A59E6;
+  --color-primary-soft: rgba(91, 107, 255, 0.12);
+
+  /* ---------- Signal ---------- */
+  --color-success: #2BE08C;
+  --color-warning: #F5D547;
+  --color-info: #3DD7E5;
+  --color-danger: #FF3A5C;
+
+  --color-success-soft: rgba(43, 224, 140, 0.12);
+  --color-warning-soft: rgba(245, 213, 71, 0.14);
+  --color-info-soft: rgba(61, 215, 229, 0.14);
+  --color-danger-soft: rgba(255, 58, 92, 0.14);
+
+  /* ---------- Focus ---------- */
+  --focus-ring: 0 0 0 3px rgba(91, 107, 255, 0.35);
+  --focus-ring-color: rgba(91, 107, 255, 0.35);
+
+  /* ---------- Semantic aliases ---------- */
+  --surface-page: var(--color-background);
+  --surface-card: var(--color-surface);
+  --surface-card-elevated: var(--color-elevated);
+  --text-body: var(--color-text-primary);
+  --text-body-secondary: var(--color-text-secondary);
+  --text-body-faint: var(--color-text-muted);
+  --border-default: var(--color-border);
+  --border-emphasis: var(--color-border-strong);
+  --action-primary: var(--color-primary);
+  --action-primary-hover: var(--color-primary-hover);
+  --action-primary-active: var(--color-primary-pressed);
+}

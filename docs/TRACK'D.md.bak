@@ -1,0 +1,73 @@
+# TRACKD — Design System & AI Build Master Prompt (ARCHIVE)
+
+This file is an archived copy of `docs/TRACK'D.md` as of merge into `docs/Trackd.md`.
+
+-- ARCHIVE CONTENT FOLLOWS --
+
+# TRACKD — Design System & AI Build Master Prompt
+
+**Companion to:** `TRACKD_PRD.pdf` (v1.0 Draft, July 2026) and `mockData.ts`
+**Purpose:** This is the single document that sits between the PRD and the code. The PRD says *what* TRACKD must do. This document says *what it must look and feel like*, *how the UI is structured into modules*, and *the exact prompt to hand any AI coding agent* to start building it against your existing React + Vite + Tailwind + TanStack + react-icons scaffold and a `json-server` mock.
+
+Read it top to bottom once. After that, treat Section 10 (The Master Build Prompt) as the thing you actually paste into your AI tool at the start of each build session — everything above it is the reasoning you and I did to arrive at that prompt, kept here so either of us can revisit *why* a decision was made.
+
+---
+
+## 0. How This Maps to What You Gave Me
+
+Before designing anything, here's what each source actually contributed — worth stating explicitly so nothing gets designed on vibes alone:
+
+| Source | Role |
+|---|---|
+| `TRACKD_PRD.pdf` | Authoritative feature scope, the 5-status lifecycle, the 3 dashboard views, the 5 analytics charts, AI Insights + Resume Canvas + Cover Letter specs, and the Phase 1 sprint plan (Weeks 1–12). Every screen in this doc traces back to a numbered PRD section. |
+| `mockData.ts` | The actual data contract — `JobApplication`, `UserProfile`, `mockAnalyticsSummary`. Critically, this file **already hardcodes the 5 status colors** (`#1d4ed8`, `#06b6d4`, `#f59e0b`, `#10b981`, `#ef4444`) for the pipeline donut. That's not a moodboard suggestion — it's live in your codebase, so the Kanban columns, table status pills, and calendar dots must reuse these exact values rather than inventing new ones. |
+| `Main_Design.png` | Your **primary visual language** — the one you explicitly said to build components from. Dark-to-blue glass gradient background, floating glass panel cards with soft shadow, pill-shaped bottom nav with a glowing gradient active state, rounded glass icon chips. This is the aesthetic anchor for the whole app. |
+| `Navbar.jpg` (Velto) | Sidebar structure reference — icon+label nav rows, a persistent action item pinned to the bottom of the nav (their "Help Center"), light content area to the right of a dark sidebar. |
+| `Bluu.jpg` (Shades of Blue) | The literal color source. Named, psychologically-grounded blues rather than a generic `slate-900` dark-mode default. |
+| `62213...jpg` (Stakent) | Closest mood match to `Main_Design.png` in an actual dashboard context — dark navy shell, glass stat cards with sparklines, icon+label sidebar, a gradient CTA panel, a small account chip pinned above the fold at the bottom of the sidebar. |
+| `e58521...webp` | Dense dashboard reference — KPI cards, a bar chart, a donut ("Sales by Category"), and a filterable status-badge table. Structurally, this is your Analytics page + Table view in miniature. |
+| `Analtics_dashboard.jpg` | Light-theme, but structurally useful: KPI cards → chart → radial/arc stat → calendar widget → table, in that order. This ordering informs the Analytics page layout even though we invert it to dark/glass. |
+
+---
+
+## 1. Design Direction — Three Named Choices
+
+Rather than default to "dark mode dashboard #0f172a," here are the three deliberate calls this system makes, so you can push back on any of them before we build:
+
+1. **Palette is inherited, not invented.** The 5 status colors are locked from `mockData.ts` (non-negotiable — they're load-bearing data, used in analytics today). Everything else — the background glow, the sidebar, the glass surfaces — is built from the *Shades of Blue* sheet you provided, each hue used for the psychological role it names (Navy for ground/authority, Persian for confidence/CTAs, Electric for alertness/focus states).
+2. **Typography reinforces "command centre."** The PRD's own words for TRACKD are "the command centre that fixes the operational problem." So the type system leans HUD/instrument-panel: a geometric display face for headings, a neutral workhorse for body copy, and — distinctively — a monospace face reserved *only* for numbers (match scores, KPIs, dates, timestamps). That third face is what stops this from reading as a generic SaaS dashboard.
+3. **One signature motif, reused everywhere.** The match-score gauge (a circular conic-gradient ring) is the single most "TRACKD" visual object in the PRD. Instead of confining it to the Pro page, it echoes at small scale as the active-nav glow in the sidebar and as the corner ambient light on glass cards. One shape, three sizes, tying the whole app together — rather than three unrelated decorative flourishes.
+
+---
+
+## 2. Design System Foundations
+
+### 2.1 Color Tokens
+
+**Status colors — fixed, from `mockData.ts`. Do not restyle these.**
+
+| Status | Hex | Used for |
+|---|---|---|
+| Saved | `#1d4ed8` | Kanban column 1, table pill, calendar dot, donut segment |
+| Applied | `#06b6d4` | Kanban column 2, table pill, calendar dot, donut segment |
+| Interviewing | `#f59e0b` | Kanban column 3, table pill, calendar dot, donut segment |
+| Offer Received | `#10b981` | Kanban column 4, table pill, calendar dot, donut segment |
+| Rejected/Closed | `#ef4444` | Kanban column 5, table pill, calendar dot, donut segment |
+
+**Atmosphere & UI — from the Blue Psychology sheet, each with an assigned job:**
+
+| Token | Hex | Role | Psychology (your sheet) |
+|---|---|---|---|
+| `--bg-ground` | `#000871` (Navy) | Deepest point of the background gradient, bottom of viewport | Strength, authority, intelligence |
+| `--bg-mid` | `#241571` (Midnight) | Sidebar base surface, modal backdrops | Mystery, depth, elegance |
+| `--brand-primary` | `#2438BD` (Persian) | Primary buttons, active nav pill, links | Confidence, sophistication, ambition |
+| `--brand-secondary` | `#0F52BA` (Sapphire) | Secondary buttons, focus borders | Truth, nobility, loyalty |
+| `--glow-mid` | `#007FFF` (Azure) | Mid-gradient stop, hover states | Clarity, freedom, serenity |
+| `--glow-top` | `#52E8FF` (Electric) | Top-of-screen glow, focus rings, drag-active highlight | Intensity, innovation, alertness |
+| `--accent-info` | `#007BA7` (Cerulean) | Info banners, AI-insight highlights | Inspiration, renewal, clarity |
+| `--accent-energy` | `#0AFFFF` (Aqua) | "New"/"AI-suggested" badges — never used for status, to avoid clashing with Offer's emerald | Vibrancy, energy, healing |
+| `--text-tint-1` | `#70B8FF` (Argentina) | Secondary text on dark surfaces | Openness, tranquility |
+| `--text-tint-2` | `#99CCFF` (Sky) | Muted labels, placeholder text | Lightness, calm, aspiration |
+| `--border-glass` | `#ADFFFF` (Celeste) at 8–12% opacity | Glass card borders, dividers | Gentleness, freshness |
+
+... (rest of original content preserved) ...
