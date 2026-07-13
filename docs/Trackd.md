@@ -3,7 +3,7 @@ Target System Context for Claude AI Deployment
 Version: 2.0 (Comprehensive Two-Way Ecosystem Edition)
 Date: July 2026
 
-NOTE: This file has been integrated with the companion design/build document `docs/TRACK'D.md` and now serves as the single canonical Trackd system design file. The original companion file has been archived to `docs/TRACK'D.md.bak` and will be kept for historical reference.
+NOTE: This file has been integrated with the companion design/build document `docs/TRACK'D.md` and now serves as the single canonical Trackd system design file. 
 
 Decisions applied during this merge:
 - Sidebar: retained (collapsed 84px / expanded 240px). The drawer-toggle behavior and nav structure remain.

@@ -1,27 +1,25 @@
 import React from 'react'
 
-export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
-  help?: string
-  /** Switches border/ring to the danger token and tints help text. */
-  error?: boolean
-  /** Optional leading icon (16px). */
   icon?: React.ReactNode
 }
 
-export function Input({ label, help, error = false, icon = null, className, ...rest }: InputProps) {
+export function Input({ label, icon, className, ...rest }: InputProps) {
   return (
-    <div className="field">
-      {label && <label className="field-label">{label}</label>}
-      {icon ? (
-        <div className="input-group">
-          <span className="input-icon">{icon}</span>
-          <input className={`input${error ? ' is-invalid' : ''}${className ? ` ${className}` : ''}`} {...rest} />
-        </div>
-      ) : (
-        <input className={`input${error ? ' is-invalid' : ''}${className ? ` ${className}` : ''}`} {...rest} />
+    <div className="flex flex-col gap-1.5">
+      {label && (
+        <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--text-tint-2)' }}>
+          {label}
+        </label>
       )}
-      {help && <div className={`field-help${error ? ' is-error' : ''}`}>{help}</div>}
+      <div className="relative flex items-center">
+        {icon && <span className="absolute left-3 flex items-center" style={{ color: 'var(--text-tint-2)' }}>{icon}</span>}
+        <input
+          className={`w-full h-10 rounded-xl px-3 text-sm text-white glass-surface placeholder:text-[var(--text-tint-2)] focus:outline-none focus:ring-2 focus:ring-[var(--glow-top)]/40 ${icon ? 'pl-9' : ''} ${className || ''}`}
+          {...rest}
+        />
+      </div>
     </div>
   )
 }

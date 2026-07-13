@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { FiMail, FiLock, FiArrowRight } from 'react-icons/fi'
 import toast from 'react-hot-toast'
 import { useAppStore } from '../store/appStore'
+import { GlassCard, Button, Input } from './ui'
 
 export default function AuthTab() {
   const [isLogin, setIsLogin] = useState(true)
@@ -42,31 +43,32 @@ export default function AuthTab() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-brand-dark via-brand-dark to-blue-950 flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="w-full max-w-md"
       >
-        <div className="bg-brand-surface/80 backdrop-blur border border-blue-500/20 rounded-xl p-8 shadow-2xl">
+        <GlassCard className="p-8 shadow-2xl">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">TRACKD</h1>
-            <p className="text-slate-400">Your Command Centre for Job Tracking</p>
+            <h1 className="font-display text-3xl font-bold text-white mb-2">TRACKD</h1>
+            <p style={{ color: 'var(--text-tint-2)' }}>Your Command Centre for Job Tracking</p>
           </div>
 
           {/* Tab Toggle */}
-          <div className="flex gap-2 mb-8 bg-brand-dark/50 p-1 rounded-lg">
+          <div className="flex gap-2 mb-8 glass-surface p-1 rounded-xl">
             {['Sign In', 'Sign Up'].map((tab, i) => (
               <button
                 key={i}
                 onClick={() => setIsLogin(i === 0)}
-                className={`flex-1 py-2 px-4 rounded font-semibold transition-all ${
+                className="flex-1 py-2 px-4 rounded-lg font-display font-semibold transition-all"
+                style={
                   (isLogin && i === 0) || (!isLogin && i === 1)
-                    ? 'bg-blue-600 text-white'
-                    : 'text-slate-400 hover:text-white'
-                }`}
+                    ? { background: 'var(--brand-primary)', color: '#fff' }
+                    : { color: 'var(--text-tint-2)' }
+                }
               >
                 {tab}
               </button>
@@ -77,52 +79,35 @@ export default function AuthTab() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
-                <input
+                <Input
+                  label="Full Name"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="John Doe"
-                  className="w-full bg-brand-dark border border-blue-500/20 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 transition-colors"
                 />
               </motion.div>
             )}
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Email</label>
-              <div className="relative">
-                <FiMail className="absolute left-3 top-3.5 text-slate-500" size={18} />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="w-full bg-brand-dark border border-blue-500/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 transition-colors"
-                />
-              </div>
-            </div>
+            <Input
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              icon={<FiMail size={16} />}
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Password</label>
-              <div className="relative">
-                <FiLock className="absolute left-3 top-3.5 text-slate-500" size={18} />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full bg-brand-dark border border-blue-500/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 transition-colors"
-                />
-              </div>
-            </div>
+            <Input
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              icon={<FiLock size={16} />}
+            />
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              disabled={isLoading}
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors"
-            >
+            <Button variant="primary" size="lg" disabled={isLoading} type="submit" className="w-full">
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -134,20 +119,21 @@ export default function AuthTab() {
                   <FiArrowRight size={18} />
                 </>
               )}
-            </motion.button>
+            </Button>
           </form>
 
           {/* Footer */}
-          <p className="text-center text-slate-500 text-sm mt-6">
+          <p className="text-center text-sm mt-6" style={{ color: 'var(--text-tint-2)' }}>
             {isLogin ? "Don't have an account? " : 'Already have an account? '}
             <button
               onClick={() => setIsLogin(!isLogin)}
-              className="text-blue-400 hover:text-blue-300 font-semibold"
+              className="font-semibold"
+              style={{ color: 'var(--glow-top)' }}
             >
               {isLogin ? 'Sign Up' : 'Sign In'}
             </button>
           </p>
-        </div>
+        </GlassCard>
       </motion.div>
     </div>
   )

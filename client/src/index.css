@@ -1,4 +1,4 @@
-@import "./styles/design-system/styles.css";
+@import "./styles/tokens.css";
 @import "tailwindcss";
 
 html {
@@ -12,14 +12,14 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-surface);
+  background: var(--bg-mid);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-strong);
+  background: var(--brand-secondary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
+  background: var(--glow-mid);
 }

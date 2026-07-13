@@ -1,22 +1,23 @@
 import type { JobOpportunity } from '../store/appStore'
 
-export type Tone = 'default' | 'success' | 'warning' | 'info' | 'danger' | 'neutral'
-
-/** Maps a job application status to the design system's tone vocabulary. */
-export const STATUS_TONE: Record<JobOpportunity['status'], Tone> = {
-  saved: 'neutral',
-  applied: 'info',
-  interviewing: 'warning',
-  offer: 'success',
-  rejected: 'danger',
+/**
+ * Fixed pipeline status colors — non-negotiable, per docs/Trackd.md Section 2.1.
+ * Reused identically across Kanban columns, table pills, and calendar dots.
+ */
+export const STATUS_COLOR: Record<JobOpportunity['status'], string> = {
+  saved: '#1d4ed8',
+  applied: '#06b6d4',
+  interviewing: '#f59e0b',
+  offer: '#10b981',
+  rejected: '#ef4444',
 }
 
 export const STATUS_LABEL: Record<JobOpportunity['status'], string> = {
   saved: 'Saved',
   applied: 'Applied',
   interviewing: 'Interviewing',
-  offer: 'Offer',
-  rejected: 'Rejected',
+  offer: 'Offer Received',
+  rejected: 'Rejected/Closed',
 }
 
 export const STATUS_ORDER: JobOpportunity['status'][] = [
@@ -27,9 +28,9 @@ export const STATUS_ORDER: JobOpportunity['status'][] = [
   'rejected',
 ]
 
-/** Maps an extraction-confidence value (0-100) to the design system's tone vocabulary. */
-export function confidenceTone(score: number): Tone {
-  if (score >= 80) return 'success'
-  if (score >= 50) return 'warning'
-  return 'danger'
+/** Ingestion-confidence color (distinct from the fixed status palette). */
+export function confidenceColor(score: number): string {
+  if (score >= 80) return '#10b981'
+  if (score >= 50) return '#f59e0b'
+  return '#ef4444'
 }

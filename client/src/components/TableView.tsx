@@ -1,15 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { FiChevronDown } from 'react-icons/fi'
 import { useAppStore } from '../store/appStore'
-
-const STATUS_OPTIONS = [
-  { key: 'saved', label: 'Saved' },
-  { key: 'applied', label: 'Applied' },
-  { key: 'interviewing', label: 'Interviewing' },
-  { key: 'offer', label: 'Offer' },
-  { key: 'rejected', label: 'Rejected' }
-]
+import { STATUS_COLOR, STATUS_LABEL, STATUS_ORDER } from '../lib/statusTokens'
+import { GlassCard } from './ui'
 
 export default function TableView() {
   const { opportunities, updateOpportunity, setSelectedOpportunity } = useAppStore()
@@ -24,104 +17,96 @@ export default function TableView() {
     )
   })
 
-  const getStatusColor = (status: string) => {
-    const colors: Record<string, string> = {
-      saved: 'bg-slate-500/20 text-slate-300',
-      applied: 'bg-blue-500/20 text-blue-300',
-      interviewing: 'bg-cyan-500/20 text-cyan-300',
-      offer: 'bg-green-500/20 text-green-300',
-      rejected: 'bg-red-500/20 text-red-300'
-    }
-    return colors[status] || 'bg-slate-500/20 text-slate-300'
-  }
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="bg-brand-surface/40 backdrop-blur border border-blue-500/20 rounded-lg overflow-hidden"
-    >
-      {/* Header Controls */}
-      <div className="p-4 border-b border-blue-500/20 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-white">All Opportunities</h3>
-        <div className="flex items-center gap-2">
-          <span className="text-slate-400 text-sm">Sort by:</span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
-            className="bg-brand-dark border border-blue-500/20 text-white rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500/50"
-          >
-            <option value="date">Date</option>
-            <option value="company">Company</option>
-            <option value="score">Match Score</option>
-          </select>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <GlassCard padded={false} className="overflow-hidden">
+        {/* Header Controls */}
+        <div className="p-4 flex items-center justify-between" style={{ borderBottom: '1px solid var(--border-glass)' }}>
+          <h3 className="font-display text-lg font-semibold text-white">All Opportunities</h3>
+          <div className="flex items-center gap-2">
+            <span className="text-sm" style={{ color: 'var(--text-tint-2)' }}>Sort by:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="glass-surface text-white rounded-lg px-3 py-2 text-sm focus:outline-none"
+            >
+              <option value="date">Date</option>
+              <option value="company">Company</option>
+              <option value="score">Match Score</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-blue-500/10 bg-brand-surface/20">
-              <th className="text-left px-6 py-3 text-sm font-semibold text-slate-300">Company</th>
-              <th className="text-left px-6 py-3 text-sm font-semibold text-slate-300">Role</th>
-              <th className="text-left px-6 py-3 text-sm font-semibold text-slate-300">Salary</th>
-              <th className="text-left px-6 py-3 text-sm font-semibold text-slate-300">Status</th>
-              <th className="text-left px-6 py-3 text-sm font-semibold text-slate-300">Match</th>
-              <th className="text-left px-6 py-3 text-sm font-semibold text-slate-300">Deadline</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedOpportunities.map((opp, i) => (
-              <motion.tr
-                key={opp.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: i * 0.05 }}
-                onClick={() => setSelectedOpportunity(opp)}
-                className="border-b border-blue-500/10 hover:bg-brand-surface/30 transition-colors cursor-pointer group"
-              >
-                <td className="px-6 py-4 text-white font-medium">{opp.company}</td>
-                <td className="px-6 py-4 text-slate-300">{opp.role}</td>
-                <td className="px-6 py-4 text-slate-400">
-                  {opp.compensation ? `$${opp.compensation.min}k-${opp.compensation.max}k` : '-'}
-                </td>
-                <td className="px-6 py-4">
-                  <select
-                    value={opp.status}
-                    onChange={(e) => {
-                      e.stopPropagation()
-                      updateOpportunity(opp.id, { status: e.target.value as any })
-                    }}
-                    className={`${getStatusColor(opp.status)} border border-blue-500/20 rounded px-3 py-1 text-sm font-medium focus:outline-none`}
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr style={{ borderBottom: '1px solid var(--border-glass)' }}>
+                {['Company', 'Role', 'Salary', 'Status', 'Match', 'Deadline'].map((h) => (
+                  <th key={h} className="text-left px-6 py-3 text-sm font-semibold" style={{ color: 'var(--text-tint-2)' }}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {sortedOpportunities.map((opp, i) => {
+                const color = STATUS_COLOR[opp.status]
+                return (
+                  <motion.tr
+                    key={opp.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: i * 0.05 }}
+                    onClick={() => setSelectedOpportunity(opp)}
+                    className="cursor-pointer transition-colors hover:bg-white/5"
+                    style={{ borderBottom: '1px solid var(--border-glass)' }}
                   >
-                    {STATUS_OPTIONS.map((opt) => (
-                      <option key={opt.key} value={opt.key}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td className="px-6 py-4 text-white font-medium">
-                  {opp.matchScore ? `${opp.matchScore}%` : '-'}
-                </td>
-                <td className="px-6 py-4 text-slate-400 text-sm">
-                  {opp.applicationDeadline
-                    ? new Date(opp.applicationDeadline).toLocaleDateString()
-                    : '-'}
-                </td>
-              </motion.tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Empty State */}
-      {sortedOpportunities.length === 0 && (
-        <div className="p-8 text-center text-slate-500">
-          No opportunities found
+                    <td className="px-6 py-4 text-white font-medium">{opp.company}</td>
+                    <td className="px-6 py-4" style={{ color: 'var(--text-tint-1)' }}>{opp.role}</td>
+                    <td className="px-6 py-4 font-mono" style={{ color: 'var(--text-tint-2)' }}>
+                      {opp.compensation ? `$${opp.compensation.min}k-${opp.compensation.max}k` : '-'}
+                    </td>
+                    <td className="px-6 py-4">
+                      <select
+                        value={opp.status}
+                        onChange={(e) => {
+                          e.stopPropagation()
+                          updateOpportunity(opp.id, { status: e.target.value as any })
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="rounded-full px-3 py-1 text-sm font-medium focus:outline-none"
+                        style={{ backgroundColor: `${color}26`, color, border: `1px solid ${color}4d` }}
+                      >
+                        {STATUS_ORDER.map((s) => (
+                          <option key={s} value={s}>
+                            {STATUS_LABEL[s]}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="px-6 py-4 text-white font-mono font-medium">
+                      {opp.matchScore ? `${opp.matchScore}%` : '-'}
+                    </td>
+                    <td className="px-6 py-4 font-mono text-sm" style={{ color: 'var(--text-tint-2)' }}>
+                      {opp.applicationDeadline
+                        ? new Date(opp.applicationDeadline).toLocaleDateString()
+                        : '-'}
+                    </td>
+                  </motion.tr>
+                )
+              })}
+            </tbody>
+          </table>
         </div>
-      )}
+
+        {/* Empty State */}
+        {sortedOpportunities.length === 0 && (
+          <div className="p-8 text-center" style={{ color: 'var(--text-tint-2)' }}>
+            No opportunities found
+          </div>
+        )}
+      </GlassCard>
     </motion.div>
   )
 }
