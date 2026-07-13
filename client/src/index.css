@@ -1,37 +1,25 @@
+@import "./styles/design-system/styles.css";
 @import "tailwindcss";
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
 html {
   scroll-behavior: smooth;
 }
 
-body {
-  background-color: #0f1419;
-  color: #f1f3f5;
-  font-family: 'Inter', system-ui, sans-serif;
-  line-height: 1.5;
-}
-
-/* Scrollbar Styling */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1f28;
+  background: var(--color-surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #495057;
+  background: var(--color-border-strong);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #868e96;
+  background: var(--color-text-muted);
 }

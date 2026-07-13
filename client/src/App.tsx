@@ -10,7 +10,7 @@ export default function App() {
   const currentView = useAppStore((state) => state.currentView)
 
   return (
-    <div className="min-h-screen bg-brand-dark text-brand-surface">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-background)', color: 'var(--color-text-primary)' }}>
       {currentView === 'landing' && <Landing />}
       {currentView === 'auth' && <Landing showAuth={true} />}
       {currentView === 'onboarding' && <Landing showOnboarding={true} />}

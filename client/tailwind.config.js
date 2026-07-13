@@ -6,29 +6,8 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        dark: {
-          50: '#f8f9fa',
-          100: '#f1f3f5',
-          200: '#e9ecef',
-          300: '#dee2e6',
-          400: '#ced4da',
-          500: '#adb5bd',
-          600: '#868e96',
-          700: '#495057',
-          800: '#343a40',
-          900: '#212529',
-          950: '#0f1419',
-        },
-        accent: {
-          blue: '#3b82f6',
-          teal: '#14b8a6',
-          amber: '#f59e0b',
-          rose: '#f43f5e',
-        }
-      },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
       },
     },
   },
