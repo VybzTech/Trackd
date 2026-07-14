@@ -24,7 +24,7 @@ Implementation guidance:
 - Adjust glass surface opacity and border contrast for light backgrounds (lighter frosted backdrop, stronger subtle borders to preserve legibility).
 - Reference structural layout from `docs/Navbar.jpg` for interchangeable sidebar and bottom-tab placement across themes.
 
-
+ms 
 ## IMPLEMENTATION SPECIFICATION (DEVELOPER READY)
 
 ### 1. MVP Scope

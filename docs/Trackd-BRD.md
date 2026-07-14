@@ -364,6 +364,81 @@ The frontend should communicate with a lightweight backend service or serverless
 - Authenticated requests only
 - Pagination for large lists
 
+
+
+# UI SYSTEMS
+
+- https://www.untitledui.com/blog/react-component-libraries#7-reshaped   7
+- https://www.relume.ai/   5
+- https://horizon-ui.com/   7
+- Framer AI   8
+
+
+DESING SYSTEM LIBRARIES
+- https://storybook.js.org/  5
+- https://franken-ui.dev/   5
+- https://floatui.com/   7
+- https://shadcnstudio.com/
+- https://www.typeui.sh/    8
+- https://open-design.ai/agents/codex-design/   7
+- https://filamentphp.com/   7
+- https://ui.aceternity.com/   6
+- https://flyonui.com/mcp  7
+
+
+# TRACKD User Features
+
+CANDIDATE
+Basic Features
+--
+Smart Ingestion Pipeline: Multiple frictionless methods to add jobs, including a browser extension crawler for active job pages, a "Smart Paste" console for raw text/links, and URL stream ingestion.
+
+Interactive Kanban Dashboard: A visual taskboard to manage applications through lifecycle stages (e.g., Saved, Applied, Interviewing, Rejected).
+
+Pipeline Tracking: Toggleable interface states between Kanban, Table, and Calendar views to track deadlines and response milestones.
+
+Pro Features
+---
+AI Optimization Nexus: An advanced, split-screen workspace offering AI-driven resume parsing and editing directly on a canvas.
+
+Explore Deck: Access to a unified marketplace board aggregating active job listings scraped from multiple platforms.
+
+Tailored Application Building: AI-assisted generation of tailored cover letters and resume edits based on a match-score analysis against specific job descriptions.
+
+Compatibility Scoring: Color-interpolating circular meter providing real-time feedback on how well a candidate's profile matches a specific job role.
+
+ATS Optimization Tools: Checklist highlighting missing keywords and interactive text-replacement chips to improve resume compatibility with Applicant Tracking Systems.
+
+
+
+RECRUITER
+Basic Features
+---
+Recruiter Hub Mode: A switchable workspace layout that transforms the interface into an enterprise hiring desk framework.
+
+Applicant Tracking Grids: View incoming applications from candidates in an organized, searchable format.
+
+Candidate Search & Filtering: Specialized tools to filter and manage incoming applicants.
+
+Pro Features
+---
+Job Posting & Update Management: Ability to upload job opportunities directly and manage them within the ecosystem. Tracking stuffs on other job boards and posting actual opportunities for tracking and applicant management.
+
+Automated Applicant Status Updates: Action buttons that trigger mock status promotions, simulating ATS webhook updates while sending real-time transactional tracking emails directly back to the candidate's dashboard.
+
+Applicant Nexus Sync: Two-way integration where recruiter updates on job postings directly inform and update the status of candidates applying via Trackd. A quick proctor interview can even be scheduled in the pro version.
+
+
+
+
+
+
+
+
+
+
+
+
 ## 14. Lifecycle Rules
 
 The system should manage records over time to prevent clutter and improve actionability.
@@ -534,3 +609,266 @@ The system should manage records over time to prevent clutter and improve action
 Trackd has strong product potential because it solves a real and recurring pain point for both recruiters and job seekers: the inability to manage opportunities clearly, quickly, and consistently. The best path is to start lean, prove the core workflow, and build trust through a clean, reliable product experience before expanding into AI-heavy automation.
 
 The MVP should focus on making ingestion, review, and tracking feel effortless. If that core experience is strong, the product can grow into a more powerful platform for matching, tailoring, and recruiter collaboration.
+
+
+
+# TRACKD — Business Requirements Document (BRD)
+
+**Project Title:** TRACKD — AI-Powered Job Application Tracker
+**Prepared By:** VybzTech Inc.
+**Document Version:** 1.0 (Draft — Pending Stakeholder Review)
+**Date Prepared:** June 2026
+**Classification:** CONFIDENTIAL
+**Status:** Draft
+
+---
+
+## Table of Contents
+
+1. [Executive Summary](#1-executive-summary)
+2. [Problem Statement](#2-problem-statement)
+3. [Business Objectives & Strategic Alignment](#3-business-objectives--strategic-alignment)
+4. [Monetisation Strategy](#4-monetisation-strategy)
+5. [Stakeholder Register](#5-stakeholder-register)
+6. [Project Scope](#6-project-scope)
+7. [Functional Requirements](#7-functional-requirements)
+8. [Non-Functional Requirements](#8-non-functional-requirements)
+9. [Risks & Assumptions](#9-risks--assumptions)
+10. [Approval & Authorisation](#10-approval--authorisation)
+
+---
+
+## 1. Executive Summary
+
+TRACKD is an AI-powered job application tracking platform designed to eliminate the friction of manual data entry during job searches. By combining a React frontend, a Golang backend, and the Google Gemini API, the platform automatically extracts, structures, and tracks job applications from URLs or pasted text. A built-in AI copilot layer generates tailored resume edits and cover letters per application — transforming a passive record-keeping tool into an active career management engine.
+
+**Market Context:** The modern job hunt is a high-volume, multi-platform operation. Candidates applying to competitive roles routinely manage applications across LinkedIn, Indeed, AngelList, and company portals simultaneously. Existing tools — spreadsheets, bookmarking extensions — offer no intelligence layer, no centralised pipeline view, and no application material generation. TRACKD fills this gap.
+
+**Target Audience:** Mid-to-senior technical professionals, growth marketers, and multi-track job seekers managing 30+ simultaneous applications.
+
+---
+
+## 2. Problem Statement
+
+### 2.1 Core Pain Points
+
+| Pain Point | Description |
+|---|---|
+| Information fragmentation | Job details live across browser tabs, screenshots, and manual spreadsheet rows |
+| Manual re-entry overhead | Users repeatedly copy the same data when logging new applications |
+| Application blindspots | Missed follow-up windows and deadlines due to no centralised status tracking |
+| Generic application materials | Cover letters and resume bullets not tailored per role, reducing ATS pass rates |
+| No performance visibility | Users have no data on their own application patterns, response rates, or funnel drop-off |
+
+### 2.2 The Opportunity
+
+Automating the ingestion and analysis phases directly addresses these pain points. Treating each job posting as a structured data pipeline enables:
+
+- Reduction of manual data entry by over 60%
+- Surfacing of match score, missing skills, and ATS keyword gaps per role
+- Generation of role-specific cover letters and resume edits within a single workspace
+- A real-time analytics layer showing application volume, response rate, and pipeline health
+
+---
+
+## 3. Business Objectives & Strategic Alignment
+
+### 3.1 Primary Objectives
+
+| ID | Objective | Success Indicator |
+|---|---|---|
+| O1 | Eliminate manual data entry via smart ingestion | <60 seconds from paste or URL to structured dashboard entry |
+| O2 | Provide real-time application pipeline visibility | Kanban, Calendar, and Table views reflect live status across all applications |
+| O3 | Generate ATS-optimised application materials per job | Tailored resume edits and cover letters exportable in under 30 seconds |
+| O4 | Deliver actionable analytics on job hunt performance | Analytics charts update within 5 seconds of any status change |
+| O5 | Achieve freemium-to-Pro conversion at 5% within 12 months | Monthly recurring revenue target of $4,500 at 10,000 MAU |
+
+### 3.2 Strategic Alignment
+
+TRACKD positions itself as the command centre for the modern job hunt by:
+
+- Moving users from reactive tracking to proactive, data-driven application strategy
+- Delivering genuine free-tier value to drive organic acquisition
+- Monetising through a clearly differentiated AI copilot Pro tier
+- Operating on near-zero marginal infrastructure cost via GCP serverless architecture
+
+---
+
+## 4. Monetisation Strategy
+
+| Tier | Price | Included Features |
+|---|---|---|
+| Free | $0 / month | Unlimited job ingestion, Kanban + Calendar + Table dashboard views, Basic analytics, Profile management |
+| Pro | $9 / month | Everything in Free + Resume canvas editor, AI-generated cover letters, AI match scoring, ATS keyword analysis, Missing skills report, Interview prep (Phase 3) |
+
+**ARR Projection:** At 10,000 MAU and a 5% Pro conversion rate, Year 1 ARR targets approximately $54,000 with near-zero incremental infrastructure cost. The path to $500K ARR requires approximately 50,000 MAU, achievable through SEO, community distribution, and a referral programme introduced in Phase 3.
+
+> **Correction Note:** The original working document cited $54,000 ARR but did not account for Gemini API token costs at scale. At an estimated $0.008 per full Pro AI session, token costs at 500 Pro users remain well below $50/month — costs are not a constraint at this stage but must be monitored as usage scales.
+
+---
+
+## 5. Stakeholder Register
+
+| Role | Description | Responsibilities |
+|---|---|---|
+| Product Owner | TRACKD Founder / Project Lead | Defines priorities, approves scope, signs off on deliverables |
+| VybzTech Inc. | Development Partner | Full-stack design, build, testing, and deployment |
+| End User (Free Tier) | Job seekers using core tracking features | Primary functional feedback loop; conversion targets |
+| End User (Pro Tier) | Active job seekers needing AI-powered materials | Revenue stakeholder; feature validation partner |
+| Investors / Advisors | Future funding stakeholders | Strategic oversight; Series A viability assessment |
+
+---
+
+## 6. Project Scope
+
+### 6.1 In-Scope — Phase 1 (MVP)
+
+- User authentication (Email/Password + Google OAuth)
+- Smart Paste ingestion — URL and raw text with AI-powered structured extraction
+- Dashboard — Kanban view, Calendar view, Table view
+- Per-job status management with full status history log
+- Basic analytics — applications over time, source breakdown, status funnel
+- User profile — editable, with resume upload and onboarding data extraction
+- Pro page per job — Resume canvas editor and AI cover letter generator
+
+### 6.2 In-Scope — Phase 2 (Automation Layer)
+
+- Browser extension (Chrome, Firefox) — one-click job saving from any job board
+- AI match engine — cross-references UserProfile and JobData to produce match score and missing skills
+- Email webhook integration — auto-updates application status from interview invites and rejection emails
+
+### 6.3 In-Scope — Phase 3 (Copilot Layer)
+
+- Interview preparation — AI-generated practice questions tailored to the specific job and company
+- Predictive analytics — estimated response probability and time-to-decision benchmarks per role type
+- Referral mechanics and community features
+
+### 6.4 Out of Scope — Phase 1
+
+- Native mobile application (iOS or Android)
+- Third-party calendar sync (Google Calendar, Outlook)
+- Direct job board application submission
+- Team or recruiter-facing multi-seat workspace
+
+---
+
+## 7. Functional Requirements
+
+### 7.1 Ingestion Module
+
+| ID | Requirement | Priority |
+|---|---|---|
+| FR-IN-01 | System shall accept raw text or a URL in a multi-line input area | MUST |
+| FR-IN-02 | System shall detect whether input is a URL or raw text and route accordingly | MUST |
+| FR-IN-03 | Go backend shall strip HTML via goquery and pass clean body text to Gemini | MUST |
+| FR-IN-04 | Cleaned text shall be submitted to Gemini with a strict JSON schema defining all expected fields | MUST |
+| FR-IN-05 | A side panel shall render all parsed fields as editable inputs before the user confirms | MUST |
+| FR-IN-06 | Each field shall carry a confidence indicator (high / medium / low) based on Gemini extraction certainty | SHOULD |
+| FR-IN-07 | System shall write confirmed data to Firestore and refresh the dashboard on commit | MUST |
+| FR-IN-08 | Commit action shall be blocked unless at minimum Company Name and Role Title are populated | MUST |
+
+### 7.2 Dashboard Module
+
+| ID | Requirement | Priority |
+|---|---|---|
+| FR-DB-01 | Dashboard shall provide three interchangeable views: Kanban, Calendar, and Table | MUST |
+| FR-DB-02 | Kanban board shall support drag-and-drop status transitions across five columns | MUST |
+| FR-DB-03 | Calendar view shall display jobs on their applied date and any set application deadline | MUST |
+| FR-DB-04 | Table view shall support column sorting, multi-select filtering, and inline status editing | MUST |
+| FR-DB-05 | A status change in any view shall propagate to all other views without a page reload | MUST |
+| FR-DB-06 | Each job entry shall link to its dedicated Pro page | MUST |
+| FR-DB-07 | User shall be able to archive or permanently delete any job entry | SHOULD |
+| FR-DB-08 | All status transitions shall append an entry to the job's statusHistory log | MUST |
+
+### 7.3 Analytics Module
+
+| ID | Requirement | Priority |
+|---|---|---|
+| FR-AN-01 | Analytics page shall display KPI cards: total applications, response rate, and offer rate | MUST |
+| FR-AN-02 | Line or area chart shall show applications submitted over time, grouped by week or month | MUST |
+| FR-AN-03 | Donut chart shall show current pipeline distribution across all statuses | MUST |
+| FR-AN-04 | Bar chart shall show application count by source | MUST |
+| FR-AN-05 | Ranked list shall show top job titles and top companies applied to | SHOULD |
+| FR-AN-06 | Average time-in-stage metric shall be surfaced for each status | SHOULD |
+| FR-AN-07 | All analytics data shall refresh on page load and update within 5 seconds of any status change | MUST |
+
+### 7.4 Profile Module
+
+| ID | Requirement | Priority |
+|---|---|---|
+| FR-PR-01 | First-time users shall complete an onboarding flow covering resume upload, job title, preferred roles, and experience level | MUST |
+| FR-PR-02 | Gemini shall extract a structured UserProfile JSON from the uploaded resume | MUST |
+| FR-PR-03 | User shall preview and confirm the extracted profile before it is saved | MUST |
+| FR-PR-04 | Profile page shall allow editing of all personal fields after onboarding | MUST |
+| FR-PR-05 | User shall be able to re-upload a new resume at any time; re-upload triggers a new Gemini extraction | MUST |
+| FR-PR-06 | A profile completeness score shall be surfaced to encourage data quality | SHOULD |
+
+### 7.5 Pro Page (Per-Job)
+
+| ID | Requirement | Priority |
+|---|---|---|
+| FR-PP-01 | Each tracked job shall have a dedicated Pro page accessible from the dashboard | MUST |
+| FR-PP-02 | Pro page shall present a split-pane layout: left pane renders the resume canvas, right pane contains the content editor and AI insights | MUST |
+| FR-PP-03 | Edits in the right content panel shall update the rendered resume canvas in real time (under 200ms) | MUST |
+| FR-PP-04 | AI-suggested resume bullet edits shall pre-populate the content editor, flagged for user review (Pro tier) | MUST |
+| FR-PP-05 | User shall be able to download the tailored resume as a server-rendered PDF | MUST |
+| FR-PP-06 | Cover letter generator shall produce an ATS-optimised letter based on the job description and UserProfile | MUST |
+| FR-PP-07 | Generated cover letter shall be editable inline and downloadable as PDF | MUST |
+| FR-PP-08 | Match score, missing skills list, and ATS keyword risk level shall be displayed per job (Pro tier) | MUST |
+| FR-PP-09 | Free-tier users accessing Pro features shall see an upgrade prompt modal, not a blank or broken page | MUST |
+
+---
+
+## 8. Non-Functional Requirements
+
+| Category | Requirement | Target |
+|---|---|---|
+| Performance | Time from paste/URL submission to parsed side panel (excluding AI latency) | < 3 seconds |
+| Performance | Gemini API extraction response time | < 8 seconds (P95) |
+| Performance | Dashboard load time | < 3 seconds (P95) |
+| Availability | Platform uptime | 99.5% monthly SLA |
+| Scalability | Concurrent users supported without degradation | 1,000+ via GCP Cloud Run auto-scaling |
+| Security | Authentication | Firebase Auth with JWT validation on every API call |
+| Security | Data encryption | Firestore data encrypted at rest; HTTPS enforced on all routes |
+| Security | Standards compliance | OWASP Top 10 validated before production launch |
+| Accessibility | Standard | WCAG 2.1 AA minimum compliance |
+| Browser Support | Supported environments | Chrome 100+, Firefox 110+, Edge 100+, Safari 16+ |
+| Data Retention | User data deletion on account closure | Within 30 days of deletion request |
+| PDF Output | Resume and cover letter PDF rendering | Server-side generation; consistent across all supported browsers |
+
+---
+
+## 9. Risks & Assumptions
+
+### 9.1 Key Assumptions
+
+- Users have access to job descriptions as copyable text or as a public URL
+- Google Gemini API rate limits are sufficient for Phase 1 traffic without requiring a paid tier upgrade
+- GCP Cloud Run free tier (2 million requests per month) covers Phase 1 usage volumes
+- Users consent to AI processing of their resume and job description data during onboarding
+
+### 9.2 Risk Register
+
+| ID | Risk | Impact | Likelihood | Mitigation |
+|---|---|---|---|---|
+| R-01 | AI hallucinations in structured extraction | High | Medium | Enforce strict Gemini JSON Schema; Go validates all fields against struct before any Firestore write |
+| R-02 | Job board DOM changes break URL scraping | Medium | High | Phase 1 relies on Smart Paste (text input) only; browser extension added in Phase 2 to bypass HTML scraping |
+| R-03 | GCP free tier quota exceeded under load | Low | Low | IndexedDB client caching reduces read counts; Cloud Run scales to zero when idle |
+| R-04 | Gemini API pricing changes affect unit economics | Medium | Medium | Architect AI calls to be provider-agnostic; monitor token usage per request and set per-user daily limits |
+| R-05 | Low Pro tier conversion reduces revenue viability | High | Medium | Free tier delivers genuine standalone value; Pro features are meaningfully differentiated, not arbitrarily withheld |
+| R-06 | Resume PDF rendering inconsistency across browsers | Medium | Medium | Server-side PDF generation via headless Chrome (chromedp) or a Go PDF library; browser print-to-PDF is not used |
+| R-07 | Data breach exposing user resume and job data | High | Low | Encryption at rest and in transit; least-privilege Firestore rules; JWT expiry and refresh enforcement; breach notification policy |
+
+---
+
+## 10. Approval & Authorisation
+
+| Role | Name | Signature | Date |
+|---|---|---|---|
+| Product Owner | | | |
+| Technical Lead — VybzTech | | | |
+| Reviewed By | | | |
+
+---
+
+*TRACKD Business Requirements Document | VybzTech Inc. | Version 1.0 Draft | June 2026 | CONFIDENTIAL*
