@@ -11,7 +11,21 @@ Supabase gives you Postgres, auth, file storage, and Row Level Security in one m
 
 The one thing a browser client can never safely do is hold a secret API key. So there's a small edge-function layer (Supabase Edge Functions, Deno/TypeScript) that exists *only* for:
 1. Calling Claude/Gemini (needs a secret key)
-2. Rendering PDFs server-side (needs a headless browser, not something a client can do)
+2. Rendering PDFs server-side (needs a secret-holding process, not something a client can do)
+
+### 1.1 Why this replaces Go specifically, not just "why Supabase"
+
+The original Go service did five jobs: HTTP routing/auth middleware, calling Gemini, cleaning scraped HTML (goquery), validating data before writes, and rendering PDFs (chromedp/headless Chrome). Point by point, against what's left once Supabase is the database:
+
+| Original Go job | Who does it now | Why that's enough |
+|---|---|---|
+| Auth middleware, JWT verification | Supabase Auth + RLS | RLS evaluates `auth.uid()` on every query at the database layer — there's no handler code that can forget to check it, which is a stronger guarantee than a hand-written middleware chain |
+| Routing, request validation | Supabase client SDK + Zod on the client, Postgres constraints on the server | For plain CRUD (status change, note, tag) there's no business logic complex enough to need a router in front of it |
+| Calling Gemini/Claude with a secret key | Supabase Edge Function (`callAI()`) | This is exactly the workload edge functions are built for: short-lived, secret-holding, calls-an-external-API-and-writes-back. Go bought you nothing here that Deno/TypeScript doesn't |
+| Cleaning scraped HTML before AI extraction | Same edge function, using a Deno-compatible HTML parser (e.g. `deno-dom`) | Equivalent capability to `goquery`, same runtime as the AI call, no second language needed |
+| Rendering PDFs via headless Chrome | **This is the one real gap — see §7 below** | Headless Chrome is a full browser process; Supabase Edge Functions (V8 isolates) cannot spawn one. This was accurately flagged as open in the prior version of this doc and is now resolved, not just noted |
+
+The honest summary: nothing about dropping Go was "one Claude subscription will cover it." A subscription to Claude.ai (the chat product) is irrelevant here and was never the plan — what you're integrating is the **Claude API** (Anthropic's developer platform), which is pay-per-token, not feature-gated the way a chat plan is. It's exactly as capable inside an edge function as it would be inside a Go handler; the token cost and rate limits are the same either way. The actual question was never "is Claude enough" — it was "where does the secret-holding server-side code live," and for everything except PDF rendering, an edge function is a lighter answer than a standalone service without losing capability.
 
 If you ever find yourself adding a third reason to route something through the edge layer instead of a direct RLS-scoped client write, stop and ask whether RLS can just handle it — that's the whole point of this stack.
 
@@ -27,7 +41,7 @@ If you ever find yourself adding a third reason to route something through the e
 | AI — primary | Claude API (Anthropic) | Structured JSON extraction, resume/cover-letter generation, match scoring |
 | AI — fallback | Gemini Flash | Automatic fallback if Claude errors, times out, or rate-limits |
 | Edge functions | Supabase Edge Functions (Deno) | AI orchestration, PDF rendering — the only place secrets live |
-| PDF rendering | Headless Chrome (via an edge function or a small dedicated Cloud Run/Fly.io service if Deno can't host it directly) | Consistent output across all browsers; no client-side print-to-PDF |
+| PDF rendering | `@react-pdf/renderer`, run inside a Supabase Edge Function | Generates the PDF programmatically from a component tree — no headless browser needed, so it stays inside the same edge function as everything else. See §7 for the fallback if this doesn't hold up. |
 
 ---
 
@@ -102,7 +116,19 @@ Max resume upload: 5MB, PDF only, validated server-side (client-side checks are 
 
 ---
 
-## 7. Security
+## 7. PDF Generation — the resolved decision
+
+This was left as an open question in the prior version of this doc. Here's the actual resolution, not just a flag.
+
+**Primary approach: `@react-pdf/renderer` inside a Supabase Edge Function.** This library builds a PDF programmatically from a declarative component tree (`<Document>`, `<Page>`, `<Text>`, `<View>` — it reads like React, but outputs PDF primitives directly rather than "printing" a rendered HTML page). Because it never spins up an actual browser, it runs fine inside a Deno edge function, which keeps PDF generation on the same infrastructure as the AI calls — no separate service, no separate deploy. This is the resume and cover-letter PDF path for v1.
+
+**The real trade-off to know about:** the Resume Canvas's on-screen live preview (built as ordinary React/Tailwind components, per the Frontend doc) and the downloaded PDF (built as `@react-pdf/renderer` components) are two separate component trees rendering the same content. They can drift out of visual sync if one is updated and the other isn't — this is the actual cost of avoiding a headless browser, and it's worth knowing up front rather than discovering it three sprints in. Mitigate it by sharing the *data* transformation (one function that turns UserProfile + accepted edits into a plain content object) and keeping the two component trees as thin, independently-styled renderers of that same object — not by trying to literally reuse JSX between them, which doesn't work across the two rendering models.
+
+**Fallback, only if that trade-off proves unworkable:** a small, single-purpose rendering service (Go+chromedp or Node+Puppeteer — language doesn't matter here, it's a one-job service) deployed to Fly.io, Render, or Cloud Run, called from the edge function instead of running `@react-pdf/renderer` locally. This is not "bring Go back as the backend" — it would be one narrowly-scoped service that does exactly one thing, sitting behind the same edge-function call site so nothing else in the architecture changes if you end up needing it.
+
+---
+
+## 8. Security
 
 | Requirement | Implementation |
 |---|---|
@@ -115,7 +141,7 @@ Max resume upload: 5MB, PDF only, validated server-side (client-side checks are 
 
 ---
 
-## 8. Error Handling
+## 9. Error Handling
 
 | Failure | Handling |
 |---|---|
@@ -126,15 +152,15 @@ Max resume upload: 5MB, PDF only, validated server-side (client-side checks are 
 
 ---
 
-## 9. Infrastructure & Cost (Phase 1 scale)
+## 10. Infrastructure & Cost (Phase 1 scale)
 
 | Service | Tier | Est. monthly cost |
 |---|---|---|
 | Supabase | Free → Pro ($25/mo) once past free-tier row/storage limits | $0–25 |
 | Claude API | Pay-per-use | Usage-dependent; monitor token cost per extraction call |
 | Gemini Flash | Pay-per-use, fallback only | Low — only fires on Claude failure |
-| Edge function hosting | Included in Supabase | $0 |
-| PDF rendering host (if not doable in a Deno edge function) | Small always-on instance (Fly.io/Render free-to-low tier) | $0–7 |
+| Edge function hosting (incl. `@react-pdf/renderer` PDF generation) | Included in Supabase | $0 |
+| Fallback PDF rendering service (only if §7's fallback is triggered) | Small always-on instance (Fly.io/Render free-to-low tier) | $0–7 |
 
 This is meaningfully cheaper and simpler to operate than the original Firestore + Firebase Auth + standalone Go microservice design — one platform (Supabase) instead of three separate GCP services to wire together.
 
