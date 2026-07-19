@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trackd — One pipeline, both sides of hiring</title>
+<link rel="stylesheet" href="shared/trackd.css">
+<style>
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+  /* ---- Topnav ---- */
+  .topnav {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 2rem;
+    background: rgba(11, 17, 72, 0.55);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-glass);
+  }
+  .topnav-inner { max-width: 1240px; margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: #fff; }
+  .brand-mark {
+    width: 2.1rem; height: 2.1rem; border-radius: 0.65rem;
+    background: linear-gradient(160deg, var(--glow-top), var(--brand-primary));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 4px 14px rgba(0,127,255,.35);
+    font-family: var(--font-display); font-weight: 700; color: #041043; font-size: 1rem;
+  }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--text-tint-1); transition: color var(--motion-fast) var(--easing-standard); }
+  .nav-links a:hover { color: #fff; }
+  .nav-actions { display: flex; align-items: center; gap: 0.75rem; }
+  .btn-sm { height: 2.4rem; padding: 0 1.1rem; font-size: 0.85rem; }
+
+  /* ---- Hero ---- */
+  .hero { padding: 6.5rem 0 5rem; position: relative; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--glow-top); background: rgba(82,232,255,0.1); border: 1px solid var(--border-glass-strong);
+    padding: 0.4rem 0.85rem; border-radius: var(--radius-pill); margin-bottom: 1.75rem;
+  }
+  .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-energy); box-shadow: 0 0 8px var(--accent-energy); }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 3.5rem; align-items: center; }
+  .hero h1 {
+    font-size: clamp(2.6rem, 4.4vw, 3.9rem); line-height: 1.06; letter-spacing: -0.02em; max-width: 20ch;
+  }
+  .hero h1 .accent-text { background: linear-gradient(120deg, var(--glow-top), var(--text-tint-1)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.lede { font-size: 1.1rem; line-height: 1.6; color: var(--text-tint-1); max-width: 46ch; margin: 1.5rem 0 2.25rem; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero-stats { display: flex; gap: 2.25rem; margin-top: 3rem; }
+  .hero-stat .num { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 600; color: #fff; }
+  .hero-stat .label { font-size: 0.78rem; color: var(--text-tint-2); margin-top: 0.15rem; }
+
+  /* ---- Hero visual: mini kanban mock ---- */
+  .hero-visual { position: relative; }
+  .mock-shell { border-radius: var(--radius-shell); padding: 1.25rem; }
+  .mock-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 0.5rem 1rem; border-bottom: 1px solid var(--border-glass); margin-bottom: 1rem; }
+  .mock-dots { display: flex; gap: 0.4rem; }
+  .mock-dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.18); }
+  .mock-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; padding: 0 0.5rem 0.5rem; }
+  .mock-col-head { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tint-2); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+  .mock-col-head::before { content: ""; width: 6px; height: 6px; border-radius: 50%; }
+  .mock-col-head.c1::before { background: var(--status-saved); }
+  .mock-col-head.c2::before { background: var(--status-applied); }
+  .mock-col-head.c3::before { background: var(--status-interviewing); }
+  .mock-card {
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 0.85rem;
+    padding: 0.7rem 0.75rem; margin-bottom: 0.55rem;
+  }
+  .mock-card .t { font-size: 0.78rem; font-weight: 600; color: #fff; margin-bottom: 0.2rem; }
+  .mock-card .c { font-size: 0.68rem; color: var(--text-tint-2); }
+  .mock-card .score { font-family: var(--font-mono); font-size: 0.65rem; color: var(--glow-top); margin-top: 0.4rem; }
+  .mock-pill-row { display: flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.6rem; border-radius: var(--radius-pill); background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); font-size: 0.68rem; color: var(--text-tint-1); margin-bottom: 0.4rem; }
+  .mock-pill-row .dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .mock-glow-sliver { height: 6px; border-radius: 4px; margin-top: 0.4rem; filter: blur(2px); opacity: 0.7; }
+
+  /* ---- Two-sided value prop ---- */
+  .section { padding: 5.5rem 0; }
+  .section-head { max-width: 640px; margin-bottom: 3rem; }
+  .section-head .eyebrow { margin-bottom: 1rem; }
+  .section-head h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); line-height: 1.15; margin-bottom: 1rem; }
+  .section-head p { color: var(--text-tint-1); font-size: 1.02rem; line-height: 1.6; }
+
+  .side-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .side-card { padding: 2rem; }
+  .side-card .icon-chip { margin-bottom: 1.25rem; }
+  .side-card h3 { font-size: 1.3rem; margin-bottom: 0.6rem; }
+  .side-card p { color: var(--text-tint-1); font-size: 0.92rem; line-height: 1.6; margin-bottom: 1.25rem; }
+  .side-card ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem; }
+  .side-card li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.85rem; color: var(--text-tint-2); }
+  .side-card li svg { flex-shrink: 0; margin-top: 0.15rem; color: var(--status-offer); }
+
+  /* ---- Feature grid ---- */
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .feature-card { padding: 1.75rem; }
+  .feature-card h4 { font-size: 1.05rem; margin: 1rem 0 0.5rem; }
+  .feature-card p { font-size: 0.85rem; color: var(--text-tint-1); line-height: 1.55; }
+
+  /* ---- Flow strip ---- */
+  .flow-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .flow-step { padding: 1.5rem 1.25rem; position: relative; }
+  .flow-step .num { font-family: var(--font-mono); font-size: 0.75rem; color: var(--glow-top); margin-bottom: 0.75rem; display: block; }
+  .flow-step h5 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .flow-step p { font-size: 0.8rem; color: var(--text-tint-2); line-height: 1.5; }
+
+  /* ---- Quote / social proof ---- */
+  .proof { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem; align-items: stretch; }
+  .quote-card { padding: 2.25rem; display: flex; flex-direction: column; justify-content: space-between; }
+  .quote-card blockquote { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.45; color: #fff; margin: 0 0 1.5rem; font-weight: 500; }
+  .quote-person { display: flex; align-items: center; gap: 0.75rem; }
+  .avatar { width: 2.6rem; height: 2.6rem; border-radius: 50%; background: linear-gradient(160deg, var(--glow-top), var(--brand-primary)); flex-shrink: 0; }
+  .quote-person .name { font-size: 0.88rem; font-weight: 600; color: #fff; }
+  .quote-person .role { font-size: 0.76rem; color: var(--text-tint-2); }
+  .stat-stack { display: flex; flex-direction: column; gap: 1rem; }
+  .stat-tile { padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+  .stat-tile .num { font-family: var(--font-mono); font-size: 1.9rem; font-weight: 600; color: #fff; }
+  .stat-tile .label { font-size: 0.78rem; color: var(--text-tint-2); max-width: 12ch; text-align: right; line-height: 1.4; }
+
+  /* ---- CTA ---- */
+  .cta-band { padding: 3.5rem; text-align: center; position: relative; overflow: hidden; }
+  .cta-band h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); margin-bottom: 0.85rem; }
+  .cta-band p { color: var(--text-tint-1); margin-bottom: 2rem; font-size: 1rem; }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; }
+
+  footer { padding: 3rem 0 2.5rem; border-top: 1px solid var(--border-glass); margin-top: 2rem; }
+  .footer-grid { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+  .footer-links { display: flex; gap: 1.75rem; }
+  .footer-links a { font-size: 0.82rem; color: var(--text-tint-2); }
+  .footer-links a:hover { color: #fff; }
+  .footer-copy { font-size: 0.78rem; color: var(--text-tint-2); }
+
+  @media (max-width: 980px) {
+    .hero-grid, .side-grid, .proof { grid-template-columns: 1fr; }
+    .feature-grid { grid-template-columns: repeat(2, 1fr); }
+    .flow-strip { grid-template-columns: repeat(2, 1fr); }
+    .hero { padding-top: 4.5rem; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    .feature-grid, .flow-strip { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+    .footer-grid { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="icon-field" aria-hidden="true" id="iconField"></div>
+
+  <nav class="topnav" data-od-id="topnav">
+    <div class="topnav-inner">
+      <div class="brand" data-od-id="brand-logo">
+        <span class="brand-mark">T</span> Trackd
+      </div>
+      <div class="nav-links">
+        <a href="#candidates" data-od-id="nav-candidates">For candidates</a>
+        <a href="#recruiters" data-od-id="nav-recruiters">For recruiters</a>
+        <a href="#flow" data-od-id="nav-flow">How it works</a>
+        <a href="#proof" data-od-id="nav-proof">Results</a>
+      </div>
+      <div class="nav-actions">
+        <a class="btn btn-ghost btn-sm" href="screens/auth-login.html" data-od-id="nav-login">Log in</a>
+        <a class="btn btn-primary btn-sm" href="screens/auth-signup.html" data-od-id="nav-signup">Get started</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero wrap" data-od-id="section-hero">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">AI-driven application tracking</span>
+          <h1>One pipeline. <span class="accent-text">Both sides</span> of hiring, finally in sync.</h1>
+          <p class="lede">Trackd turns a pasted job link into a structured record a candidate tracks and a recruiter triages — no more spreadsheets, no more disconnected inboxes.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="screens/auth-signup.html" data-od-id="hero-cta-primary">Start tracking free →</a>
+            <a class="btn btn-ghost" href="#flow" data-od-id="hero-cta-secondary">See how it works</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat"><div class="num">&lt;30s</div><div class="label">to log a job</div></div>
+            <div class="hero-stat"><div class="num">88%</div><div class="label">avg match score, top applicants</div></div>
+            <div class="hero-stat"><div class="num">5–10</div><div class="label">shortlist candidates, minutes not days</div></div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="glass-surface mock-shell" data-od-id="hero-mock-kanban">
+            <div class="mock-topbar">
+              <div class="mock-dots"><span></span><span></span><span></span></div>
+              <span style="font-size:0.68rem;color:var(--text-tint-2);font-family:var(--font-mono);">Pipeline · 15 tracked</span>
+            </div>
+            <div class="mock-cols">
+              <div>
+                <div class="mock-col-head c1">Saved</div>
+                <div class="mock-card"><div class="t">UX Engineer</div><div class="c">Lumen Labs</div><div class="score">Match 79</div></div>
+                <div class="mock-pill-row"><span class="dot" style="background:var(--status-saved)"></span>Backend Eng · HarborData</div>
+                <div class="mock-glow-sliver" style="background:var(--status-saved)"></div>
+              </div>
+              <div>
+                <div class="mock-col-head c2">Applied</div>
+                <div class="mock-card"><div class="t">Lead Frontend</div><div class="c">PayStream</div><div class="score">Match 95</div></div>
+                <div class="mock-pill-row"><span class="dot" style="background:var(--status-applied)"></span>DevOps · CloudForge</div>
+              </div>
+              <div>
+                <div class="mock-col-head c3">Interviewing</div>
+                <div class="mock-card"><div class="t">Sr. Product Eng.</div><div class="c">VybzTech Inc.</div><div class="score">Match 88</div></div>
+                <div class="mock-pill-row"><span class="dot" style="background:var(--status-interviewing)"></span>Platform Eng · Northbeam</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TWO-SIDED VALUE PROP -->
+    <section class="section wrap" id="candidates" data-od-id="section-two-sided">
+      <div class="section-head">
+        <span class="eyebrow">One data spine, two views</span>
+        <h2>Built for the applicant grinding through 15 roles a week — and the recruiter triaging 200 of them.</h2>
+        <p>A job posting is ingested once. It becomes the same structured record on both sides, so nobody re-types anything.</p>
+      </div>
+      <div class="side-grid">
+        <div class="glass-surface side-card" id="candidates-card" data-od-id="card-candidate-side">
+          <div class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div>
+          <h3>For candidates</h3>
+          <p>Paste a link, review the AI-parsed fields, commit. Work the pipeline in Kanban, Calendar, or Table — every view reads the same data.</p>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Smart Paste ingestion with confidence-scored fields</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Match score, ATS keyword risk, tailored bullet suggestions</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Resume canvas + 3-tone cover letter, both PDF-ready</li>
+          </ul>
+        </div>
+        <div class="glass-surface side-card" id="recruiters" data-od-id="card-recruiter-side">
+          <div class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <h3>For recruiters</h3>
+          <p>Post a role once. See every applicant scored and ranked, without re-reading 200 resumes to find the same five candidates.</p>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Applicant grid with score, source, and seniority filters</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Candidate Storyline — fit summary, not a flat resume dump</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>One-click Shortlist / Interview / Reject, synced instantly</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section wrap" data-od-id="section-features">
+      <div class="section-head">
+        <span class="eyebrow">Core modules</span>
+        <h2>Everything between "found a job" and "got the offer."</h2>
+      </div>
+      <div class="feature-grid">
+        <div class="glass-surface feature-card" data-od-id="feature-ingestion">
+          <div class="icon-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></div>
+          <h4>Smart Paste ingestion</h4>
+          <p>Paste a URL or description — Claude extracts a structured record with per-field confidence in seconds.</p>
+        </div>
+        <div class="glass-surface feature-card" data-od-id="feature-kanban">
+          <div class="icon-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h4v16H4zM10 4h4v10h-4zM16 4h4v7h-4z"/></svg></div>
+          <h4>Kanban / Calendar / Table</h4>
+          <p>Three views of one pipeline. Drag a card, and status, deadline, and history update everywhere at once.</p>
+        </div>
+        <div class="glass-surface feature-card" data-od-id="feature-analytics">
+          <div class="icon-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18M8 17V9m5 8V5m5 12v-6"/></svg></div>
+          <h4>Honest analytics</h4>
+          <p>KPI cards and five charts on real outcomes — where applications stall, not vanity encouragement.</p>
+        </div>
+        <div class="glass-surface feature-card" data-od-id="feature-pro">
+          <div class="icon-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <h4>Match score &amp; ATS risk</h4>
+          <p>Per-job scoring against your resume, with the specific missing keywords a recruiter's filter is looking for.</p>
+        </div>
+        <div class="glass-surface feature-card" data-od-id="feature-companies">
+          <div class="icon-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M14 9h1M14 13h1"/></svg></div>
+          <h4>Company workspaces</h4>
+          <p>One admin, unlimited open roles. Every posted role reuses the same extraction schema as candidate ingestion.</p>
+        </div>
+        <div class="glass-surface feature-card" data-od-id="feature-hub">
+          <div class="icon-chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <h4>Recruiter Hub</h4>
+          <p>Storyline and fit scorecard per candidate, plus Shortlist / Interview / Reject actions that sync in real time.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLOW -->
+    <section class="section wrap" id="flow" data-od-id="section-flow">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>From job link to tailored application, in four steps.</h2>
+      </div>
+      <div class="flow-strip">
+        <div class="glass-surface flow-step" data-od-id="flow-step-1"><span class="num">01</span><h5>Paste the job</h5><p>A URL or raw description — Trackd handles the parsing.</p></div>
+        <div class="glass-surface flow-step" data-od-id="flow-step-2"><span class="num">02</span><h5>Review & commit</h5><p>Confirm the AI-extracted fields, correct anything, commit to your pipeline.</p></div>
+        <div class="glass-surface flow-step" data-od-id="flow-step-3"><span class="num">03</span><h5>Tailor with AI</h5><p>Resume canvas and cover letter tool generate a package matched to that specific role.</p></div>
+        <div class="glass-surface flow-step" data-od-id="flow-step-4"><span class="num">04</span><h5>Track to close</h5><p>Drag through Saved → Applied → Interviewing → Offer, visible in every view.</p></div>
+      </div>
+    </section>
+
+    <!-- PROOF -->
+    <section class="section wrap" id="proof" data-od-id="section-proof">
+      <div class="proof">
+        <div class="glass-surface quote-card" data-od-id="quote-card">
+          <blockquote>"I went from a Notion doc with 40 dead links to actually knowing which of my 15 open applications need a follow-up today."</blockquote>
+          <div class="quote-person">
+            <div class="avatar" aria-hidden="true"></div>
+            <div><div class="name">Chioma A.</div><div class="role">Software Engineer, Volume Applicant persona</div></div>
+          </div>
+        </div>
+        <div class="stat-stack">
+          <div class="glass-surface stat-tile" data-od-id="stat-tile-1"><div class="num mono">8–15</div><div class="label">roles tracked per week, per candidate</div></div>
+          <div class="glass-surface stat-tile" data-od-id="stat-tile-2"><div class="num mono">&lt;3s</div><div class="label">status change reflected everywhere</div></div>
+          <div class="glass-surface stat-tile" data-od-id="stat-tile-3"><div class="num mono">200</div><div class="label">applicants a recruiter can triage per role</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="wrap" data-od-id="section-cta">
+      <div class="glass-surface cta-band">
+        <h2>Stop losing track of where you applied.</h2>
+        <p>Free for candidates. Company workspaces available on request.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="screens/auth-signup.html" data-od-id="cta-signup">Create free account</a>
+          <a class="btn btn-ghost" href="screens/auth-login.html" data-od-id="cta-login">I already have an account</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="wrap" data-od-id="footer">
+      <div class="footer-grid">
+        <div class="brand"><span class="brand-mark">T</span> Trackd</div>
+        <div class="footer-links">
+          <a href="#candidates">Candidates</a>
+          <a href="#recruiters">Recruiters</a>
+          <a href="#flow">How it works</a>
+          <a href="screens/auth-login.html">Log in</a>
+        </div>
+        <div class="footer-copy">© 2026 Trackd. All rights reserved.</div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Sparse floating job-related icon field, respects prefers-reduced-motion (CSS handles the kill-switch).
+  (function () {
+    const field = document.getElementById('iconField');
+    if (!field) return;
+    const glyphs = [
+      'M4 7h16M4 12h16M4 17h10', // doc lines
+      'M3 21h18M5 21V7l7-4 7 4v14', // building
+      'M3 3v18h18M8 17V9m5 8V5m5 12v-6', // bar chart
+      'M3 4h18v14H3zM3 8h18', // calendar
+      'M4 4h16v16H4zM4 8h16', // mail-ish
+      'M20 6L9 17l-5-5' // check
+    ];
+    const count = 12;
+    for (let i = 0; i < count; i++) {
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('width', 28 + Math.round(Math.random() * 18));
+      svg.setAttribute('height', 28 + Math.round(Math.random() * 18));
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('stroke-width', '1.6');
+      const path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('d', glyphs[i % glyphs.length]);
+      svg.appendChild(path);
+      svg.style.left = Math.random() * 100 + '%';
+      svg.style.top = Math.random() * 100 + '%';
+      svg.style.animationDelay = (Math.random() * 10).toFixed(2) + 's';
+      svg.style.animationDuration = (18 + Math.random() * 10).toFixed(2) + 's';
+      field.appendChild(svg);
+    }
+  })();
+</script>
+</body>
+</html>

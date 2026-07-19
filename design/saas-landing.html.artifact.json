@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "saas-landing.html",
+  "entry": "saas-landing.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-07-16T12:17:06.717Z",
+  "updatedAt": "2026-07-16T12:17:06.717Z",
+  "metadata": {
+    "inferred": true
+  }
+}

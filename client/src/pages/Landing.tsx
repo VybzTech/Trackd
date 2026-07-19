@@ -1,93 +1,108 @@
-// React import not required with the react-jsx transform
-import { motion } from 'framer-motion'
-import { FiArrowRight } from 'react-icons/fi'
-import { useAppStore } from '../store/appStore'
-import { GlassCard, Button } from '../components/ui'
-import AuthTab from '../components/AuthTab'
-import OnboardingWizard from '../components/OnboardingWizard'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useTheme } from '../hooks/useTheme'
+import { NAV_ITEMS } from '../lib/landingData'
+import Navbar from '../components/landing/Navbar'
+import Hero from '../components/landing/Hero'
+import HowItWorks from '../components/landing/HowItWorks'
+import ForCandidates from '../components/landing/ForCandidates'
+import ForRecruiters from '../components/landing/ForRecruiters'
+import Pricing from '../components/landing/Pricing'
+import FAQ from '../components/landing/FAQ'
+import Contact from '../components/landing/Contact'
+import FinalCTA from '../components/landing/FinalCTA'
+import Footer from '../components/landing/Footer'
+import RoleModal from '../components/landing/RoleModal'
+import type { Role } from '../components/landing/RoleModal'
 
-interface LandingProps {
-  showAuth?: boolean
-  showOnboarding?: boolean
-}
+export default function Landing() {
+  const { theme, toggleTheme } = useTheme()
+  const navigate = useNavigate()
+  const [scrolled, setScrolled] = useState(false)
+  const [activeNav, setActiveNav] = useState('product')
 
-const FEATURES = [
-  { title: 'Multi-View Dashboard', desc: 'Kanban, Table, Calendar layouts' },
-  { title: 'AI-Powered Matching', desc: 'Match scores & ATS keyword analysis' },
-  { title: 'Smart Ingestion', desc: 'Paste URLs or job postings instantly' },
-]
+  const [roleModalOpen, setRoleModalOpen] = useState(false)
+  const [selectedRole, setSelectedRole] = useState<Role | null>(null)
 
-export default function Landing({ showAuth = false, showOnboarding = false }: LandingProps) {
-  const setCurrentView = useAppStore((state) => state.setCurrentView)
+  const [pricingAnnual, setPricingAnnual] = useState(false)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
+  const [demoScore, setDemoScore] = useState(72)
 
-  if (showOnboarding) {
-    return <OnboardingWizard />
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const ids = NAV_ITEMS.map((n) => n.id)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveNav(entry.target.id)
+        })
+      },
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0 },
+    )
+    ids.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
+  }, [])
+
+  const handleNavClick = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 76
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
   }
 
-  if (showAuth) {
-    return <AuthTab />
+  const openRoleModal = (preselect: Role | null) => {
+    setSelectedRole(preselect)
+    setRoleModalOpen(true)
+  }
+
+  const closeRoleModal = () => setRoleModalOpen(false)
+
+  const confirmRole = () => {
+    if (selectedRole) navigate(`/auth?screen=signup&role=${selectedRole}`)
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-24">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-center"
-      >
-        <h1 className="font-display text-6xl font-bold mb-6 text-white">
-          Track Your Path to{' '}
-          <span
-            className="bg-clip-text text-transparent"
-            style={{ backgroundImage: 'linear-gradient(90deg, var(--glow-mid), var(--glow-top))' }}
-          >
-            Your Dream Role
-          </span>
-        </h1>
-        <p className="text-xl mb-12 max-w-2xl mx-auto" style={{ color: 'var(--text-tint-1)' }}>
-          TRACKD empowers you to monitor, analyze, and optimize your job application pipeline with AI-powered insights and professional-grade analytics.
-        </p>
+    <div className="relative min-h-screen" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
+      <Navbar
+        theme={theme}
+        toggleTheme={toggleTheme}
+        scrolled={scrolled}
+        activeNav={activeNav}
+        onNavClick={handleNavClick}
+        onGetStarted={() => openRoleModal(null)}
+      />
 
-        {/* Feature Grid */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {FEATURES.map((feature, i) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: i * 0.2 }}
-            >
-              <GlassCard className="text-left h-full">
-                <h3 className="font-display text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                <p style={{ color: 'var(--text-tint-2)' }}>{feature.desc}</p>
-              </GlassCard>
-            </motion.div>
-          ))}
-        </div>
+      <main id="top">
+        <Hero onGetStarted={() => openRoleModal('candidate')} onImHiring={() => openRoleModal('recruiter')} />
+        <HowItWorks />
+        <ForCandidates demoScore={demoScore} onDemoScoreChange={setDemoScore} />
+        <ForRecruiters />
+        <Pricing annual={pricingAnnual} onToggle={() => setPricingAnnual((v) => !v)} onGetStarted={() => openRoleModal('candidate')} />
+        <FAQ openIndex={openFaqIndex} onToggle={(i) => setOpenFaqIndex((cur) => (cur === i ? null : i))} />
+        <Contact />
+        <FinalCTA onGetStarted={() => openRoleModal('candidate')} onImHiring={() => openRoleModal('recruiter')} />
+      </main>
 
-        {/* CTA Button */}
-        <Button variant="primary" size="lg" onClick={() => setCurrentView('auth')} className="mx-auto shadow-xl">
-          Launch Command Centre
-          <FiArrowRight />
-        </Button>
-      </motion.div>
+      <Footer />
 
-      {/* Dashboard Preview */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.8 }}
-        className="mt-24"
-      >
-        <GlassCard padded={false} className="p-8 aspect-video flex items-center justify-center">
-          <div className="text-center">
-            <div className="text-6xl mb-4">📊</div>
-            <p style={{ color: 'var(--text-tint-1)' }}>Dashboard Preview</p>
-            <p className="text-sm mt-2" style={{ color: 'var(--text-tint-2)' }}>Multi-view job tracking interface</p>
-          </div>
-        </GlassCard>
-      </motion.div>
+      <RoleModal
+        open={roleModalOpen}
+        confirmed={false}
+        selectedRole={selectedRole}
+        onClose={closeRoleModal}
+        onSelectRole={setSelectedRole}
+        onConfirm={confirmRole}
+      />
     </div>
   )
 }

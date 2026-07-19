@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&amp;family=Geist+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body, h1, h2, h3, p, ul, li, button, input { margin: 0; padding: 0; }
+    button, input { font-family: inherit; }
+    a { text-decoration: none; }
+    ::selection { background: #52E8FF; color: #000871; }
+    *:focus { outline: none; }
+    *:focus-visible { outline: 2px solid var(--glow-top); outline-offset: 2px; }
+    @keyframes revealUp { from{ opacity: 0; transform: translateY(24px); } to{ opacity: 1; transform: translateY(0); } }
+    @keyframes auroraShift { 0%{ background-position: 0% 50%; } 50%{ background-position: 100% 50%; } 100%{ background-position: 0% 50%; } }
+    @keyframes shimmerSweep { 0%{ background-position: -300% 0; } 100%{ background-position: 300% 0; } }
+    @keyframes floatY2 { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(6px); } }
+  </style>
+</helmet>
+<div ref="{{ rootRef }}" style="--bg:#09090B; --surface:#18181B; --surface-alt:rgba(255,255,255,0.045); --brand:#2438BD; --brand-2:#0F52BA; --glow-mid:#007FFF; --glow-top:#52E8FF; --info:#007BA7; --energy:#0AFFFF; --text:#FAFAFA; --text-2:#A1A1AA; --text-3:#71717A; --border:rgba(255,255,255,0.10); --border-glass:rgba(82,232,255,0.20); background:var(--bg); color:var(--text); min-height:100vh; font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif; transition:background-color .2s ease-out,color .2s ease-out; position:relative;">
+
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px clamp(20px,4vw,32px); border-bottom:1px solid var(--border); flex-wrap:wrap;">
+    <a href="Trackd Landing.dc.html" style="display:flex; align-items:baseline; gap:1px; font-weight:800; font-size:19px; letter-spacing:-0.02em; color:var(--text);">Trackd<span style="color:var(--glow-top);">.</span></a>
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+      <a href="Trackd For Recruiters.dc.html" style="font-size:13.5px; color:var(--text-2);">For recruiters →</a>
+      <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:34px; height:34px; border-radius:999px; border:1px solid var(--border); background:transparent; color:var(--text-2); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .15s ease-out,border-color .15s ease-out,color .15s ease-out;" style-hover="transform:translateY(-2px); border-color:var(--border-glass); color:var(--glow-top);">
+        <sc-if value="{{ isDark }}" hint-placeholder-val="{{ true }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.4M12 19.1v2.4M4.5 12H2.1M21.9 12h-2.4M6.2 6.2 4.5 4.5M19.5 19.5l-1.7-1.7M6.2 17.8 4.5 19.5M19.5 4.5l-1.7 1.7"></path></svg></sc-if>
+        <sc-if value="{{ isLight }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z"></path></svg></sc-if>
+      </button>
+      <a href="Trackd Auth.dc.html?screen=signin" style="font-size:14px; font-weight:500; color:var(--text-2);">Sign in</a>
+      <a href="Trackd Auth.dc.html?screen=signup&amp;role=candidate" style="padding:9px 18px; border-radius:999px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:13.5px; font-weight:600; white-space:nowrap;">Get started free</a>
+    </div>
+  </div>
+
+  <section style="position:relative; padding:clamp(56px,9vw,90px) clamp(20px,5vw,32px) clamp(48px,7vw,72px); text-align:center; overflow:hidden;">
+    <div style="position:absolute; inset:-20% -10% auto; height:460px; background:radial-gradient(55% 55% at 50% 25%, color-mix(in srgb, var(--brand) 45%, transparent), transparent 70%); background-size:200% 200%; animation:auroraShift 16s ease-in-out infinite; filter:blur(60px); opacity:0.5; pointer-events:none;"></div>
+    <div style="position:relative; max-width:680px; margin:0 auto; animation:revealUp .6s ease-out both;">
+      <div style="font-size:12.5px; font-weight:600; color:var(--glow-top); font-family:'Geist Mono',ui-monospace,monospace; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:14px;">For candidates</div>
+      <h1 style="font-size:clamp(32px,5.5vw,54px); font-weight:800; letter-spacing:-0.03em; line-height:1.06; margin-bottom:18px; text-wrap:pretty;">Your job search, finally structured.</h1>
+      <p style="font-size:16.5px; color:var(--text-2); line-height:1.6; max-width:520px; margin:0 auto 30px; text-wrap:pretty;">Stop copy-pasting into spreadsheets. Trackd turns raw job posts into a living pipeline, scores your fit before you apply, and tells you exactly what to fix.</p>
+      <a href="Trackd Auth.dc.html?screen=signup&amp;role=candidate" style="display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:12px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:15px; font-weight:600; box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), 0 8px 20px rgba(15,82,186,0.3);">Get started free</a>
+      <p style="font-size:12.5px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace; margin-top:14px;">Free forever · No credit card</p>
+    </div>
+  </section>
+
+  <section style="max-width:1080px; margin:0 auto; padding:0 clamp(20px,5vw,32px) clamp(56px,8vw,90px); display:flex; flex-direction:column; gap:64px;">
+
+    <div style="display:flex; flex-wrap:wrap-reverse; gap:36px; align-items:center;">
+      <div style="flex:1 1 380px; min-width:280px; border:1px solid var(--border); border-radius:16px; padding:22px; animation:revealUp .6s ease-out both;">
+        <div style="font-family:'Geist Mono',ui-monospace,monospace; font-size:11px; color:var(--text-3); letter-spacing:0.04em; margin-bottom:14px;">INGESTION</div>
+        <div style="border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:14px;">
+          <div style="height:8px; width:88%; border-radius:3px; background:linear-gradient(90deg, var(--border), var(--border-glass), var(--border)); background-size:300% 100%; animation:shimmerSweep 2.2s linear infinite; margin-bottom:8px;"></div>
+          <div style="height:8px; width:64%; border-radius:3px; background:linear-gradient(90deg, var(--border), var(--border-glass), var(--border)); background-size:300% 100%; animation:shimmerSweep 2.2s linear infinite .3s;"></div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:11.5px; padding:6px 11px; border-radius:999px; background:var(--surface); border:1px solid var(--border-glass); color:var(--text-2);">Staff Engineer</span>
+          <span style="font-size:11.5px; padding:6px 11px; border-radius:999px; background:var(--surface); border:1px solid var(--border-glass); color:var(--text-2);">$170–210k</span>
+          <span style="font-size:11.5px; padding:6px 11px; border-radius:999px; background:var(--surface); border:1px solid var(--border-glass); color:var(--text-2);">Extension capture</span>
+        </div>
+      </div>
+      <div style="flex:1 1 380px; min-width:280px; animation:revealUp .6s ease-out both;">
+        <div style="width:38px; height:38px; border-radius:10px; background:var(--surface); border:1px solid var(--border-glass); display:flex; align-items:center; justify-content:center; margin-bottom:16px; color:var(--glow-top);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5h6l4 4v13h-14v-17Z"></path><path d="M9 12h6M9 16h6"></path></svg></div>
+        <h2 style="font-size:24px; font-weight:800; letter-spacing:-0.01em; margin-bottom:10px;">Capture any posting, instantly.</h2>
+        <p style="font-size:15px; color:var(--text-2); line-height:1.6; text-wrap:pretty;">Paste a link, paste a wall of copied text, or click the Trackd extension on the tab you're already reading. Everything lands in your Ingestion queue, structured and ready to verify before it joins your pipeline.</p>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:36px; align-items:center;">
+      <div style="flex:1 1 380px; min-width:280px; animation:revealUp .6s ease-out both;">
+        <div style="width:38px; height:38px; border-radius:10px; background:var(--surface); border:1px solid var(--border-glass); display:flex; align-items:center; justify-content:center; margin-bottom:16px; color:var(--glow-top);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="16" rx="1.4"></rect><rect x="14" y="4" width="6" height="9" rx="1.4"></rect></svg></div>
+        <h2 style="font-size:24px; font-weight:800; letter-spacing:-0.01em; margin-bottom:10px;">Track it your way.</h2>
+        <p style="font-size:15px; color:var(--text-2); line-height:1.6; text-wrap:pretty;">Work your pipeline as a Kanban board, a sortable table, or a calendar heatmap that shows application volume by day and lets you set reminders for interviews and deadlines. Move a card once — every view updates.</p>
+      </div>
+      <div style="flex:1 1 380px; min-width:280px; border:1px solid var(--border); border-radius:16px; padding:22px; animation:revealUp .6s ease-out both;">
+        <div style="display:flex; gap:6px;">
+          <div style="flex:1; height:80px; border-radius:8px; background:var(--surface-alt); border:1px solid var(--border);"></div>
+          <div style="flex:1; height:80px; border-radius:8px; background:var(--surface-alt); border:1px solid var(--border-glass); box-shadow:0 0 0 1px var(--border-glass) inset;"><div style="width:75%; height:8px; margin:10px auto 0; border-radius:3px; background:var(--glow-top); opacity:0.7; animation:floatY2 3s ease-in-out infinite;"></div></div>
+          <div style="flex:1; height:80px; border-radius:8px; background:var(--surface-alt); border:1px solid var(--border);"></div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-top:14px;">
+          <sc-for list="{{ heatCells }}" as="c" hint-placeholder-count="21">
+            <div style="{{ c.style }}"></div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap-reverse; gap:36px; align-items:center;">
+      <div style="flex:1 1 380px; min-width:280px; border:1px solid var(--border); border-radius:16px; padding:26px; display:flex; align-items:center; justify-content:center; animation:revealUp .6s ease-out both;">
+        <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg);">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border)" stroke-width="9"></circle>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="var(--glow-top)" stroke-width="9" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="47"></circle>
+        </svg>
+      </div>
+      <div style="flex:1 1 380px; min-width:280px; animation:revealUp .6s ease-out both;">
+        <div style="width:38px; height:38px; border-radius:10px; background:var(--surface); border:1px solid var(--border-glass); display:flex; align-items:center; justify-content:center; margin-bottom:16px; color:var(--glow-top);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l2.6 2.6"></path></svg></div>
+        <h2 style="font-size:24px; font-weight:800; letter-spacing:-0.01em; margin-bottom:10px;">Know your odds before you apply.</h2>
+        <p style="font-size:15px; color:var(--text-2); line-height:1.6; text-wrap:pretty;">Every job gets a live compatibility score against your resume — skills, seniority, and keyword coverage — plus exactly what's missing, so you can fix it before you hit submit instead of guessing after a rejection.</p>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border-glass); background:var(--surface-alt); border-radius:20px; padding:clamp(28px,4vw,44px); animation:revealUp .6s ease-out both;">
+      <div style="text-align:center; max-width:560px; margin:0 auto 32px;">
+        <div style="font-size:12.5px; font-weight:600; color:var(--glow-top); font-family:'Geist Mono',ui-monospace,monospace; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:12px;">Trackd Pro</div>
+        <h2 style="font-size:clamp(24px,3.6vw,32px); font-weight:800; letter-spacing:-0.01em; margin-bottom:12px; text-wrap:pretty;">The edge, when it matters most.</h2>
+        <p style="font-size:15px; color:var(--text-2); line-height:1.6;">Insights turns your history into a coach — not just a tracker.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px;">
+        <sc-for list="{{ proFeatures }}" as="f" hint-placeholder-count="5">
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <h3 style="font-size:14.5px; font-weight:700; margin-bottom:6px;">{{ f.title }}</h3>
+            <p style="font-size:13px; color:var(--text-3); line-height:1.5;">{{ f.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <div style="text-align:center; margin-top:28px;">
+        <a href="Trackd Landing.dc.html#pricing" style="display:inline-block; padding:12px 24px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-weight:600; font-size:14px;">See Pro plan</a>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border); border-radius:16px; padding:28px; animation:revealUp .6s ease-out both;">
+      <p style="font-size:15px; color:var(--text-2); line-height:1.6; margin-bottom:14px; text-wrap:pretty;">"I stopped losing track of applications the day I started using Trackd. The compatibility score alone saved me a dozen rewrites."</p>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:30px; height:30px; border-radius:50%; background:var(--surface); border:1px solid var(--border-glass);"></div>
+        <span style="font-size:12.5px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">Early candidate, Trackd beta</span>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <h2 style="font-size:clamp(26px,4vw,36px); font-weight:800; letter-spacing:-0.02em; margin-bottom:16px;">Stop guessing. Start tracking.</h2>
+      <a href="Trackd Auth.dc.html?screen=signup&amp;role=candidate" style="display:inline-block; padding:13px 26px; border-radius:12px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:15px; font-weight:600; box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), 0 8px 20px rgba(15,82,186,0.3);">Get started free</a>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--border); padding:32px clamp(20px,5vw,32px); text-align:center; font-size:12px; color:var(--text-3);">© 2026 Trackd. All rights reserved. · <a href="Trackd FAQ.dc.html" style="color:var(--text-3);">FAQ</a> · <a href="Trackd Privacy.dc.html" style="color:var(--text-3);">Privacy</a></footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dark&quot;,&quot;options&quot;:[&quot;dark&quot;,&quot;light&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+const THEME_VARS = {
+  dark: { '--bg':'#09090B','--surface':'#18181B','--surface-alt':'rgba(255,255,255,0.045)','--brand':'#2438BD','--brand-2':'#0F52BA','--glow-mid':'#007FFF','--glow-top':'#52E8FF','--info':'#007BA7','--energy':'#0AFFFF','--text':'#FAFAFA','--text-2':'#A1A1AA','--text-3':'#71717A','--border':'rgba(255,255,255,0.10)','--border-glass':'rgba(82,232,255,0.20)' },
+  light: { '--bg':'#F3F6FF','--surface':'#FFFFFF','--surface-alt':'rgba(15,82,186,0.05)','--brand':'#2438BD','--brand-2':'#0F52BA','--glow-mid':'#007FFF','--glow-top':'#0F52BA','--info':'#007BA7','--energy':'#00A9B4','--text':'#0A1040','--text-2':'#28348E','--text-3':'#5C6FA8','--border':'rgba(10,20,70,0.10)','--border-glass':'rgba(0,127,255,0.22)' }
+};
+
+const PRO_FEATURES = [
+  { title: 'Resume vs. what recruiters want', desc: 'See the gap between your resume and what similar roles actually screen for.' },
+  { title: 'ATS score & resume booster', desc: 'A live ATS score plus one-tap fixes for missing keywords and formatting risks.' },
+  { title: 'Cover letters, generated', desc: 'Tailored cover letters per role — start from your own template or ours.' },
+  { title: 'What got others hired', desc: "Patterns from candidates who converted, that you're not doing yet." },
+  { title: 'Your conversion rate', desc: 'Applied → interview → offer, tracked over time, by role type and source.' }
+];
+
+const HEAT_LEVELS = [0,1,1,2,0,3,1,0,2,1,1,0,4,2,1,0,1,2,0,1,3];
+
+class Component extends DCLogic {
+  state = { theme: null };
+  componentDidMount() {
+    let theme = this.props.initialTheme || 'dark';
+    try { theme = localStorage.getItem('trackd-theme') || theme; } catch (e) {}
+    this.setState({ theme });
+    this.applyTheme(theme);
+  }
+  applyTheme(name) { if (!this._root) return; const vars = THEME_VARS[name] || THEME_VARS.dark; Object.keys(vars).forEach(k => this._root.style.setProperty(k, vars[k])); }
+  getTheme() { return this.state.theme || this.props.initialTheme || 'dark'; }
+  renderVals() {
+    const theme = this.getTheme();
+    const isDark = theme === 'dark';
+    const toggleTheme = () => {
+      const next = this.getTheme() === 'dark' ? 'light' : 'dark';
+      this.setState({ theme: next });
+      this.applyTheme(next);
+      try { localStorage.setItem('trackd-theme', next); } catch (e) {}
+    };
+    const heatCells = HEAT_LEVELS.map(lvl => ({
+      style: `width:100%; padding-top:100%; border-radius:3px; background:${lvl === 0 ? 'var(--border)' : `color-mix(in srgb, var(--glow-top) ${lvl * 25}%, var(--surface))`};`
+    }));
+    return { rootRef: (el) => { this._root = el; }, isDark, isLight: !isDark, toggleTheme, proFeatures: PRO_FEATURES, heatCells };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&amp;family=Geist+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body, h1, h2, h3, p, ul, li, button, input, textarea { margin: 0; padding: 0; }
+    button, input, textarea { font-family: inherit; }
+    a { text-decoration: none; }
+    ::selection { background: #52E8FF; color: #09090B; }
+    *:focus { outline: none; }
+    *:focus-visible { outline: 2px solid var(--glow-top); outline-offset: 2px; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-thumb { background: var(--border-glass); border-radius: 4px; }
+    @keyframes revealUp { from{ opacity: 0; transform: translateY(10px); } to{ opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from{ opacity: 0; } to{ opacity: 1; } }
+    @keyframes scaleIn { from{ opacity: 0; transform: scale(0.95); } to{ opacity: 1; transform: scale(1); } }
+    @keyframes slideInRight { from{ transform: translateX(100%); } to{ transform: translateX(0); } }
+    @keyframes pulseDot { 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
+  </style>
+</helmet>
+<div ref="{{ rootRef }}" style="--bg:#09090B; --surface:#18181B; --surface-2:#1F1F23; --surface-alt:rgba(255,255,255,0.045); --brand:#2438BD; --brand-2:#0F52BA; --glow-mid:#007FFF; --glow-top:#52E8FF; --info:#007BA7; --energy:#0AFFFF; --text:#FAFAFA; --text-2:#A1A1AA; --text-3:#71717A; --border:rgba(255,255,255,0.10); --border-glass:rgba(82,232,255,0.20); background:var(--bg); color:var(--text); height:100vh; font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif; overflow:hidden; position:relative; display:flex;">
+
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ sidebarOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:90; animation:fadeIn .15s ease-out both;" onClick="{{ closeSidebar }}"></div>
+    </sc-if>
+  </sc-if>
+
+  <aside style="{{ sidebarStyle }}">
+    <div style="padding:20px; display:flex; align-items:center; justify-content:space-between;">
+      <a href="Trackd Landing.dc.html" style="display:flex; align-items:baseline; gap:1px; font-weight:800; font-size:19px; letter-spacing:-0.02em; color:var(--text);">Trackd<span style="color:var(--glow-top);">.</span></a>
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ closeSidebar }}" aria-label="Close menu" style="width:28px; height:28px; border-radius:8px; border:none; background:transparent; color:var(--text-3); cursor:pointer; display:flex; align-items:center; justify-content:center;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </sc-if>
+    </div>
+
+    <nav style="flex:1; padding:8px 12px; display:flex; flex-direction:column; gap:2px; overflow-y:auto;">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+        <button onClick="{{ item.onClick }}" style="{{ item.style }}">
+          <span style="width:17px; height:17px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <sc-if value="{{ item.isOverview }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6"></rect><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"></rect><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"></rect><rect x="13" y="13" width="7.5" height="7.5" rx="1.6"></rect></svg></sc-if>
+            <sc-if value="{{ item.isRecruiters }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="1.6"></rect><path d="M8.5 7.5V6a2.5 2.5 0 0 1 2.5-2.5h2A2.5 2.5 0 0 1 15.5 6v1.5"></path><path d="M3.5 12.5h17"></path></svg></sc-if>
+            <sc-if value="{{ item.isCandidates }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5 20c0-3.6 3.1-6.5 7-6.5s7 2.9 7 6.5"></path></svg></sc-if>
+            <sc-if value="{{ item.isRoles }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5h6l4 4v13h-14v-17Z"></path><path d="M9 12h6M9 16h6"></path></svg></sc-if>
+            <sc-if value="{{ item.isModeration }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l6.5 2.8v5.4c0 4.3-2.8 7.6-6.5 8.8-3.7-1.2-6.5-4.5-6.5-8.8V6.3L12 3.5Z"></path><path d="m9 12 2 2 4-4"></path></svg></sc-if>
+            <sc-if value="{{ item.isSupport }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"></path><path d="M8 10h8M8 13h5"></path></svg></sc-if>
+            <sc-if value="{{ item.isReports }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1.5 1.5 0 0 1 1.5-1.5h9L20 9v10a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19Z"></path><path d="M8 12h8M8 15.5h8M8 8.5h4"></path></svg></sc-if>
+            <sc-if value="{{ item.isSystem }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3.5l1.8-6 3.4 12 2-9 1.3 3h4"></path></svg></sc-if>
+            <sc-if value="{{ item.isSettings }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 8.98 19a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.98a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1.03H21a2 2 0 1 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15Z"></path></svg></sc-if>
+          </span>
+          {{ item.label }}
+        </button>
+      </sc-for>
+    </nav>
+
+    <div style="padding:14px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; background:var(--surface-alt); border:1px solid var(--border);">
+        <span style="width:7px; height:7px; border-radius:50%; background:var(--glow-top); flex-shrink:0; animation:pulseDot 2s ease-in-out infinite;"></span>
+        <span style="font-size:11.5px; color:var(--text-2); font-family:'Geist Mono',ui-monospace,monospace;">All systems operational</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; padding:6px 4px;">
+        <div style="width:32px; height:32px; border-radius:50%; background:var(--surface-2); border:1px solid var(--border-glass); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--glow-top); flex-shrink:0;">SP</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:13px; font-weight:600; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Sam Patel</div>
+          <div style="font-size:11px; color:var(--text-3);">Super Admin · Trackd</div>
+        </div>
+        <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:30px; height:30px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text-2); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:border-color .15s ease-out,color .15s ease-out;" style-hover="border-color:var(--border-glass); color:var(--glow-top);">
+          <sc-if value="{{ isDark }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.4M12 19.1v2.4M4.5 12H2.1M21.9 12h-2.4M6.2 6.2 4.5 4.5M19.5 19.5l-1.7-1.7M6.2 17.8 4.5 19.5M19.5 4.5l-1.7 1.7"></path></svg></sc-if>
+          <sc-if value="{{ isLight }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z"></path></svg></sc-if>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <div style="flex:1; min-width:0; display:flex; flex-direction:column; height:100vh;">
+    <header style="flex-shrink:0; height:64px; display:flex; align-items:center; gap:16px; padding:0 clamp(16px,3vw,28px); border-bottom:1px solid var(--border);">
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ openSidebar }}" aria-label="Menu" style="width:34px; height:34px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+        </button>
+      </sc-if>
+      <h1 style="font-size:18px; font-weight:700; letter-spacing:-0.01em; flex-shrink:0;">{{ pageTitle }}</h1>
+      <div style="flex:1;"></div>
+      <sc-if value="{{ isRecruitersTab }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); pointer-events:none;"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input type="text" placeholder="Search recruiters..." value="{{ recSearchQuery }}" onInput="{{ setRecSearchQuery }}" style="width:clamp(140px,22vw,240px); padding:8px 12px 8px 32px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+        </div>
+      </sc-if>
+      <sc-if value="{{ isCandidatesTab }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); pointer-events:none;"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input type="text" placeholder="Search candidates..." value="{{ candSearchQuery }}" onInput="{{ setCandSearchQuery }}" style="width:clamp(140px,22vw,240px); padding:8px 12px 8px 32px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+        </div>
+      </sc-if>
+      <sc-if value="{{ isRolesTab }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); pointer-events:none;"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input type="text" placeholder="Search postings..." value="{{ roleSearchQuery }}" onInput="{{ setRoleSearchQuery }}" style="width:clamp(140px,22vw,240px); padding:8px 12px 8px 32px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+        </div>
+      </sc-if>
+      <sc-if value="{{ isModerationTab }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); pointer-events:none;"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input type="text" placeholder="Search flags..." value="{{ flagSearchQuery }}" onInput="{{ setFlagSearchQuery }}" style="width:clamp(140px,22vw,240px); padding:8px 12px 8px 32px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+        </div>
+      </sc-if>
+      <sc-if value="{{ isSupportTab }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); pointer-events:none;"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input type="text" placeholder="Search tickets..." value="{{ ticketSearchQuery }}" onInput="{{ setTicketSearchQuery }}" style="width:clamp(140px,22vw,240px); padding:8px 12px 8px 32px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+        </div>
+      </sc-if>
+      <sc-if value="{{ isReportsTab }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); pointer-events:none;"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input type="text" placeholder="Search audit log..." value="{{ auditSearchQuery }}" onInput="{{ setAuditSearchQuery }}" style="width:clamp(140px,22vw,240px); padding:8px 12px 8px 32px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+        </div>
+        <button onClick="{{ generateReport }}" style="display:flex; align-items:center; gap:6px; padding:9px 16px; border-radius:9px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); backdrop-filter:blur(10px); color:#fff; font-size:13.5px; font-weight:600; cursor:pointer; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          <span style="white-space:nowrap;">Generate report</span>
+        </button>
+      </sc-if>
+    </header>
+
+    <main style="flex:1; overflow-y:auto; padding:clamp(16px,3vw,28px);">
+
+      <sc-if value="{{ isOverviewTab }}" hint-placeholder-val="{{ true }}">
+        <h2 style="font-size:22px; font-weight:800; letter-spacing:-0.01em; margin-bottom:6px;">System overview</h2>
+        <p style="font-size:14px; color:var(--text-2); margin-bottom:24px;">Platform-wide health across every recruiter and candidate on Trackd.</p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px;">
+          <sc-for list="{{ overviewStats }}" as="s" hint-placeholder-count="4">
+            <div style="border:1px solid var(--border); border-radius:14px; padding:16px 18px; animation:revealUp .3s ease-out both;">
+              <div style="font-size:12px; color:var(--text-3); margin-bottom:8px;">{{ s.label }}</div>
+              <div style="display:flex; align-items:baseline; gap:8px;">
+                <span style="font-size:26px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace; letter-spacing:-0.02em;">{{ s.value }}</span>
+                <span style="{{ s.deltaStyle }}">{{ s.delta }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:24px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+            <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em;">Marketplace growth, last 6 months</div>
+            <div style="display:flex; gap:14px; font-size:11.5px; color:var(--text-2);">
+              <span style="display:flex; align-items:center; gap:6px;"><span style="width:8px; height:8px; border-radius:2px; background:var(--glow-top);"></span>Candidates</span>
+              <span style="display:flex; align-items:center; gap:6px;"><span style="width:8px; height:8px; border-radius:2px; background:var(--info);"></span>Recruiters</span>
+            </div>
+          </div>
+          <div style="display:flex; align-items:flex-end; gap:12px; height:120px;">
+            <sc-for list="{{ growthBars }}" as="b" hint-placeholder-count="6">
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end;">
+                <div style="display:flex; align-items:flex-end; gap:4px; height:100%;">
+                  <div style="{{ b.candStyle }}"></div>
+                  <div style="{{ b.recStyle }}"></div>
+                </div>
+                <span style="font-size:10.5px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ b.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:20px; flex-wrap:wrap;">
+          <div style="flex:1 1 320px; min-width:280px;">
+            <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:12px;">Needs attention</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <sc-for list="{{ needsAttention }}" as="card" hint-placeholder-count="3">
+                <button onClick="{{ card.onClick }}" style="width:100%; text-align:left; display:flex; align-items:center; gap:12px; border:1px solid var(--border); border-radius:12px; padding:14px; background:transparent; cursor:pointer; transition:transform .15s ease-out,border-color .15s ease-out;" style-hover="transform:translateY(-2px); border-color:var(--border-glass);">
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:13.5px; font-weight:700; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ card.title }}</div>
+                    <div style="font-size:12px; color:var(--text-3);">{{ card.subtitle }}</div>
+                  </div>
+                  <span style="{{ card.badgeStyle }}">{{ card.badgeLabel }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="flex:1 1 320px; min-width:280px;">
+            <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:12px;">Recent activity</div>
+            <div style="display:flex; flex-direction:column; gap:14px; border:1px solid var(--border); border-radius:14px; padding:16px;">
+              <sc-for list="{{ activityFeed }}" as="a" hint-placeholder-count="5">
+                <div style="display:flex; gap:12px; align-items:flex-start;">
+                  <span style="width:6px; height:6px; border-radius:50%; background:var(--glow-top); margin-top:6px; flex-shrink:0;"></span>
+                  <div style="flex:1;">
+                    <div style="font-size:13px; color:var(--text); line-height:1.4;">{{ a.text }}</div>
+                    <div style="font-size:11px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ a.time }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isRecruitersTab }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); width:fit-content;">
+            <sc-for list="{{ recStatusFilters }}" as="f" hint-placeholder-count="3">
+              <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:12px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ recResultsLabel }}</div>
+        </div>
+        <div style="border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+          <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Company</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Plan</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Seats</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Open roles</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Hires</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Status</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Last active</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ recruiterRows }}" as="row" hint-placeholder-count="8">
+                <tr onClick="{{ row.onClick }}" style="cursor:pointer; transition:background-color .15s ease-out;" style-hover="background-color:var(--surface-alt);">
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); font-weight:700; white-space:nowrap;">{{ row.name }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.plan }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); font-family:'Geist Mono',ui-monospace,monospace; white-space:nowrap;">{{ row.seatsLabel }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.openRoles }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.hires }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); white-space:nowrap;"><span style="{{ row.statusBadgeStyle }}">{{ row.statusLabel }}</span></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace; white-space:nowrap;">{{ row.lastActive }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isCandidatesTab }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); width:fit-content;">
+            <sc-for list="{{ candStatusFilters }}" as="f" hint-placeholder-count="4">
+              <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:12px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ candResultsLabel }}</div>
+        </div>
+        <div style="border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+          <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Candidate</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Applications</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Risk</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Status</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Signed up</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ candidateRows }}" as="row" hint-placeholder-count="8">
+                <tr onClick="{{ row.onClick }}" style="cursor:pointer; transition:background-color .15s ease-out;" style-hover="background-color:var(--surface-alt);">
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border);">
+                    <div style="font-weight:600; color:var(--text); white-space:nowrap;">{{ row.name }}</div>
+                    <div style="font-size:11.5px; color:var(--text-3); white-space:nowrap;">{{ row.email }}</div>
+                  </td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.applications }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); white-space:nowrap;"><span style="{{ row.riskStyle }}">{{ row.riskLabel }}</span></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); white-space:nowrap;"><span style="{{ row.statusBadgeStyle }}">{{ row.statusLabel }}</span></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace; white-space:nowrap;">{{ row.signup }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isRolesTab }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); width:fit-content;">
+            <sc-for list="{{ roleStatusFilters }}" as="f" hint-placeholder-count="5">
+              <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:12px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ roleResultsLabel }}</div>
+        </div>
+        <div style="border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+          <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Role</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Company</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Applicants</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Status</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Posted</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ roleRows }}" as="row" hint-placeholder-count="8">
+                <tr onClick="{{ row.onClick }}" style="cursor:pointer; transition:background-color .15s ease-out;" style-hover="background-color:var(--surface-alt);">
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); font-weight:600; color:var(--text); white-space:nowrap;">{{ row.title }}<span style="{{ row.flagDotStyle }}"></span></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.company }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.applicants }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); white-space:nowrap;"><span style="{{ row.statusBadgeStyle }}">{{ row.statusLabel }}</span></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace; white-space:nowrap;">{{ row.posted }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isModerationTab }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); width:fit-content;">
+            <sc-for list="{{ flagStatusFilters }}" as="f" hint-placeholder-count="4">
+              <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:12px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ flagResultsLabel }}</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <sc-for list="{{ flagRows }}" as="row" hint-placeholder-count="6">
+            <div style="border:1px solid var(--border); border-radius:14px; padding:16px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; animation:revealUp .25s ease-out both;">
+              <div style="flex:1; min-width:220px;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap;">
+                  <span style="{{ row.severityStyle }}">{{ row.severityLabel }}</span>
+                  <span style="font-size:11px; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em;">{{ row.typeLabel }}</span>
+                  <span style="{{ row.statusStyle }}">{{ row.statusLabel }}</span>
+                </div>
+                <div style="font-size:14px; font-weight:600; color:var(--text); margin-bottom:6px; line-height:1.4;">{{ row.subject }}</div>
+                <div style="font-size:12px; color:var(--text-3);">Reported by {{ row.reporter }} · {{ row.date }}</div>
+              </div>
+              <div style="display:flex; gap:8px; flex-shrink:0;">
+                <sc-if value="{{ row.canEscalate }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ row.onEscalate }}" style="font-size:11.5px; font-weight:600; padding:7px 14px; border-radius:999px; border:1px solid var(--border-glass); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; cursor:pointer; transition:transform .15s ease-out;" style-hover="transform:translateY(-2px);">Escalate</button>
+                </sc-if>
+                <sc-if value="{{ row.canResolve }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ row.onResolve }}" style="font-size:11.5px; font-weight:600; padding:7px 14px; border-radius:999px; border:1px solid var(--border); background:transparent; color:var(--text-2); cursor:pointer;">Resolve</button>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSupportTab }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px;">
+          <sc-for list="{{ supportStats }}" as="s" hint-placeholder-count="4">
+            <div style="border:1px solid var(--border); border-radius:14px; padding:16px 18px; animation:revealUp .3s ease-out both;">
+              <div style="font-size:12px; color:var(--text-3); margin-bottom:8px;">{{ s.label }}</div>
+              <div style="display:flex; align-items:baseline; gap:8px;">
+                <span style="font-size:26px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace; letter-spacing:-0.02em;">{{ s.value }}</span>
+                <span style="{{ s.deltaStyle }}">{{ s.delta }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); width:fit-content;">
+            <sc-for list="{{ ticketStatusFilters }}" as="f" hint-placeholder-count="4">
+              <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:12px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ ticketResultsLabel }}</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <sc-for list="{{ ticketRows }}" as="t" hint-placeholder-count="6">
+            <button onClick="{{ t.onClick }}" style="width:100%; text-align:left; border:1px solid var(--border); border-radius:14px; padding:16px; background:transparent; cursor:pointer; display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap; transition:transform .15s ease-out,border-color .15s ease-out;" style-hover="transform:translateY(-2px); border-color:var(--border-glass);">
+              <div style="width:36px; height:36px; border-radius:50%; background:var(--surface-2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:12.5px; font-weight:700; color:var(--text-2); flex-shrink:0;">{{ t.initials }}</div>
+              <div style="flex:1; min-width:220px;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap;">
+                  <span style="font-size:14px; font-weight:700; color:var(--text);">{{ t.name }}</span>
+                  <span style="{{ t.roleTagStyle }}">{{ t.roleTag }}</span>
+                  <span style="{{ t.statusStyle }}">{{ t.statusLabel }}</span>
+                </div>
+                <div style="font-size:13.5px; color:var(--text-2); margin-bottom:4px;">{{ t.subject }}</div>
+                <div style="font-size:12px; color:var(--text-3);">{{ t.email }} · {{ t.date }}</div>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isReportsTab }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h2 style="font-size:22px; font-weight:800; letter-spacing:-0.01em; margin-bottom:4px;">Reports &amp; audit trail</h2>
+            <p style="font-size:14px; color:var(--text-2);">Review platform activity for any period, or generate a report to export.</p>
+          </div>
+          <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); width:fit-content; flex-shrink:0;">
+            <sc-for list="{{ reportPeriodOptions }}" as="opt" hint-placeholder-count="4">
+              <button onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:28px;">
+          <sc-for list="{{ reportStats }}" as="s" hint-placeholder-count="4">
+            <div style="border:1px solid var(--border); border-radius:14px; padding:16px 18px; animation:revealUp .3s ease-out both;">
+              <div style="font-size:12px; color:var(--text-3); margin-bottom:8px;">{{ s.label }}</div>
+              <div style="display:flex; align-items:baseline; gap:8px;">
+                <span style="font-size:26px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace; letter-spacing:-0.02em;">{{ s.value }}</span>
+                <span style="{{ s.deltaStyle }}">{{ s.delta }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ reportGenerated }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; align-items:center; gap:12px; padding:14px 18px; border:1px solid var(--border-glass); background:color-mix(in srgb, var(--glow-top) 8%, var(--surface)); border-radius:12px; margin-bottom:24px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--glow-top)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="m5 12 5 5 9-11"></path></svg>
+            <span style="font-size:13.5px; color:var(--text); flex:1;">Report generated for {{ reportPeriodLabel }} — ready to download.</span>
+            <button style="font-size:12px; font-weight:600; padding:7px 14px; border-radius:999px; border:1px solid var(--border-glass); background:var(--surface); color:var(--glow-top); cursor:pointer; flex-shrink:0;">Download PDF</button>
+          </div>
+        </sc-if>
+
+        <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:28px;">
+          <div style="flex:2 1 420px; min-width:320px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+              <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em;">Audit log</div>
+              <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); width:fit-content;">
+                <sc-for list="{{ auditCategoryFilters }}" as="f" hint-placeholder-count="5">
+                  <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="border:1px solid var(--border); border-radius:14px; overflow-x:auto;">
+              <table style="width:100%; border-collapse:collapse; font-size:13px;">
+                <thead>
+                  <tr>
+                    <th style="text-align:left; padding:10px 14px; color:var(--text-3); font-weight:600; font-size:10.5px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Actor</th>
+                    <th style="text-align:left; padding:10px 14px; color:var(--text-3); font-weight:600; font-size:10.5px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Action</th>
+                    <th style="text-align:left; padding:10px 14px; color:var(--text-3); font-weight:600; font-size:10.5px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Target</th>
+                    <th style="text-align:left; padding:10px 14px; color:var(--text-3); font-weight:600; font-size:10.5px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ auditRows }}" as="row" hint-placeholder-count="8">
+                    <tr>
+                      <td style="padding:10px 14px; border-bottom:1px solid var(--border); white-space:nowrap;">
+                        <div style="font-weight:600; color:var(--text);">{{ row.actor }}</div>
+                        <div style="font-size:11px; color:var(--text-3);">{{ row.role }}</div>
+                      </td>
+                      <td style="padding:10px 14px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.action }}</td>
+                      <td style="padding:10px 14px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.target }}</td>
+                      <td style="padding:10px 14px; border-bottom:1px solid var(--border); color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace; white-space:nowrap;">{{ row.time }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="flex:1 1 260px; min-width:240px;">
+            <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:12px;">Past reports</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <sc-for list="{{ pastReports }}" as="r" hint-placeholder-count="3">
+                <div style="border:1px solid var(--border); border-radius:12px; padding:14px;">
+                  <div style="font-size:13.5px; font-weight:700; color:var(--text); margin-bottom:4px;">{{ r.name }}</div>
+                  <div style="font-size:11.5px; color:var(--text-3); margin-bottom:10px;">{{ r.period }} · generated {{ r.generated }}</div>
+                  <button style="font-size:11.5px; font-weight:600; padding:6px 12px; border-radius:999px; border:1px solid var(--border-glass); background:var(--surface-alt); color:var(--glow-top); cursor:pointer;">Download</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSystemTab }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px;">
+          <sc-for list="{{ systemStats }}" as="s" hint-placeholder-count="4">
+            <div style="border:1px solid var(--border); border-radius:14px; padding:16px 18px; animation:revealUp .3s ease-out both;">
+              <div style="font-size:12px; color:var(--text-3); margin-bottom:8px;">{{ s.label }}</div>
+              <div style="display:flex; align-items:baseline; gap:8px;">
+                <span style="font-size:26px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace; letter-spacing:-0.02em;">{{ s.value }}</span>
+                <span style="{{ s.deltaStyle }}">{{ s.delta }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:12px;">Incident log</div>
+        <div style="border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+          <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Service</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Severity</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Status</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Time</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Message</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ incidentRows }}" as="row" hint-placeholder-count="6">
+                <tr>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); font-weight:600; color:var(--text); white-space:nowrap;">{{ row.service }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); white-space:nowrap;"><span style="{{ row.severityStyle }}">{{ row.severityLabel }}</span></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); white-space:nowrap;"><span style="{{ row.statusStyle }}">{{ row.statusLabel }}</span></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace; white-space:nowrap;">{{ row.time }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2);">{{ row.message }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSettingsTab }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font-size:22px; font-weight:800; letter-spacing:-0.01em; margin-bottom:6px;">Admin settings</h2>
+        <p style="font-size:14px; color:var(--text-2); margin-bottom:28px;">Manage admin access and platform-wide controls.</p>
+
+        <div style="max-width:600px; display:flex; flex-direction:column; gap:24px;">
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:16px;">Admin users</div>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
+              <sc-for list="{{ adminRows }}" as="a" hint-placeholder-count="4">
+                <div style="display:flex; align-items:center; gap:12px; padding:10px 12px; border:1px solid var(--border); border-radius:10px;">
+                  <div style="width:30px; height:30px; border-radius:50%; background:var(--surface-2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--text-2); flex-shrink:0;">{{ a.initials }}</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:13.5px; font-weight:600; color:var(--text); white-space:nowrap;">{{ a.name }}</div>
+                    <div style="font-size:11.5px; color:var(--text-3); white-space:nowrap;">{{ a.email }}</div>
+                  </div>
+                  <span style="font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; background:var(--surface-alt); border:1px solid var(--border-glass); color:var(--glow-top); flex-shrink:0;">{{ a.role }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px; padding-top:16px; border-top:1px solid var(--border);">
+              <div style="font-size:12.5px; font-weight:600; color:var(--text-2);">Invite an admin</div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <input type="text" placeholder="Name" value="{{ inviteName }}" onInput="{{ setInviteName }}" style="flex:1 1 140px; padding:9px 12px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+                <input type="email" placeholder="Email" value="{{ inviteEmail }}" onInput="{{ setInviteEmail }}" style="flex:1 1 160px; padding:9px 12px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <sc-for list="{{ inviteRoleOptions }}" as="r" hint-placeholder-count="3">
+                  <button onClick="{{ r.onClick }}" style="{{ r.style }}">{{ r.label }}</button>
+                </sc-for>
+              </div>
+              <button onClick="{{ addAdmin }}" style="align-self:flex-start; margin-top:4px; display:flex; align-items:center; gap:6px; padding:9px 16px; border-radius:9px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:13px; font-weight:600; cursor:pointer; box-shadow:inset 0 1px 0 rgba(255,255,255,0.3);">Send invite</button>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:16px;">Platform controls</div>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                  <div style="font-size:13.5px; font-weight:600;">Maintenance mode</div>
+                  <div style="font-size:12px; color:var(--text-3);">Shows a banner to all users, pauses new applications</div>
+                </div>
+                <button onClick="{{ toggleMaintenance }}" style="{{ maintenanceToggleStyle }}"><span style="{{ maintenanceKnobStyle }}"></span></button>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                  <div style="font-size:13.5px; font-weight:600;">Pause new signups</div>
+                  <div style="font-size:12px; color:var(--text-3);">Temporarily disable new recruiter and candidate accounts</div>
+                </div>
+                <button onClick="{{ toggleSignups }}" style="{{ signupsToggleStyle }}"><span style="{{ signupsKnobStyle }}"></span></button>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:6px; color:var(--text-2);">Emergency controls</div>
+            <p style="font-size:12.5px; color:var(--text-3); margin-bottom:14px;">Immediately restrict platform access for all non-admin roles during an active incident.</p>
+            <button onClick="{{ toggleLockdown }}" style="{{ lockdownBtnStyle }}">{{ lockdownLabel }}</button>
+          </div>
+        </div>
+      </sc-if>
+
+    </main>
+  </div>
+
+  <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:95; background:rgba(0,0,0,0.5); animation:fadeIn .15s ease-out both;" onClick="{{ closeDrawer }}"></div>
+    <div style="position:fixed; top:0; right:0; bottom:0; width:min(420px,100vw); z-index:96; background:var(--surface); border-left:1px solid var(--border); padding:24px; overflow-y:auto; animation:slideInRight .25s ease-out both;">
+
+      <sc-if value="{{ isCompanyDrawer }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px;">
+          <div>
+            <div style="font-size:17px; font-weight:700;">{{ activeCompany.name }}</div>
+            <div style="font-size:13px; color:var(--text-2);">{{ activeCompany.plan }} plan</div>
+          </div>
+          <button onClick="{{ closeDrawer }}" aria-label="Close" style="width:28px; height:28px; border-radius:8px; border:none; background:transparent; color:var(--text-3); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+          <span style="{{ activeCompany.statusBadgeStyle }}">{{ activeCompany.statusLabel }}</span>
+          <span style="font-size:12px; color:var(--text-3);">Last active {{ activeCompany.lastActive }}</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
+          <div style="border:1px solid var(--border); border-radius:12px; padding:14px;">
+            <div style="font-size:11.5px; color:var(--text-3); margin-bottom:6px;">Seats used</div>
+            <div style="font-size:19px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace;">{{ activeCompany.seatsLabel }}</div>
+          </div>
+          <div style="border:1px solid var(--border); border-radius:12px; padding:14px;">
+            <div style="font-size:11.5px; color:var(--text-3); margin-bottom:6px;">Open roles</div>
+            <div style="font-size:19px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace;">{{ activeCompany.openRoles }}</div>
+          </div>
+          <div style="border:1px solid var(--border); border-radius:12px; padding:14px;">
+            <div style="font-size:11.5px; color:var(--text-3); margin-bottom:6px;">Total hires</div>
+            <div style="font-size:19px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace;">{{ activeCompany.hires }}</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button onClick="{{ closeDrawer }}" style="flex:1; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:600; font-size:13.5px; cursor:pointer;">Close</button>
+          <button onClick="{{ toggleCompanyStatus }}" style="{{ activeCompany.actionBtnStyle }} flex:1; justify-content:center;">{{ activeCompany.actionLabel }}</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isCandidateDrawer }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px;">
+          <div>
+            <div style="font-size:17px; font-weight:700;">{{ activeCandidateAcct.name }}</div>
+            <div style="font-size:13px; color:var(--text-2);">{{ activeCandidateAcct.email }}</div>
+          </div>
+          <button onClick="{{ closeDrawer }}" aria-label="Close" style="width:28px; height:28px; border-radius:8px; border:none; background:transparent; color:var(--text-3); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px; border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:20px;">
+          <svg width="64" height="64" viewBox="0 0 64 64" style="transform:rotate(-90deg); flex-shrink:0;">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="var(--border)" stroke-width="6"></circle>
+            <circle cx="32" cy="32" r="26" fill="none" stroke="{{ activeCandidateAcct.ringColor }}" stroke-width="6" stroke-linecap="round" stroke-dasharray="163" style="{{ activeCandidateAcct.dashStyle }}"></circle>
+          </svg>
+          <div>
+            <div style="font-size:22px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace; color:{{ activeCandidateAcct.ringColor }};">{{ activeCandidateAcct.riskLabel }}</div>
+            <div style="font-size:12px; color:var(--text-3);">Risk score</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+          <span style="{{ activeCandidateAcct.statusBadgeStyle }}">{{ activeCandidateAcct.statusLabel }}</span>
+          <span style="font-size:12px; color:var(--text-3);">{{ activeCandidateAcct.applications }} applications · signed up {{ activeCandidateAcct.signup }}</span>
+        </div>
+        <sc-if value="{{ activeCandidateAcct.hasFlags }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-bottom:24px;">
+            <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;">Flags</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <sc-for list="{{ activeCandidateAcct.flags }}" as="fl" hint-placeholder-count="2">
+                <div style="font-size:12.5px; padding:8px 12px; border-radius:9px; background:color-mix(in srgb, var(--glow-top) 10%, var(--surface)); border:1px solid var(--border-glass); color:var(--text);">{{ fl }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <div style="display:flex; gap:10px;">
+          <button onClick="{{ closeDrawer }}" style="flex:1; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:600; font-size:13.5px; cursor:pointer;">Close</button>
+          <button onClick="{{ toggleCandidateAcctStatus }}" style="{{ activeCandidateAcct.actionBtnStyle }} flex:1; justify-content:center;">{{ activeCandidateAcct.actionLabel }}</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isTicketDrawer }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px;">
+          <div>
+            <div style="font-size:17px; font-weight:700;">{{ activeTicket.name }}</div>
+            <div style="font-size:13px; color:var(--text-2);">{{ activeTicket.email }}</div>
+          </div>
+          <button onClick="{{ closeDrawer }}" aria-label="Close" style="width:28px; height:28px; border-radius:8px; border:none; background:transparent; color:var(--text-3); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+          <span style="{{ activeTicket.roleTagStyle }}">{{ activeTicket.roleTag }}</span>
+          <span style="{{ activeTicket.statusStyle }}">{{ activeTicket.statusLabel }}</span>
+          <span style="font-size:12px; color:var(--text-3);">{{ activeTicket.date }}</span>
+        </div>
+        <div style="border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:16px;">
+          <div style="font-size:13.5px; font-weight:700; margin-bottom:6px;">{{ activeTicket.subject }}</div>
+          <p style="font-size:13px; color:var(--text-2); line-height:1.6;">{{ activeTicket.message }}</p>
+        </div>
+        <sc-if value="{{ activeTicket.hasReplies }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+            <sc-for list="{{ activeTicket.replies }}" as="r" hint-placeholder-count="2">
+              <div style="border:1px solid var(--border-glass); background:var(--surface-alt); border-radius:12px; padding:14px;">
+                <div style="font-size:11.5px; font-weight:700; color:var(--glow-top); margin-bottom:4px;">{{ r.author }} · {{ r.time }}</div>
+                <p style="font-size:12.5px; color:var(--text-2); line-height:1.5;">{{ r.text }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; font-size:12px; font-weight:600; color:var(--text-2); margin-bottom:8px;">Reply</label>
+          <textarea rows="4" placeholder="Write a response…" value="{{ ticketReplyDraft }}" onInput="{{ setTicketReplyDraft }}" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13.5px; resize:none;"></textarea>
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <button onClick="{{ closeDrawer }}" style="flex:1; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:600; font-size:13.5px; cursor:pointer;">Close</button>
+          <button onClick="{{ sendTicketReply }}" style="flex:1; justify-content:center; display:flex; align-items:center; gap:6px; padding:11px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:13.5px; font-weight:600; cursor:pointer;">Send reply</button>
+        </div>
+        <button onClick="{{ closeTicket }}" style="width:100%; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-weight:600; font-size:13px; cursor:pointer;">{{ closeTicketLabel }}</button>
+      </sc-if>
+
+      <sc-if value="{{ isRoleDrawer }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px;">
+          <div>
+            <div style="font-size:17px; font-weight:700;">{{ activeRoleRow.title }}</div>
+            <div style="font-size:13px; color:var(--text-2);">{{ activeRoleRow.company }}</div>
+          </div>
+          <button onClick="{{ closeDrawer }}" aria-label="Close" style="width:28px; height:28px; border-radius:8px; border:none; background:transparent; color:var(--text-3); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px;">
+          <span style="{{ activeRoleRow.statusBadgeStyle }}">{{ activeRoleRow.statusLabel }}</span>
+          <span style="font-size:12px; color:var(--text-3);">{{ activeRoleRow.applicants }} applicants · posted {{ activeRoleRow.posted }}</span>
+        </div>
+        <sc-if value="{{ activeRoleRow.flagged }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12.5px; padding:10px 14px; border-radius:10px; background:color-mix(in srgb, var(--glow-top) 10%, var(--surface)); border:1px solid var(--border-glass); color:var(--text); margin-bottom:20px;">This posting has been flagged and is pending review.</div>
+        </sc-if>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <button onClick="{{ closeDrawer }}" style="flex:1; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:600; font-size:13.5px; cursor:pointer;">Close</button>
+          <button onClick="{{ toggleRoleListing }}" style="{{ activeRoleRow.actionBtnStyle }} flex:1; justify-content:center;">{{ activeRoleRow.actionLabel }}</button>
+        </div>
+        <sc-if value="{{ activeRoleRow.flagged }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ clearRoleFlag }}" style="width:100%; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-weight:600; font-size:13px; cursor:pointer;">Clear flag</button>
+        </sc-if>
+      </sc-if>
+
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dark&quot;,&quot;options&quot;:[&quot;dark&quot;,&quot;light&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+const THEME_VARS = {
+  dark: { '--bg':'#09090B','--surface':'#18181B','--surface-2':'#1F1F23','--surface-alt':'rgba(255,255,255,0.045)','--brand':'#2438BD','--brand-2':'#0F52BA','--glow-mid':'#007FFF','--glow-top':'#52E8FF','--info':'#007BA7','--energy':'#0AFFFF','--text':'#FAFAFA','--text-2':'#A1A1AA','--text-3':'#71717A','--border':'rgba(255,255,255,0.10)','--border-glass':'rgba(82,232,255,0.20)' },
+  light: { '--bg':'#F3F6FF','--surface':'#FFFFFF','--surface-2':'#F1F4FC','--surface-alt':'rgba(15,82,186,0.05)','--brand':'#2438BD','--brand-2':'#0F52BA','--glow-mid':'#007FFF','--glow-top':'#0F52BA','--info':'#007BA7','--energy':'#00A9B4','--text':'#0A1040','--text-2':'#28348E','--text-3':'#5C6FA8','--border':'rgba(10,20,70,0.10)','--border-glass':'rgba(0,127,255,0.22)' }
+};
+
+const NAV_ITEMS = [
+  { key: 'overview', label: 'Overview', isOverview: true },
+  { key: 'recruiters', label: 'Recruiters', isRecruiters: true },
+  { key: 'candidates', label: 'Candidates', isCandidates: true },
+  { key: 'roles', label: 'Roles', isRoles: true },
+  { key: 'moderation', label: 'Moderation', isModeration: true },
+  { key: 'support', label: 'Support', isSupport: true },
+  { key: 'reports', label: 'Reports', isReports: true },
+  { key: 'system', label: 'System', isSystem: true },
+  { key: 'settings', label: 'Settings', isSettings: true }
+];
+
+const AUDIT_LOG = [
+  { id: 1, actor: 'Sam Patel', role: 'Super Admin', action: 'Suspended workspace', target: 'Ramp', category: 'account', time: 'Jul 17, 14:02' },
+  { id: 2, actor: 'Elena Cho', role: 'Moderator', action: 'Escalated flag', target: 'Nina Kowalski', category: 'moderation', time: 'Jul 16, 09:41' },
+  { id: 3, actor: 'System', role: 'Automated', action: 'Suspended account (risk score)', target: 'Grace Liu', category: 'moderation', time: 'Jul 12, 03:10' },
+  { id: 4, actor: 'Marcus Webb', role: 'Support', action: 'Replied to ticket', target: 'Priya Shah', category: 'support', time: 'Jul 16, 11:20' },
+  { id: 5, actor: 'Priya Shah', role: 'Super Admin', action: 'Invited admin', target: 'Elena Cho', category: 'account', time: 'Jul 14, 16:33' },
+  { id: 6, actor: 'Sam Patel', role: 'Super Admin', action: 'Enabled maintenance mode', target: 'Platform', category: 'system', time: 'Jul 11, 22:15' },
+  { id: 7, actor: 'System', role: 'Automated', action: 'Removed listing (flagged)', target: 'Backend Engineer @ Ramp', category: 'moderation', time: 'Jul 10, 08:05' },
+  { id: 8, actor: 'Sam Patel', role: 'Super Admin', action: 'Reinstated account', target: 'Priya Nandakumar', category: 'account', time: 'Jul 9, 13:47' },
+  { id: 9, actor: 'Elena Cho', role: 'Moderator', action: 'Resolved flag', target: 'Product Designer @ Notion', category: 'moderation', time: 'Jul 8, 10:12' },
+  { id: 10, actor: 'Sam Patel', role: 'Super Admin', action: 'Updated billing plan', target: 'Stripe', category: 'billing', time: 'Jul 5, 17:30' }
+];
+
+const PAST_REPORTS = [
+  { id: 1, name: 'Q2 2026 Platform Summary', period: 'Apr 1 – Jun 30, 2026', generated: 'Jul 1' },
+  { id: 2, name: 'June Moderation Report', period: 'Jun 1 – Jun 30, 2026', generated: 'Jul 1' },
+  { id: 3, name: 'May Billing & Growth Report', period: 'May 1 – May 31, 2026', generated: 'Jun 2' }
+];
+
+const COMPANIES = [
+  { id: 1, name: 'Acme Inc.', plan: 'Growth', seatsUsed: 12, seats: 15, openRoles: 3, hires: 24, status: 'active', lastActive: '2h ago' },
+  { id: 2, name: 'Stripe', plan: 'Enterprise', seatsUsed: 40, seats: 50, openRoles: 8, hires: 61, status: 'active', lastActive: '15m ago' },
+  { id: 3, name: 'Vercel', plan: 'Enterprise', seatsUsed: 18, seats: 20, openRoles: 5, hires: 33, status: 'active', lastActive: '1h ago' },
+  { id: 4, name: 'Linear', plan: 'Growth', seatsUsed: 6, seats: 10, openRoles: 2, hires: 14, status: 'active', lastActive: '3h ago' },
+  { id: 5, name: 'Notion', plan: 'Enterprise', seatsUsed: 22, seats: 25, openRoles: 4, hires: 40, status: 'active', lastActive: '30m ago' },
+  { id: 6, name: 'Ramp', plan: 'Starter', seatsUsed: 9, seats: 10, openRoles: 1, hires: 8, status: 'suspended', lastActive: '5d ago' },
+  { id: 7, name: 'Brex', plan: 'Growth', seatsUsed: 15, seats: 15, openRoles: 3, hires: 19, status: 'active', lastActive: '4h ago' },
+  { id: 8, name: 'Ashby', plan: 'Starter', seatsUsed: 5, seats: 10, openRoles: 2, hires: 6, status: 'active', lastActive: '1d ago' }
+];
+
+const CAND_ACCOUNTS = [
+  { id: 1, name: 'Jordan Rivera', email: 'jordan@example.com', status: 'active', applications: 6, signup: 'Mar 12', risk: 8, flags: [] },
+  { id: 2, name: 'Maya Alvarez', email: 'maya.alvarez@mail.com', status: 'active', applications: 9, signup: 'Jan 30', risk: 4, flags: [] },
+  { id: 3, name: 'Daniel Osei', email: 'daniel.osei@mail.com', status: 'active', applications: 5, signup: 'Feb 18', risk: 12, flags: [] },
+  { id: 4, name: 'Priya Nandakumar', email: 'priya.n@mail.com', status: 'flagged', applications: 11, signup: 'Apr 2', risk: 64, flags: ['Duplicate profile suspected'] },
+  { id: 5, name: 'Ken Ishida', email: 'ken.ishida@mail.com', status: 'active', applications: 3, signup: 'May 9', risk: 6, flags: [] },
+  { id: 6, name: 'Sofia Marin', email: 'sofia.marin@mail.com', status: 'active', applications: 7, signup: 'Jan 5', risk: 10, flags: [] },
+  { id: 7, name: 'Theo Brandt', email: 'theo.brandt@mail.com', status: 'active', applications: 4, signup: 'Jun 1', risk: 5, flags: [] },
+  { id: 8, name: 'Nina Kowalski', email: 'nina.k@mail.com', status: 'flagged', applications: 2, signup: 'Jul 10', risk: 71, flags: ['Unverified identity', 'Signup velocity anomaly'] },
+  { id: 9, name: 'Omar Haddad', email: 'omar.haddad@mail.com', status: 'active', applications: 8, signup: 'Mar 22', risk: 9, flags: [] },
+  { id: 10, name: 'Grace Liu', email: 'grace.liu@mail.com', status: 'suspended', applications: 1, signup: 'Feb 2', risk: 82, flags: ['Fake job offer scam reported'] }
+];
+
+const ROLE_POSTINGS = [
+  { id: 1, title: 'Senior Frontend Engineer', company: 'Acme Inc.', applicants: 5, status: 'open', posted: 'Jun 1', flagged: false },
+  { id: 2, title: 'Product Designer', company: 'Acme Inc.', applicants: 2, status: 'open', posted: 'Jun 20', flagged: false },
+  { id: 3, title: 'Backend Engineer', company: 'Acme Inc.', applicants: 2, status: 'open', posted: 'May 15', flagged: false },
+  { id: 4, title: 'Senior Product Designer', company: 'Stripe', applicants: 14, status: 'open', posted: 'May 2', flagged: false },
+  { id: 5, title: 'Senior Frontend Engineer', company: 'Vercel', applicants: 22, status: 'open', posted: 'Apr 28', flagged: false },
+  { id: 6, title: 'Design Engineer', company: 'Linear', applicants: 9, status: 'filled', posted: 'Mar 10', flagged: false },
+  { id: 7, title: 'Product Designer', company: 'Notion', applicants: 6, status: 'open', posted: 'Jun 15', flagged: true },
+  { id: 8, title: 'Backend Engineer', company: 'Ramp', applicants: 3, status: 'closed', posted: 'Feb 9', flagged: true },
+  { id: 9, title: 'Senior Designer', company: 'Brex', applicants: 8, status: 'open', posted: 'Jun 1', flagged: false },
+  { id: 10, title: 'Frontend Engineer', company: 'Ashby', applicants: 4, status: 'open', posted: 'Jun 8', flagged: false }
+];
+
+const FLAGS = [
+  { id: 1, type: 'profile', subject: 'Nina Kowalski — unverified identity, signup velocity anomaly', severity: 'high', status: 'open', reporter: 'System', date: 'Jul 17' },
+  { id: 2, type: 'posting', subject: 'Backend Engineer @ Ramp — misleading compensation range', severity: 'high', status: 'escalated', reporter: 'Candidate report', date: 'Jul 15' },
+  { id: 3, type: 'profile', subject: 'Priya Nandakumar — duplicate account suspected', severity: 'medium', status: 'open', reporter: 'System', date: 'Jul 16' },
+  { id: 4, type: 'dispute', subject: 'Stripe vs. candidate — interview no-show dispute', severity: 'low', status: 'open', reporter: 'Recruiter', date: 'Jul 14' },
+  { id: 5, type: 'profile', subject: 'Grace Liu — fake job offer scam reported', severity: 'high', status: 'escalated', reporter: 'Candidate report', date: 'Jul 12' },
+  { id: 6, type: 'posting', subject: 'Product Designer @ Notion — spam flag from 3 users', severity: 'medium', status: 'resolved', reporter: 'Candidate report', date: 'Jul 10' },
+  { id: 7, type: 'dispute', subject: 'Brex — candidate withdrew after signed offer', severity: 'low', status: 'resolved', reporter: 'Recruiter', date: 'Jul 8' }
+];
+
+const INCIDENTS = [
+  { id: 1, service: 'Auth (SSO)', severity: 'warning', status: 'monitoring', time: 'Jul 17, 06:40', message: 'Google SSO callback errors — 0.4% of logins' },
+  { id: 2, service: 'Matching Engine', severity: 'info', status: 'resolved', time: 'Jul 17, 09:12', message: 'Elevated latency in scoring pipeline (12m)' },
+  { id: 3, service: 'API Gateway', severity: 'critical', status: 'resolved', time: 'Jul 14, 22:03', message: 'Rate-limit misconfiguration caused 502s for 8 min' },
+  { id: 4, service: 'Smart Ingestion', severity: 'info', status: 'resolved', time: 'Jul 12, 14:20', message: 'Parser model deploy, brief queue backlog' },
+  { id: 5, service: 'Notifications', severity: 'warning', status: 'resolved', time: 'Jul 9, 03:15', message: 'Email delivery delay via provider (45m)' },
+  { id: 6, service: 'Database', severity: 'info', status: 'resolved', time: 'Jul 3, 11:00', message: 'Scheduled maintenance, read replicas' }
+];
+
+const SUPPORT_TICKETS = [
+  { id: 1, name: 'Jordan Rivera', email: 'jordan@example.com', role: 'candidate', subject: 'Extension not capturing job posts', message: "I installed the Trackd extension but clicking it on LinkedIn job posts doesn't add anything to my Ingestion queue.", status: 'open', date: 'Jul 17', replies: [] },
+  { id: 2, name: 'Priya Shah (Notion)', email: 'priya.shah@notion.so', role: 'recruiter', subject: 'Billing question on seat count', message: 'We added 3 new teammates this week — when does the seat count update on our invoice?', status: 'replied', date: 'Jul 16', replies: [{ author: 'Marcus Webb', time: 'Jul 16', text: 'Seats update immediately and prorate on your next invoice — no action needed on your end.' }] },
+  { id: 3, name: 'Ken Ishida', email: 'ken.ishida@mail.com', role: 'candidate', subject: 'Cover letter generator stuck loading', message: 'The AI cover letter tool has been spinning for 10+ minutes on the Insights page.', status: 'open', date: 'Jul 17', replies: [] },
+  { id: 4, name: 'Sam Torres (Brex)', email: 'sam.torres@brex.com', role: 'recruiter', subject: 'Duplicate applicant showing twice', message: 'One candidate appears twice in our Candidates tab for the same role — possible dedupe bug.', status: 'open', date: 'Jul 15', replies: [] },
+  { id: 5, name: 'Nina Kowalski', email: 'nina.k@mail.com', role: 'candidate', subject: 'Account flagged in error', message: 'My account shows as flagged but I only have one profile — can someone review?', status: 'escalated', date: 'Jul 16', replies: [{ author: 'Elena Cho', time: 'Jul 16', text: "Escalated to trust & safety for manual review — we'll follow up within 24h." }] },
+  { id: 6, name: 'Theo Brandt', email: 'theo.brandt@mail.com', role: 'candidate', subject: 'Feature request: export pipeline to CSV', message: 'Would love a way to export my Pipeline table view for my own records.', status: 'closed', date: 'Jul 10', replies: [{ author: 'Sam Patel', time: 'Jul 11', text: "Logged for the roadmap, thanks for the suggestion!" }] },
+  { id: 7, name: 'Dana Wu (Ashby)', email: 'dana.wu@ashby.com', role: 'recruiter', subject: 'Cannot post role via link', message: 'Pasting our career page URL returns "unable to parse" every time.', status: 'open', date: 'Jul 17', replies: [] }
+];
+
+const ADMIN_USERS = [
+  { id: 1, name: 'Sam Patel', email: 'sam@trackd.io', role: 'Super Admin' },
+  { id: 2, name: 'Priya Shah', email: 'priya@trackd.io', role: 'Super Admin' },
+  { id: 3, name: 'Marcus Webb', email: 'marcus@trackd.io', role: 'Support' },
+  { id: 4, name: 'Elena Cho', email: 'elena@trackd.io', role: 'Moderator' }
+];
+
+function accentChip(active) {
+  return `font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:999px; background:${active ? 'color-mix(in srgb, var(--glow-top) 12%, var(--surface))' : 'var(--surface-2)'}; border:1px solid ${active ? 'var(--border-glass)' : 'var(--border)'}; color:${active ? 'var(--glow-top)' : 'var(--text-2)'};`;
+}
+function statusBadge(status) {
+  const attention = ['active', 'open', 'escalated', 'monitoring', 'flagged'].includes(status);
+  return accentChip(attention);
+}
+function severityBadge(sev) {
+  if (sev === 'high') return 'font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; background:color-mix(in srgb, var(--glow-top) 14%, var(--surface)); border:1px solid var(--border-glass); color:var(--glow-top); text-transform:uppercase; letter-spacing:0.03em;';
+  if (sev === 'medium') return 'font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--info); text-transform:uppercase; letter-spacing:0.03em;';
+  return 'font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-3); text-transform:uppercase; letter-spacing:0.03em;';
+}
+function riskStyle(risk) {
+  const color = risk >= 60 ? 'var(--glow-top)' : risk >= 30 ? 'var(--info)' : 'var(--text-3)';
+  return `font-family:'Geist Mono',ui-monospace,monospace; font-size:12.5px; font-weight:700; color:${color};`;
+}
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+class Component extends DCLogic {
+  state = {
+    theme: null,
+    isMobile: false,
+    sidebarOpen: false,
+    activeTab: 'overview',
+    companies: COMPANIES,
+    candAccounts: CAND_ACCOUNTS,
+    roles: ROLE_POSTINGS,
+    flags: FLAGS,
+    recSearchQuery: '', recStatusFilter: 'all',
+    candSearchQuery: '', candStatusFilter: 'all',
+    roleSearchQuery: '', roleStatusFilter: 'all',
+    flagSearchQuery: '', flagStatusFilter: 'all',
+    tickets: SUPPORT_TICKETS,
+    ticketSearchQuery: '', ticketStatusFilter: 'all', ticketReplyDraft: '',
+    reportPeriod: '30d', auditSearchQuery: '', auditCategoryFilter: 'all', reportGenerated: false,
+    drawerType: null, drawerId: null,
+    inviteName: '', inviteEmail: '', inviteRole: 'Support',
+    adminUsers: ADMIN_USERS,
+    maintenanceMode: false, pauseSignups: false, lockdownActive: false
+  };
+
+  componentDidMount() {
+    let theme = this.props.initialTheme || 'dark';
+    try { theme = localStorage.getItem('trackd-theme') || theme; } catch (e) {}
+    this.setState({ theme });
+    this.applyTheme(theme);
+    this._onResize = () => this.setState({ isMobile: window.innerWidth <= 900 });
+    this._onResize();
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+  applyTheme(name) {
+    if (!this._root) return;
+    const vars = THEME_VARS[name] || THEME_VARS.dark;
+    Object.keys(vars).forEach(k => this._root.style.setProperty(k, vars[k]));
+  }
+  getTheme() { return this.state.theme || this.props.initialTheme || 'dark'; }
+
+  renderVals() {
+    const theme = this.getTheme();
+    const isDark = theme === 'dark';
+    const { isMobile, sidebarOpen, activeTab, companies, candAccounts, roles, flags,
+      recSearchQuery, recStatusFilter, candSearchQuery, candStatusFilter,
+      roleSearchQuery, roleStatusFilter, flagSearchQuery, flagStatusFilter,
+      tickets, ticketSearchQuery, ticketStatusFilter,
+      drawerType, drawerId, adminUsers } = this.state;
+
+    const toggleTheme = () => {
+      const next = this.getTheme() === 'dark' ? 'light' : 'dark';
+      this.setState({ theme: next });
+      this.applyTheme(next);
+      try { localStorage.setItem('trackd-theme', next); } catch (e) {}
+    };
+
+    const navItems = NAV_ITEMS.map(n => ({
+      ...n,
+      onClick: () => this.setState({ activeTab: n.key, sidebarOpen: false }),
+      style: `width:100%; display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:9px; font-size:13.5px; font-weight:600; cursor:pointer; text-align:left; transition:all .15s ease-out; border:none; ${n.key === activeTab
+        ? 'background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 2px rgba(0,0,0,0.2), 0 4px 12px rgba(15,82,186,0.3);'
+        : 'background:transparent; color:var(--text-2);'}`
+    }));
+    const titleMap = { overview: 'Overview', recruiters: 'Recruiters', candidates: 'Candidates', roles: 'Roles', moderation: 'Moderation', support: 'Support', reports: 'Reports', system: 'System', settings: 'Settings' };
+    const pageTitle = titleMap[activeTab] || 'Overview';
+
+    const sidebarStyle = isMobile
+      ? `position:fixed; top:0; left:0; bottom:0; width:240px; z-index:95; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; transition:transform .25s cubic-bezier(0.16,1,0.3,1); transform:translateX(${sidebarOpen ? '0' : '-100%'});`
+      : 'position:relative; width:240px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column;';
+
+    const openEscalations = flags.filter(f => f.status !== 'resolved').length;
+    const overviewStats = [
+      { label: 'Total candidates', value: '18,420', delta: '+1,240 this month', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' },
+      { label: 'Total recruiters', value: '342', delta: '+9 this week', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' },
+      { label: 'Open roles', value: '1,180', delta: '74 new this week', deltaStyle: 'font-size:11.5px; color:var(--text-3);' },
+      { label: 'Open escalations', value: String(openEscalations), delta: 'needs review', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' }
+    ];
+
+    const growthMonths = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+    const candSeries = [980, 1120, 1050, 1300, 1480, 1620];
+    const recSeries = [12, 18, 15, 22, 28, 34];
+    const candMax = Math.max(...candSeries), recMax = Math.max(...recSeries);
+    const growthBars = growthMonths.map((m, i) => ({
+      label: m,
+      candStyle: `width:10px; height:${(candSeries[i] / candMax) * 100}%; border-radius:4px 4px 0 0; background:var(--glow-top);`,
+      recStyle: `width:10px; height:${(recSeries[i] / recMax) * 100}%; border-radius:4px 4px 0 0; background:var(--info); opacity:0.85;`
+    }));
+
+    const needsAttention = flags.filter(f => f.status !== 'resolved')
+      .sort((a, b) => (a.severity === 'high' ? -1 : 1) - (b.severity === 'high' ? -1 : 1))
+      .slice(0, 3).map(f => ({
+        title: f.subject,
+        subtitle: cap(f.type) + ' · ' + f.date,
+        badgeLabel: cap(f.severity),
+        badgeStyle: severityBadge(f.severity),
+        onClick: () => this.setState({ activeTab: 'moderation' })
+      }));
+
+    const activityFeed = [
+      { text: 'Notion posting suspended pending review — Product Designer', time: '1h ago' },
+      { text: 'New recruiter workspace onboarded — Ashby', time: '3h ago' },
+      { text: 'Escalation opened — Ramp compensation dispute', time: '5h ago' },
+      { text: 'Nina Kowalski account flagged for review', time: '6h ago' },
+      { text: 'Grace Liu account suspended', time: '1d ago' }
+    ];
+
+    const REC_FILTERS = ['all', 'active', 'suspended'];
+    const recStatusFilters = REC_FILTERS.map(k => ({
+      key: k, label: k === 'all' ? 'All' : cap(k),
+      onClick: () => this.setState({ recStatusFilter: k }),
+      style: `padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out; background:${recStatusFilter === k ? 'var(--surface-2)' : 'transparent'}; color:${recStatusFilter === k ? 'var(--text)' : 'var(--text-3)'};`
+    }));
+    const recQ = recSearchQuery.trim().toLowerCase();
+    const recFilteredByStatus = recStatusFilter === 'all' ? companies : companies.filter(c => c.status === recStatusFilter);
+    const recFiltered = recQ ? recFilteredByStatus.filter(c => c.name.toLowerCase().includes(recQ)) : recFilteredByStatus;
+    const recResultsLabel = recFiltered.length + ' of ' + companies.length;
+    const recruiterRows = recFiltered.map(c => ({
+      id: c.id, name: c.name, plan: c.plan,
+      seatsLabel: c.seatsUsed + '/' + c.seats,
+      openRoles: c.openRoles, hires: c.hires,
+      statusLabel: cap(c.status), statusBadgeStyle: statusBadge(c.status),
+      lastActive: c.lastActive,
+      onClick: () => this.setState({ drawerType: 'company', drawerId: c.id })
+    }));
+
+    const CAND_FILTERS = ['all', 'active', 'flagged', 'suspended'];
+    const candStatusFilters = CAND_FILTERS.map(k => ({
+      key: k, label: k === 'all' ? 'All' : cap(k),
+      onClick: () => this.setState({ candStatusFilter: k }),
+      style: `padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out; background:${candStatusFilter === k ? 'var(--surface-2)' : 'transparent'}; color:${candStatusFilter === k ? 'var(--text)' : 'var(--text-3)'};`
+    }));
+    const candQ = candSearchQuery.trim().toLowerCase();
+    const candFilteredByStatus = candStatusFilter === 'all' ? candAccounts : candAccounts.filter(c => c.status === candStatusFilter);
+    const candFiltered = candQ ? candFilteredByStatus.filter(c => (c.name + ' ' + c.email).toLowerCase().includes(candQ)) : candFilteredByStatus;
+    const candResultsLabel = candFiltered.length + ' of ' + candAccounts.length;
+    const candidateRows = candFiltered.map(c => ({
+      id: c.id, name: c.name, email: c.email, applications: c.applications,
+      riskLabel: c.risk + '/100', riskStyle: riskStyle(c.risk),
+      statusLabel: cap(c.status), statusBadgeStyle: statusBadge(c.status),
+      signup: c.signup,
+      onClick: () => this.setState({ drawerType: 'candidate', drawerId: c.id })
+    }));
+
+    const ROLE_FILTERS = ['all', 'open', 'filled', 'closed', 'flagged'];
+    const roleStatusFilters = ROLE_FILTERS.map(k => ({
+      key: k, label: k === 'all' ? 'All' : cap(k),
+      onClick: () => this.setState({ roleStatusFilter: k }),
+      style: `padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out; background:${roleStatusFilter === k ? 'var(--surface-2)' : 'transparent'}; color:${roleStatusFilter === k ? 'var(--text)' : 'var(--text-3)'};`
+    }));
+    const roleQ = roleSearchQuery.trim().toLowerCase();
+    const roleFilteredByStatus = roleStatusFilter === 'all' ? roles : roleStatusFilter === 'flagged' ? roles.filter(r => r.flagged) : roles.filter(r => r.status === roleStatusFilter);
+    const roleFiltered = roleQ ? roleFilteredByStatus.filter(r => (r.title + ' ' + r.company).toLowerCase().includes(roleQ)) : roleFilteredByStatus;
+    const roleResultsLabel = roleFiltered.length + ' of ' + roles.length;
+    const roleRows = roleFiltered.map(r => ({
+      id: r.id, title: r.title, company: r.company, applicants: r.applicants,
+      statusLabel: cap(r.status), statusBadgeStyle: statusBadge(r.status),
+      posted: r.posted,
+      flagDotStyle: r.flagged ? 'display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--glow-top); margin-left:8px; vertical-align:middle;' : 'display:none;',
+      onClick: () => this.setState({ drawerType: 'role', drawerId: r.id })
+    }));
+
+    const FLAG_FILTERS = ['all', 'open', 'escalated', 'resolved'];
+    const flagStatusFilters = FLAG_FILTERS.map(k => ({
+      key: k, label: k === 'all' ? 'All' : cap(k),
+      onClick: () => this.setState({ flagStatusFilter: k }),
+      style: `padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out; background:${flagStatusFilter === k ? 'var(--surface-2)' : 'transparent'}; color:${flagStatusFilter === k ? 'var(--text)' : 'var(--text-3)'};`
+    }));
+    const flagQ = flagSearchQuery.trim().toLowerCase();
+    const flagFilteredByStatus = flagStatusFilter === 'all' ? flags : flags.filter(f => f.status === flagStatusFilter);
+    const flagFiltered = flagQ ? flagFilteredByStatus.filter(f => f.subject.toLowerCase().includes(flagQ)) : flagFilteredByStatus;
+    const flagResultsLabel = flagFiltered.length + ' of ' + flags.length;
+    const flagRows = flagFiltered.map(f => ({
+      id: f.id, subject: f.subject, reporter: f.reporter, date: f.date,
+      typeLabel: cap(f.type), severityLabel: cap(f.severity), severityStyle: severityBadge(f.severity),
+      statusLabel: cap(f.status), statusStyle: statusBadge(f.status),
+      canEscalate: f.status === 'open',
+      canResolve: f.status !== 'resolved',
+      onEscalate: () => this.setState(s => ({ flags: s.flags.map(x => x.id === f.id ? { ...x, status: 'escalated' } : x) })),
+      onResolve: () => this.setState(s => ({ flags: s.flags.map(x => x.id === f.id ? { ...x, status: 'resolved' } : x) }))
+    }));
+
+    const openTicketCount = tickets.filter(t => t.status === 'open' || t.status === 'escalated').length;
+    const supportStats = [
+      { label: 'Open tickets', value: String(openTicketCount), delta: 'needs response', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' },
+      { label: 'Avg. first response', value: '3.2h', delta: '-40min vs last week', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' },
+      { label: 'Resolved this week', value: '18', delta: '92% CSAT', deltaStyle: 'font-size:11.5px; color:var(--text-3);' },
+      { label: 'Escalated', value: String(tickets.filter(t => t.status === 'escalated').length), delta: 'trust & safety', deltaStyle: 'font-size:11.5px; color:var(--text-3);' }
+    ];
+    const TICKET_FILTERS = ['all', 'open', 'replied', 'escalated', 'closed'];
+    const ticketStatusFilters = TICKET_FILTERS.map(k => ({
+      key: k, label: k === 'all' ? 'All' : cap(k),
+      onClick: () => this.setState({ ticketStatusFilter: k }),
+      style: `padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out; background:${ticketStatusFilter === k ? 'var(--surface-2)' : 'transparent'}; color:${ticketStatusFilter === k ? 'var(--text)' : 'var(--text-3)'};`
+    }));
+    const ticketQ = ticketSearchQuery.trim().toLowerCase();
+    const ticketFilteredByStatus = ticketStatusFilter === 'all' ? tickets : tickets.filter(t => t.status === ticketStatusFilter);
+    const ticketFiltered = ticketQ ? ticketFilteredByStatus.filter(t => (t.name + ' ' + t.subject + ' ' + t.email).toLowerCase().includes(ticketQ)) : ticketFilteredByStatus;
+    const ticketResultsLabel = ticketFiltered.length + ' of ' + tickets.length;
+    const roleTagStyle = (role) => `font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:${role === 'recruiter' ? 'var(--info)' : 'var(--text-2)'}; text-transform:uppercase; letter-spacing:0.03em;`;
+    const ticketRows = ticketFiltered.map(t => ({
+      id: t.id, initials: t.name.split(' ').map(w => w[0]).join('').slice(0, 2),
+      name: t.name, email: t.email, subject: t.subject, date: t.date,
+      roleTag: cap(t.role), roleTagStyle: roleTagStyle(t.role),
+      statusLabel: cap(t.status), statusStyle: statusBadge(t.status === 'replied' || t.status === 'escalated' ? 'active' : t.status),
+      onClick: () => this.setState({ drawerType: 'ticket', drawerId: t.id, ticketReplyDraft: '' })
+    }));
+
+    const systemStats = [
+      { label: 'API uptime (30d)', value: '99.98%', delta: 'SLA met', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' },
+      { label: 'Avg response time', value: '142ms', delta: '-8ms vs last week', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' },
+      { label: 'Error rate', value: '0.03%', delta: 'within threshold', deltaStyle: 'font-size:11.5px; color:var(--text-3);' },
+      { label: 'Requests today', value: '2.4M', delta: 'peak 08:00–10:00', deltaStyle: 'font-size:11.5px; color:var(--text-3);' }
+    ];
+    const incidentRows = INCIDENTS.map(inc => ({
+      service: inc.service, message: inc.message, time: inc.time,
+      severityLabel: cap(inc.severity), severityStyle: severityBadge(inc.severity === 'critical' ? 'high' : inc.severity === 'warning' ? 'medium' : 'low'),
+      statusLabel: cap(inc.status), statusStyle: statusBadge(inc.status)
+    }));
+
+    const drawerOpen = drawerType != null;
+    const activeCompany = drawerType === 'company' ? companies.find(c => c.id === drawerId) : null;
+    const activeCandAcct = drawerType === 'candidate' ? candAccounts.find(c => c.id === drawerId) : null;
+    const activeRole = drawerType === 'role' ? roles.find(r => r.id === drawerId) : null;
+    const activeTicketData = drawerType === 'ticket' ? tickets.find(t => t.id === drawerId) : null;
+
+    const companyView = activeCompany ? {
+      name: activeCompany.name, plan: activeCompany.plan,
+      statusLabel: cap(activeCompany.status), statusBadgeStyle: statusBadge(activeCompany.status),
+      lastActive: activeCompany.lastActive,
+      seatsLabel: activeCompany.seatsUsed + '/' + activeCompany.seats,
+      openRoles: activeCompany.openRoles, hires: activeCompany.hires,
+      actionLabel: activeCompany.status === 'suspended' ? 'Reinstate workspace' : 'Suspend workspace',
+      actionBtnStyle: 'display:flex; align-items:center; gap:6px; padding:11px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:13.5px; font-weight:600; cursor:pointer;'
+    } : { name: '', plan: '', statusLabel: '', statusBadgeStyle: '', lastActive: '', seatsLabel: '', openRoles: '', hires: '', actionLabel: '', actionBtnStyle: '' };
+
+    const candAcctView = activeCandAcct ? {
+      name: activeCandAcct.name, email: activeCandAcct.email,
+      applications: activeCandAcct.applications, signup: activeCandAcct.signup,
+      riskLabel: activeCandAcct.risk + '/100',
+      ringColor: activeCandAcct.risk >= 60 ? 'var(--glow-top)' : activeCandAcct.risk >= 30 ? 'var(--info)' : 'var(--text-3)',
+      dashStyle: `stroke-dashoffset:${163 - (activeCandAcct.risk / 100) * 163}; transition:stroke-dashoffset .5s ease-out;`,
+      statusLabel: cap(activeCandAcct.status), statusBadgeStyle: statusBadge(activeCandAcct.status),
+      hasFlags: activeCandAcct.flags.length > 0, flags: activeCandAcct.flags,
+      actionLabel: activeCandAcct.status === 'suspended' ? 'Reinstate account' : 'Suspend account',
+      actionBtnStyle: 'display:flex; align-items:center; gap:6px; padding:11px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:13.5px; font-weight:600; cursor:pointer;'
+    } : { name: '', email: '', applications: '', signup: '', riskLabel: '', ringColor: 'var(--text-3)', dashStyle: '', statusLabel: '', statusBadgeStyle: '', hasFlags: false, flags: [], actionLabel: '', actionBtnStyle: '' };
+
+    const roleView = activeRole ? {
+      title: activeRole.title, company: activeRole.company,
+      statusLabel: cap(activeRole.status), statusBadgeStyle: statusBadge(activeRole.status),
+      applicants: activeRole.applicants, posted: activeRole.posted, flagged: activeRole.flagged,
+      actionLabel: activeRole.status === 'closed' ? 'Restore listing' : 'Remove listing',
+      actionBtnStyle: 'display:flex; align-items:center; gap:6px; padding:11px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:13.5px; font-weight:600; cursor:pointer;'
+    } : { title: '', company: '', statusLabel: '', statusBadgeStyle: '', applicants: '', posted: '', flagged: false, actionLabel: '', actionBtnStyle: '' };
+
+    const ticketView = activeTicketData ? {
+      name: activeTicketData.name, email: activeTicketData.email, subject: activeTicketData.subject, message: activeTicketData.message, date: activeTicketData.date,
+      roleTag: cap(activeTicketData.role), roleTagStyle: roleTagStyle(activeTicketData.role),
+      statusLabel: cap(activeTicketData.status), statusStyle: statusBadge(activeTicketData.status === 'replied' || activeTicketData.status === 'escalated' ? 'active' : activeTicketData.status),
+      hasReplies: activeTicketData.replies.length > 0,
+      replies: activeTicketData.replies
+    } : { name: '', email: '', subject: '', message: '', date: '', roleTag: '', roleTagStyle: '', statusLabel: '', statusStyle: '', hasReplies: false, replies: [] };
+    const sendTicketReply = () => {
+      const text = this.state.ticketReplyDraft.trim();
+      if (!text || !activeTicketData) return;
+      this.setState(s => ({
+        tickets: s.tickets.map(t => t.id === activeTicketData.id ? { ...t, status: 'replied', replies: [...t.replies, { author: 'Sam Patel', time: 'Just now', text }] } : t),
+        ticketReplyDraft: ''
+      }));
+    };
+    const closeTicket = () => {
+      if (!activeTicketData) return;
+      this.setState(s => ({ tickets: s.tickets.map(t => t.id === activeTicketData.id ? { ...t, status: t.status === 'closed' ? 'open' : 'closed' } : t) }));
+    };
+
+    const adminRows = adminUsers.map(a => ({ initials: a.name.split(' ').map(w => w[0]).join(''), name: a.name, email: a.email, role: a.role }));
+    const ROLE_OPTS = ['Super Admin', 'Support', 'Moderator'];
+    const inviteRoleOptions = ROLE_OPTS.map(r => ({
+      label: r,
+      onClick: () => this.setState({ inviteRole: r }),
+      style: this.state.inviteRole === r
+        ? 'padding:7px 14px; border-radius:999px; font-size:12px; font-weight:600; border:1px solid var(--border-glass); background:var(--surface-alt); color:var(--glow-top); cursor:pointer;'
+        : 'padding:7px 14px; border-radius:999px; font-size:12px; font-weight:600; border:1px solid var(--border); background:transparent; color:var(--text-2); cursor:pointer;'
+    }));
+
+    return {
+      rootRef: (el) => { this._root = el; },
+      isDark, isLight: !isDark, toggleTheme,
+      isMobile, sidebarOpen: sidebarOpen && isMobile,
+      openSidebar: () => this.setState({ sidebarOpen: true }),
+      closeSidebar: () => this.setState({ sidebarOpen: false }),
+      sidebarStyle, navItems, pageTitle,
+      isOverviewTab: activeTab === 'overview', isRecruitersTab: activeTab === 'recruiters',
+      isCandidatesTab: activeTab === 'candidates', isRolesTab: activeTab === 'roles',
+      isModerationTab: activeTab === 'moderation', isSupportTab: activeTab === 'support', isReportsTab: activeTab === 'reports', isSystemTab: activeTab === 'system', isSettingsTab: activeTab === 'settings',
+      reportPeriodOptions: ['7d', '30d', '90d', 'ytd'].map(p => ({
+        label: p === '7d' ? '7 days' : p === '30d' ? '30 days' : p === '90d' ? '90 days' : 'Year to date',
+        onClick: () => this.setState({ reportPeriod: p, reportGenerated: false }),
+        style: `padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out; background:${this.state.reportPeriod === p ? 'var(--surface-2)' : 'transparent'}; color:${this.state.reportPeriod === p ? 'var(--text)' : 'var(--text-3)'};`
+      })),
+      reportPeriodLabel: this.state.reportPeriod === '7d' ? 'the last 7 days' : this.state.reportPeriod === '30d' ? 'the last 30 days' : this.state.reportPeriod === '90d' ? 'the last 90 days' : 'year to date',
+      reportStats: [
+        { label: 'Total events', value: String(AUDIT_LOG.length * 4), delta: this.state.reportPeriod, deltaStyle: 'font-size:11.5px; color:var(--text-3);' },
+        { label: 'Account actions', value: String(AUDIT_LOG.filter(a => a.category === 'account').length * 3), delta: 'suspend/reinstate/invite', deltaStyle: 'font-size:11.5px; color:var(--text-3);' },
+        { label: 'Moderation actions', value: String(AUDIT_LOG.filter(a => a.category === 'moderation').length * 3), delta: 'escalate/resolve/remove', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' },
+        { label: 'Active admins', value: '4', delta: 'logged actions this period', deltaStyle: 'font-size:11.5px; color:var(--text-3);' }
+      ],
+      generateReport: () => this.setState({ reportGenerated: true }),
+      reportGenerated: this.state.reportGenerated,
+      auditSearchQuery: this.state.auditSearchQuery,
+      setAuditSearchQuery: (e) => this.setState({ auditSearchQuery: e.target.value }),
+      auditCategoryFilters: ['all', 'account', 'moderation', 'support', 'billing', 'system'].map(cat => ({
+        label: cat === 'all' ? 'All' : cap(cat),
+        onClick: () => this.setState({ auditCategoryFilter: cat }),
+        style: `padding:7px 14px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out; background:${this.state.auditCategoryFilter === cat ? 'var(--surface-2)' : 'transparent'}; color:${this.state.auditCategoryFilter === cat ? 'var(--text)' : 'var(--text-3)'};`
+      })),
+      auditRows: (() => {
+        const q = this.state.auditSearchQuery.trim().toLowerCase();
+        const cat = this.state.auditCategoryFilter;
+        return AUDIT_LOG.filter(a => (cat === 'all' || a.category === cat) && (!q || (a.actor + ' ' + a.action + ' ' + a.target).toLowerCase().includes(q)))
+          .map(a => ({ actor: a.actor, role: a.role, action: a.action, target: a.target, time: a.time }));
+      })(),
+      pastReports: PAST_REPORTS,
+      supportStats, ticketStatusFilters, ticketResultsLabel, ticketRows,
+      ticketSearchQuery, setTicketSearchQuery: (e) => this.setState({ ticketSearchQuery: e.target.value }),
+      isTicketDrawer: drawerType === 'ticket', activeTicket: ticketView,
+      ticketReplyDraft: this.state.ticketReplyDraft, setTicketReplyDraft: (e) => this.setState({ ticketReplyDraft: e.target.value }),
+      sendTicketReply, closeTicket,
+      closeTicketLabel: activeTicketData && activeTicketData.status === 'closed' ? 'Reopen ticket' : 'Mark as closed',
+      overviewStats, growthBars, needsAttention, activityFeed,
+      recSearchQuery, setRecSearchQuery: (e) => this.setState({ recSearchQuery: e.target.value }),
+      recStatusFilters, recResultsLabel, recruiterRows,
+      candSearchQuery, setCandSearchQuery: (e) => this.setState({ candSearchQuery: e.target.value }),
+      candStatusFilters, candResultsLabel, candidateRows,
+      roleSearchQuery, setRoleSearchQuery: (e) => this.setState({ roleSearchQuery: e.target.value }),
+      roleStatusFilters, roleResultsLabel, roleRows,
+      flagSearchQuery, setFlagSearchQuery: (e) => this.setState({ flagSearchQuery: e.target.value }),
+      flagStatusFilters, flagResultsLabel, flagRows,
+      systemStats, incidentRows,
+      drawerOpen,
+      isCompanyDrawer: drawerType === 'company', isCandidateDrawer: drawerType === 'candidate', isRoleDrawer: drawerType === 'role',
+      activeCompany: companyView, activeCandidateAcct: candAcctView, activeRoleRow: roleView,
+      closeDrawer: () => this.setState({ drawerType: null, drawerId: null }),
+      toggleCompanyStatus: () => {
+        if (!activeCompany) return;
+        this.setState(s => ({ companies: s.companies.map(c => c.id === activeCompany.id ? { ...c, status: c.status === 'suspended' ? 'active' : 'suspended' } : c) }));
+      },
+      toggleCandidateAcctStatus: () => {
+        if (!activeCandAcct) return;
+        this.setState(s => ({ candAccounts: s.candAccounts.map(c => c.id === activeCandAcct.id ? { ...c, status: c.status === 'suspended' ? 'active' : 'suspended' } : c) }));
+      },
+      toggleRoleListing: () => {
+        if (!activeRole) return;
+        this.setState(s => ({ roles: s.roles.map(r => r.id === activeRole.id ? { ...r, status: r.status === 'closed' ? 'open' : 'closed' } : r) }));
+      },
+      clearRoleFlag: () => {
+        if (!activeRole) return;
+        this.setState(s => ({ roles: s.roles.map(r => r.id === activeRole.id ? { ...r, flagged: false } : r) }));
+      },
+      adminRows, inviteName: this.state.inviteName, inviteEmail: this.state.inviteEmail, inviteRoleOptions,
+      setInviteName: (e) => this.setState({ inviteName: e.target.value }),
+      setInviteEmail: (e) => this.setState({ inviteEmail: e.target.value }),
+      addAdmin: () => {
+        const name = this.state.inviteName.trim(), email = this.state.inviteEmail.trim();
+        if (!name || !email) return;
+        const newId = Math.max(0, ...this.state.adminUsers.map(a => a.id)) + 1;
+        this.setState(s => ({ adminUsers: [...s.adminUsers, { id: newId, name, email, role: s.inviteRole }], inviteName: '', inviteEmail: '' }));
+      },
+      maintenanceMode: this.state.maintenanceMode,
+      toggleMaintenance: () => this.setState(s => ({ maintenanceMode: !s.maintenanceMode })),
+      maintenanceToggleStyle: `width:42px; height:24px; border-radius:999px; border:1px solid var(--border-glass); background:${this.state.maintenanceMode ? 'var(--surface-alt)' : 'var(--surface-2)'}; position:relative; cursor:pointer; flex-shrink:0;`,
+      maintenanceKnobStyle: `position:absolute; top:2px; left:${this.state.maintenanceMode ? '20px' : '2px'}; width:18px; height:18px; border-radius:50%; background:${this.state.maintenanceMode ? 'var(--glow-top)' : 'var(--text-3)'}; transition:left .15s ease-out;`,
+      toggleSignups: () => this.setState(s => ({ pauseSignups: !s.pauseSignups })),
+      signupsToggleStyle: `width:42px; height:24px; border-radius:999px; border:1px solid var(--border-glass); background:${this.state.pauseSignups ? 'var(--surface-alt)' : 'var(--surface-2)'}; position:relative; cursor:pointer; flex-shrink:0;`,
+      signupsKnobStyle: `position:absolute; top:2px; left:${this.state.pauseSignups ? '20px' : '2px'}; width:18px; height:18px; border-radius:50%; background:${this.state.pauseSignups ? 'var(--glow-top)' : 'var(--text-3)'}; transition:left .15s ease-out;`,
+      toggleLockdown: () => this.setState(s => ({ lockdownActive: !s.lockdownActive })),
+      lockdownLabel: this.state.lockdownActive ? 'Disable emergency lockdown' : 'Enable emergency lockdown',
+      lockdownBtnStyle: `padding:9px 16px; border-radius:9px; border:1px solid ${this.state.lockdownActive ? 'var(--border-glass)' : 'var(--border)'}; background:${this.state.lockdownActive ? 'color-mix(in srgb, var(--glow-top) 12%, var(--surface))' : 'transparent'}; color:${this.state.lockdownActive ? 'var(--glow-top)' : 'var(--text-2)'}; font-size:13px; font-weight:600; cursor:pointer;`
+    };
+  }
+}
+
+</script>
+</body>
+</html>

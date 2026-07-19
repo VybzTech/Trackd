@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trackd — Log in</title>
+<link rel="stylesheet" href="../shared/trackd.css">
+<style>
+  .auth-shell { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; z-index: 1; }
+  .auth-side { display: flex; flex-direction: column; justify-content: space-between; padding: 3rem 3.5rem; }
+  .auth-side .brand { display: flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: #fff; }
+  .brand-mark {
+    width: 2.1rem; height: 2.1rem; border-radius: 0.65rem;
+    background: linear-gradient(160deg, var(--glow-top), var(--brand-primary));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 4px 14px rgba(0,127,255,.35);
+    font-family: var(--font-display); font-weight: 700; color: #041043; font-size: 1rem;
+  }
+  .promo { max-width: 30ch; }
+  .promo h2 { font-size: clamp(1.7rem, 2.6vw, 2.2rem); line-height: 1.2; margin-bottom: 1rem; }
+  .promo p { color: var(--text-tint-1); font-size: 0.95rem; line-height: 1.6; }
+  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 2rem; }
+  .kpi-tile { padding: 1rem; text-align: left; }
+  .kpi-tile .num { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 600; color: #fff; }
+  .kpi-tile .label { font-size: 0.68rem; color: var(--text-tint-2); margin-top: 0.2rem; }
+  .footnote { font-size: 0.78rem; color: var(--text-tint-2); }
+
+  .form-side { display: flex; align-items: center; justify-content: center; padding: 3rem; }
+  .form-card { width: 100%; max-width: 400px; padding: 2.5rem; }
+  .form-card h1 { font-size: 1.55rem; margin-bottom: 0.4rem; }
+  .form-card .sub { color: var(--text-tint-1); font-size: 0.88rem; margin-bottom: 1.75rem; }
+
+  .form-grid { display: flex; flex-direction: column; gap: 1.1rem; }
+  .field-row-top { display: flex; align-items: center; justify-content: space-between; }
+  .field-row-top a { font-size: 0.78rem; color: var(--glow-top); font-weight: 600; }
+
+  .oauth-divider { display: flex; align-items: center; gap: 0.85rem; margin: 1.5rem 0; }
+  .oauth-divider .line { flex: 1; height: 1px; background: var(--border-glass); }
+  .oauth-divider span { font-size: 0.75rem; color: var(--text-tint-2); }
+  .btn-oauth {
+    display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    height: 2.75rem; border-radius: 0.875rem; border: 1px solid var(--border-glass);
+    background: rgba(255,255,255,0.04); color: #fff; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+    width: 100%; transition: background var(--motion-fast) var(--easing-standard);
+  }
+  .btn-oauth:hover { background: rgba(255,255,255,0.08); }
+
+  .switch-line { text-align: center; font-size: 0.85rem; color: var(--text-tint-2); margin-top: 1.5rem; }
+  .switch-line a { color: var(--glow-top); font-weight: 600; }
+  .back-link { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--text-tint-2); margin-bottom: 1.5rem; }
+  .back-link:hover { color: #fff; }
+
+  @media (max-width: 920px) {
+    .auth-shell { grid-template-columns: 1fr; }
+    .auth-side { display: none; }
+    .form-side { padding: 2rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="icon-field" aria-hidden="true" id="iconField"></div>
+  <div class="auth-shell">
+    <div class="auth-side" data-od-id="auth-promo-side">
+      <div class="brand"><span class="brand-mark">T</span> Trackd</div>
+      <div class="promo" data-od-id="promo-copy">
+        <h2>Welcome back. Your pipeline's exactly where you left it.</h2>
+        <p>Kanban, Calendar, and Table all read the same data — pick up wherever you left off.</p>
+        <div class="kpi-row" data-od-id="promo-kpi-row">
+          <div class="glass-surface kpi-tile"><div class="num">11</div><div class="label">active applications</div></div>
+          <div class="glass-surface kpi-tile"><div class="num">3</div><div class="label">interviewing</div></div>
+          <div class="glass-surface kpi-tile"><div class="num">88</div><div class="label">top match score</div></div>
+        </div>
+      </div>
+      <div class="footnote">© 2026 Trackd. Free for candidates.</div>
+    </div>
+
+    <div class="form-side">
+      <div class="glass-surface form-card" data-od-id="login-form-card">
+        <a class="back-link" href="../landing.html" data-od-id="back-to-landing">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back to Trackd
+        </a>
+        <h1>Log in</h1>
+        <p class="sub">Enter your details to access your pipeline.</p>
+
+        <form class="form-grid" data-od-id="login-form" onsubmit="return false;">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@email.com" required autocomplete="email">
+          </div>
+
+          <div class="field">
+            <div class="field-row-top">
+              <label for="password">Password</label>
+              <a href="#" data-od-id="forgot-password">Forgot password?</a>
+            </div>
+            <input id="password" name="password" type="password" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+
+          <a class="btn btn-primary btn-block" href="dashboard.html" data-od-id="login-submit">Log in</a>
+        </form>
+
+        <div class="oauth-divider"><div class="line"></div><span>or continue with</span><div class="line"></div></div>
+        <button class="btn-oauth" data-od-id="oauth-google">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.25 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.85A11 11 0 0012 23z"/><path fill="#FBBC05" d="M5.84 14.09A6.6 6.6 0 015.5 12c0-.73.13-1.43.34-2.09V7.06H2.18A11 11 0 001 12c0 1.77.43 3.45 1.18 4.94l3.66-2.85z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1a11 11 0 00-9.82 6.06l3.66 2.85C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
+          Log in with Google
+        </button>
+
+        <p class="switch-line">New to Trackd? <a href="auth-signup.html" data-od-id="link-to-signup">Create an account</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const field = document.getElementById('iconField');
+    if (!field) return;
+    const glyphs = ['M4 7h16M4 12h16M4 17h10', 'M3 21h18M5 21V7l7-4 7 4v14', 'M3 3v18h18M8 17V9m5 8V5m5 12v-6'];
+    for (let i = 0; i < 8; i++) {
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('width', 26 + Math.round(Math.random() * 16));
+      svg.setAttribute('height', 26 + Math.round(Math.random() * 16));
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('stroke-width', '1.6');
+      const path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('d', glyphs[i % glyphs.length]);
+      svg.appendChild(path);
+      svg.style.left = Math.random() * 100 + '%';
+      svg.style.top = Math.random() * 100 + '%';
+      svg.style.animationDelay = (Math.random() * 10).toFixed(2) + 's';
+      svg.style.animationDuration = (18 + Math.random() * 10).toFixed(2) + 's';
+      field.appendChild(svg);
+    }
+  })();
+</script>
+</body>
+</html>

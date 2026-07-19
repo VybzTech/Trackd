@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&amp;family=Geist+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body, h1, h2, h3, p, ul, li, button, input, textarea { margin: 0; padding: 0; }
+    button, input, textarea { font-family: inherit; }
+    a { text-decoration: none; }
+    ::selection { background: #52E8FF; color: #09090B; }
+    *:focus { outline: none; }
+    *:focus-visible { outline: 2px solid var(--glow-top); outline-offset: 2px; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-thumb { background: var(--border-glass); border-radius: 4px; }
+    @keyframes revealUp { from{ opacity: 0; transform: translateY(10px); } to{ opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from{ opacity: 0; } to{ opacity: 1; } }
+    @keyframes scaleIn { from{ opacity: 0; transform: scale(0.95); } to{ opacity: 1; transform: scale(1); } }
+    @keyframes slideInRight { from{ transform: translateX(100%); } to{ transform: translateX(0); } }
+  </style>
+</helmet>
+<div ref="{{ rootRef }}" style="--bg:#09090B; --surface:#18181B; --surface-2:#1F1F23; --surface-alt:rgba(255,255,255,0.045); --brand:#2438BD; --brand-2:#0F52BA; --glow-mid:#007FFF; --glow-top:#52E8FF; --info:#007BA7; --energy:#0AFFFF; --text:#FAFAFA; --text-2:#A1A1AA; --text-3:#71717A; --border:rgba(255,255,255,0.10); --border-glass:rgba(82,232,255,0.20); background:var(--bg); color:var(--text); height:100vh; font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif; overflow:hidden; position:relative; display:flex;">
+
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ sidebarOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:90; animation:fadeIn .15s ease-out both;" onClick="{{ closeSidebar }}"></div>
+    </sc-if>
+  </sc-if>
+
+  <aside style="{{ sidebarStyle }}">
+    <div style="padding:20px; display:flex; align-items:center; justify-content:space-between;">
+      <a href="Trackd Landing.dc.html" style="display:flex; align-items:baseline; gap:1px; font-weight:800; font-size:19px; letter-spacing:-0.02em; color:var(--text);">Trackd<span style="color:var(--glow-top);">.</span></a>
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ closeSidebar }}" aria-label="Close menu" style="width:28px; height:28px; border-radius:8px; border:none; background:transparent; color:var(--text-3); cursor:pointer; display:flex; align-items:center; justify-content:center;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </sc-if>
+    </div>
+
+    <nav style="flex:1; padding:8px 12px; display:flex; flex-direction:column; gap:2px;">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+        <button onClick="{{ item.onClick }}" style="{{ item.style }}">
+          <span style="width:17px; height:17px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <sc-if value="{{ item.isOverview }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6"></rect><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"></rect><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"></rect><rect x="13" y="13" width="7.5" height="7.5" rx="1.6"></rect></svg></sc-if>
+            <sc-if value="{{ item.isRoles }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5h6l4 4v13h-14v-17Z"></path><path d="M9 12h6M9 16h6"></path></svg></sc-if>
+            <sc-if value="{{ item.isTalent }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></sc-if>
+            <sc-if value="{{ item.isCandidates }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5 20c0-3.6 3.1-6.5 7-6.5s7 2.9 7 6.5"></path></svg></sc-if>
+            <sc-if value="{{ item.isSettings }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 8.98 19a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.98a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1.03H21a2 2 0 1 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15Z"></path></svg></sc-if>
+          </span>
+          {{ item.label }}
+        </button>
+      </sc-for>
+    </nav>
+
+    <div style="padding:14px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex; align-items:center; gap:10px; padding:6px 4px;">
+        <div style="width:32px; height:32px; border-radius:50%; background:var(--surface-2); border:1px solid var(--border-glass); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--glow-top); flex-shrink:0;">AK</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:13px; font-weight:600; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Alex Kim</div>
+          <div style="font-size:11px; color:var(--text-3);">Recruiter · Acme Inc.</div>
+        </div>
+        <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:30px; height:30px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text-2); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:border-color .15s ease-out,color .15s ease-out;" style-hover="border-color:var(--border-glass); color:var(--glow-top);">
+          <sc-if value="{{ isDark }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.4M12 19.1v2.4M4.5 12H2.1M21.9 12h-2.4M6.2 6.2 4.5 4.5M19.5 19.5l-1.7-1.7M6.2 17.8 4.5 19.5M19.5 4.5l-1.7 1.7"></path></svg></sc-if>
+          <sc-if value="{{ isLight }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z"></path></svg></sc-if>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <div style="flex:1; min-width:0; display:flex; flex-direction:column; height:100vh;">
+    <header style="flex-shrink:0; height:64px; display:flex; align-items:center; gap:16px; padding:0 clamp(16px,3vw,28px); border-bottom:1px solid var(--border);">
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ openSidebar }}" aria-label="Menu" style="width:34px; height:34px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+        </button>
+      </sc-if>
+      <h1 style="font-size:18px; font-weight:700; letter-spacing:-0.01em; flex-shrink:0;">{{ pageTitle }}</h1>
+      <div style="flex:1;"></div>
+      <sc-if value="{{ isRolesTab }}" hint-placeholder-val="{{ true }}">
+        <div style="position:relative; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); pointer-events:none;"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input type="text" placeholder="Search candidates..." value="{{ searchQuery }}" onInput="{{ setSearchQuery }}" style="width:clamp(140px,22vw,240px); padding:8px 12px 8px 32px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+        </div>
+        <button onClick="{{ openPostModal }}" style="{{ primaryBtnStyle }}" style-hover="{{ primaryBtnHoverStyle }}" style-active="{{ primaryBtnActiveStyle }}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          <span style="white-space:nowrap;">Post a role</span>
+        </button>
+      </sc-if>
+      <sc-if value="{{ isCandidatesTab }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); pointer-events:none;"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input type="text" placeholder="Search all candidates..." value="{{ candSearchQuery }}" onInput="{{ setCandSearchQuery }}" style="width:clamp(140px,22vw,240px); padding:8px 12px 8px 32px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+        </div>
+      </sc-if>
+      <sc-if value="{{ isTalentTab }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative; flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); pointer-events:none;"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <input type="text" placeholder="Search by skill, tech stack, location..." value="{{ talentQuery }}" onInput="{{ setTalentQuery }}" style="width:clamp(160px,26vw,300px); padding:8px 12px 8px 32px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+        </div>
+      </sc-if>
+    </header>
+
+    <main style="flex:1; overflow-y:auto; padding:clamp(16px,3vw,28px);">
+
+      <sc-if value="{{ isOverviewTab }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font-size:22px; font-weight:800; letter-spacing:-0.01em; margin-bottom:6px;">Welcome back, Alex.</h2>
+        <p style="font-size:14px; color:var(--text-2); margin-bottom:24px;">Here's how hiring is trending across your open roles.</p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:28px;">
+          <sc-for list="{{ statCards }}" as="s" hint-placeholder-count="4">
+            <div style="border:1px solid var(--border); border-radius:14px; padding:16px 18px; animation:revealUp .3s ease-out both;">
+              <div style="font-size:12px; color:var(--text-3); margin-bottom:8px;">{{ s.label }}</div>
+              <div style="display:flex; align-items:baseline; gap:8px;">
+                <span style="font-size:26px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace; letter-spacing:-0.02em;">{{ s.value }}</span>
+                <span style="{{ s.deltaStyle }}">{{ s.delta }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex; gap:20px; flex-wrap:wrap;">
+          <div style="flex:1 1 320px; min-width:280px;">
+            <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:12px;">Needs attention</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <sc-for list="{{ needsAttention }}" as="card" hint-placeholder-count="3">
+                <button onClick="{{ card.onClick }}" style="width:100%; text-align:left; display:flex; align-items:center; gap:12px; border:1px solid var(--border); border-radius:12px; padding:14px; background:transparent; cursor:pointer; transition:transform .15s ease-out,border-color .15s ease-out;" style-hover="transform:translateY(-2px); border-color:var(--border-glass);">
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:13.5px; font-weight:700; color:var(--text);">{{ card.title }}</div>
+                    <div style="font-size:12px; color:var(--text-3);">{{ card.subtitle }}</div>
+                  </div>
+                  <span style="{{ card.badgeStyle }}">{{ card.badgeLabel }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="flex:1 1 320px; min-width:280px;">
+            <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:12px;">Recent activity</div>
+            <div style="display:flex; flex-direction:column; gap:14px; border:1px solid var(--border); border-radius:14px; padding:16px;">
+              <sc-for list="{{ activityFeed }}" as="a" hint-placeholder-count="4">
+                <div style="display:flex; gap:12px; align-items:flex-start;">
+                  <span style="width:6px; height:6px; border-radius:50%; background:var(--glow-top); margin-top:6px; flex-shrink:0;"></span>
+                  <div style="flex:1;">
+                    <div style="font-size:13px; color:var(--text); line-height:1.4;">{{ a.text }}</div>
+                    <div style="font-size:11px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ a.time }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isRolesTab }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px;">
+        <sc-for list="{{ statCards }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid var(--border); border-radius:14px; padding:16px 18px; animation:revealUp .3s ease-out both;">
+            <div style="font-size:12px; color:var(--text-3); margin-bottom:8px;">{{ s.label }}</div>
+            <div style="display:flex; align-items:baseline; gap:8px;">
+              <span style="font-size:26px; font-weight:800; font-family:'Geist Mono',ui-monospace,monospace; letter-spacing:-0.02em;">{{ s.value }}</span>
+              <span style="{{ s.deltaStyle }}">{{ s.delta }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+        <div style="flex:0 0 260px; min-width:220px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; padding:0 4px; margin-bottom:4px;">Open roles</div>
+          <sc-for list="{{ jobList }}" as="job" hint-placeholder-count="3">
+            <button onClick="{{ job.onClick }}" style="{{ job.style }}">
+              <div style="font-size:13.5px; font-weight:700; color:var(--text); margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ job.title }}</div>
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <span style="font-size:11.5px; color:var(--text-3);">{{ job.applicantCount }} applicants</span>
+                <span style="{{ job.newBadgeStyle }}">{{ job.newLabel }}</span>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="flex:1; min-width:320px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+            <div style="min-width:0; flex-shrink:1;">
+              <div style="font-size:15px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px;">{{ activeJob.title }}</div>
+              <div style="font-size:12px; color:var(--text-3); white-space:nowrap;">{{ activeJob.location }} · {{ activeJob.comp }}</div>
+            </div>
+            <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); flex-shrink:0;">
+              <sc-for list="{{ stageFilters }}" as="f" hint-placeholder-count="5">
+                <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:6px; margin-bottom:18px; height:8px;">
+            <sc-for list="{{ funnelSegments }}" as="seg" hint-placeholder-count="4">
+              <div style="{{ seg.style }}" title="{{ seg.label }}"></div>
+            </sc-for>
+          </div>
+
+          <div style="border:1px solid var(--border); border-radius:14px; overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+              <thead>
+                <tr>
+                  <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Candidate</th>
+                  <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Match</th>
+                  <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Stage</th>
+                  <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Source</th>
+                  <th style="text-align:right; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ applicantRows }}" as="row" hint-placeholder-count="6">
+                  <tr onClick="{{ row.onClick }}" style="cursor:pointer; transition:background-color .15s ease-out;" style-hover="background-color:var(--surface-alt);">
+                    <td style="padding:12px 16px; border-bottom:1px solid var(--border);">
+                      <div style="font-weight:600; color:var(--text); white-space:nowrap;">{{ row.name }}</div>
+                      <div style="font-size:11.5px; color:var(--text-3); white-space:nowrap;">{{ row.headline }}</div>
+                    </td>
+                    <td style="padding:12px 16px; border-bottom:1px solid var(--border); min-width:100px;">
+                      <div style="font-family:'Geist Mono',ui-monospace,monospace; font-size:12px; color:var(--glow-top); margin-bottom:4px;">{{ row.matchLabel }}</div>
+                      <div style="width:64px; height:4px; border-radius:2px; background:var(--border); overflow:hidden;"><div style="height:100%; border-radius:2px; background:var(--glow-top); width:{{ row.matchLabel }};"></div></div>
+                    </td>
+                    <td style="padding:12px 16px; border-bottom:1px solid var(--border); white-space:nowrap;"><span style="{{ row.stageBadgeStyle }}">{{ row.stageLabel }}</span></td>
+                    <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.source }}</td>
+                    <td style="padding:12px 16px; border-bottom:1px solid var(--border); text-align:right; white-space:nowrap;">
+                      <button onClick="{{ row.onInterview }}" style="font-size:11.5px; font-weight:600; padding:6px 12px; border-radius:999px; border:1px solid var(--border-glass); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; cursor:pointer; margin-right:6px; transition:transform .15s ease-out;" style-hover="transform:translateY(-2px);">Interview</button>
+                      <button onClick="{{ row.onPass }}" style="font-size:11.5px; font-weight:600; padding:6px 12px; border-radius:999px; border:1px solid var(--border); background:transparent; color:var(--text-3); cursor:pointer;">Pass</button>
+                    </td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isCandidatesTab }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-bottom:24px;">
+          <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:12px;">Success stories on Trackd</div>
+          <div style="display:flex; gap:14px; overflow-x:auto; padding-bottom:4px;">
+            <sc-for list="{{ successStories }}" as="s" hint-placeholder-count="3">
+              <div style="flex:0 0 260px; border:1px solid var(--border-glass); background:var(--surface-alt); border-radius:14px; padding:16px;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                  <div style="width:32px; height:32px; border-radius:50%; background:var(--surface-2); border:1px solid var(--border-glass); display:flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:700; color:var(--glow-top); flex-shrink:0;">{{ s.initials }}</div>
+                  <div style="min-width:0;">
+                    <div style="font-size:13px; font-weight:700; color:var(--text); white-space:nowrap;">{{ s.name }}</div>
+                    <div style="font-size:11px; color:var(--text-3); white-space:nowrap;">{{ s.role }}</div>
+                  </div>
+                  <span style="font-size:10px; font-weight:700; padding:3px 8px; border-radius:999px; background:var(--surface); border:1px solid var(--border-glass); color:var(--glow-top); margin-left:auto; flex-shrink:0;">HIRED</span>
+                </div>
+                <p style="font-size:12.5px; color:var(--text-2); line-height:1.5;">"{{ s.quote }}"</p>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); width:fit-content;">
+            <sc-for list="{{ allStageFilters }}" as="f" hint-placeholder-count="5">
+              <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:12px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ allCandidatesCountLabel }}</div>
+        </div>
+
+        <sc-if value="{{ bulkBarVisible }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; align-items:center; gap:12px; padding:10px 16px; border:1px solid var(--border-glass); background:var(--surface-alt); border-radius:12px; margin-bottom:12px; flex-wrap:wrap;">
+            <span style="font-size:13px; font-weight:600; color:var(--text);">{{ selectedCount }} selected</span>
+            <button onClick="{{ bulkMoveToInterview }}" style="font-size:12px; font-weight:600; padding:7px 14px; border-radius:999px; border:1px solid var(--border-glass); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; cursor:pointer;">Move to Interview</button>
+            <button onClick="{{ bulkClearSelection }}" style="font-size:12px; font-weight:600; padding:7px 14px; border-radius:999px; border:1px solid var(--border); background:transparent; color:var(--text-2); cursor:pointer; margin-left:auto;">Clear selection</button>
+          </div>
+        </sc-if>
+
+        <div style="border:1px solid var(--border); border-radius:14px; overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+            <thead>
+              <tr>
+                <th style="padding:11px 16px; border-bottom:1px solid var(--border); width:20px;" onClick="{{ toggleSelectAllCandidates }}"><input type="checkbox" checked="{{ allSelectedOnPage }}" readOnly="{{ true }}" style="cursor:pointer; pointer-events:none;"></th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Candidate</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Role</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Match</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Stage</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Source</th>
+                <th style="text-align:right; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ allCandidateRows }}" as="row" hint-placeholder-count="8">
+                <tr onClick="{{ row.onClick }}" style="cursor:pointer; transition:background-color .15s ease-out;" style-hover="background-color:var(--surface-alt);">
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border);" onClick="{{ row.onToggleCheck }}"><input type="checkbox" checked="{{ row.checked }}" readOnly="{{ true }}" style="cursor:pointer; pointer-events:none;"></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border);">
+                    <div style="font-weight:600; color:var(--text); white-space:nowrap;">{{ row.name }}</div>
+                    <div style="font-size:11.5px; color:var(--text-3); white-space:nowrap;">{{ row.headline }}</div>
+                  </td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.roleTitle }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); min-width:100px;">
+                    <div style="font-family:'Geist Mono',ui-monospace,monospace; font-size:12px; color:var(--glow-top); margin-bottom:4px;">{{ row.matchLabel }}</div>
+                    <div style="width:64px; height:4px; border-radius:2px; background:var(--border); overflow:hidden;"><div style="height:100%; border-radius:2px; background:var(--glow-top); width:{{ row.matchLabel }};"></div></div>
+                  </td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); white-space:nowrap;"><span style="{{ row.stageBadgeStyle }}">{{ row.stageLabel }}</span></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ row.source }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); text-align:right; white-space:nowrap;">
+                    <button onClick="{{ row.onInterview }}" style="font-size:11.5px; font-weight:600; padding:6px 12px; border-radius:999px; border:1px solid var(--border-glass); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; cursor:pointer; margin-right:6px; transition:transform .15s ease-out;" style-hover="transform:translateY(-2px);">Interview</button>
+                    <button onClick="{{ row.onPass }}" style="font-size:11.5px; font-weight:600; padding:6px 12px; border-radius:999px; border:1px solid var(--border); background:transparent; color:var(--text-3); cursor:pointer;">Pass</button>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isTalentTab }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font-size:22px; font-weight:800; letter-spacing:-0.01em; margin-bottom:6px;">Talent Search</h2>
+        <p style="font-size:14px; color:var(--text-2); margin-bottom:18px;">Browse candidates across the whole Trackd network and reach out directly.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <div style="display:flex; flex-wrap:wrap; gap:6px;">
+            <sc-for list="{{ talentLocationOptions }}" as="opt" hint-placeholder-count="4">
+              <button onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <div style="display:flex; flex-wrap:wrap; gap:6px;">
+            <sc-for list="{{ talentSkillOptions }}" as="opt" hint-placeholder-count="6">
+              <button onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:20px; flex-wrap:wrap;">
+          <div style="display:flex; flex-wrap:wrap; gap:6px;">
+            <sc-for list="{{ talentYearsOptions }}" as="opt" hint-placeholder-count="4">
+              <button onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:12.5px; color:var(--text-2); font-weight:600;">Open to work only</span>
+              <button onClick="{{ toggleTalentAvailable }}" style="{{ talentAvailToggleStyle }}"><span style="{{ talentAvailKnobStyle }}"></span></button>
+            </div>
+            <div style="font-size:12px; color:var(--text-3); font-family:'Geist Mono',ui-monospace,monospace;">{{ talentResultsLabel }}</div>
+          </div>
+        </div>
+
+        <div style="border:1px solid var(--border); border-radius:14px; overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Candidate</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Skills</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Location</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Experience</th>
+                <th style="text-align:left; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Status</th>
+                <th style="text-align:right; padding:11px 16px; color:var(--text-3); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid var(--border); white-space:nowrap;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ talentRows }}" as="t" hint-placeholder-count="6">
+                <tr onClick="{{ t.onOpenPreview }}" style="cursor:pointer; transition:background-color .15s ease-out;" style-hover="background-color:var(--surface-alt);">
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border);">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                      <div style="width:30px; height:30px; border-radius:50%; background:var(--surface-2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:700; color:var(--text-2); flex-shrink:0;">{{ t.initials }}</div>
+                      <div style="min-width:0;">
+                        <div style="font-weight:600; color:var(--text); white-space:nowrap;">{{ t.name }}</div>
+                        <div style="font-size:11.5px; color:var(--text-3); white-space:nowrap;">{{ t.headline }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border);">
+                    <div style="display:flex; flex-wrap:wrap; gap:5px; max-width:220px;">
+                      <sc-for list="{{ t.skills }}" as="sk" hint-placeholder-count="3">
+                        <span style="font-size:10.5px; padding:3px 8px; border-radius:999px; background:var(--surface-alt); border:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ sk.label }}</span>
+                      </sc-for>
+                    </div>
+                  </td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); white-space:nowrap;">{{ t.location }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); color:var(--text-2); font-family:'Geist Mono',ui-monospace,monospace; white-space:nowrap;">{{ t.yearsLabel }}</td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); white-space:nowrap;"><span style="{{ t.availStyle }}">{{ t.availLabel }}</span></td>
+                  <td style="padding:12px 16px; border-bottom:1px solid var(--border); text-align:right; white-space:nowrap;">
+                    <button onClick="{{ t.onReachOut }}" style="{{ t.reachBtnStyle }}">{{ t.reachBtnLabel }}</button>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSettingsTab }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font-size:22px; font-weight:800; letter-spacing:-0.01em; margin-bottom:6px;">Settings</h2>
+        <p style="font-size:14px; color:var(--text-2); margin-bottom:28px;">Manage your company profile, team, hiring defaults, and integrations.</p>
+
+        <div style="max-width:620px; display:flex; flex-direction:column; gap:24px;">
+
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:16px;">Company profile</div>
+            <div style="display:flex; align-items:center; gap:16px; margin-bottom:18px;">
+              <div style="width:64px; height:64px; flex-shrink:0;">
+                <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="company-logo" shape="rounded" radius="14" placeholder="Add logo" hint-size="64px,64px" style="width:64px; height:64px;"></x-import>
+              </div>
+              <p style="font-size:12px; color:var(--text-3); line-height:1.5;">Shown to candidates on your job postings.</p>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <div style="flex:1; min-width:200px;">
+                  <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Company name</label>
+                  <input type="text" value="{{ settings.companyName }}" onInput="{{ setSettingsCompanyName }}" style="width:100%; padding:10px 13px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13.5px;">
+                </div>
+                <div style="flex:1; min-width:200px;">
+                  <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Website</label>
+                  <input type="text" value="{{ settings.website }}" onInput="{{ setSettingsWebsite }}" style="width:100%; padding:10px 13px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13.5px;">
+                </div>
+              </div>
+              <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <div style="flex:1; min-width:200px;">
+                  <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Company size</label>
+                  <input type="text" value="{{ settings.size }}" onInput="{{ setSettingsSize }}" style="width:100%; padding:10px 13px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13.5px;">
+                </div>
+                <div style="flex:1; min-width:200px;">
+                  <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Industry</label>
+                  <input type="text" value="{{ settings.industry }}" onInput="{{ setSettingsIndustry }}" style="width:100%; padding:10px 13px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13.5px;">
+                </div>
+              </div>
+              <div>
+                <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Your name</label>
+                <input type="text" value="{{ settings.fullName }}" onInput="{{ setSettingsFullName }}" style="width:100%; padding:10px 13px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13.5px;">
+              </div>
+              <div>
+                <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Contact email</label>
+                <input type="email" value="{{ settings.email }}" onInput="{{ setSettingsEmail }}" style="width:100%; padding:10px 13px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13.5px;">
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:16px;">Team &amp; seats</div>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
+              <sc-for list="{{ team }}" as="m" hint-placeholder-count="3">
+                <div style="display:flex; align-items:center; gap:12px; padding:10px 12px; border:1px solid var(--border); border-radius:10px;">
+                  <div style="width:30px; height:30px; border-radius:50%; background:var(--surface-2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--text-2); flex-shrink:0;">{{ m.initials }}</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:13.5px; font-weight:600; color:var(--text); white-space:nowrap;">{{ m.name }}</div>
+                    <div style="font-size:11.5px; color:var(--text-3); white-space:nowrap;">{{ m.email }}</div>
+                  </div>
+                  <span style="font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; background:var(--surface-alt); border:1px solid var(--border-glass); color:var(--glow-top); flex-shrink:0;">{{ m.role }}</span>
+                  <button onClick="{{ m.onRemove }}" aria-label="Remove" style="width:24px; height:24px; border:none; background:transparent; color:var(--text-3); cursor:pointer; flex-shrink:0;">×</button>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; padding-top:16px; border-top:1px solid var(--border);">
+              <input type="text" placeholder="Name" value="{{ inviteTeamName }}" onInput="{{ setInviteTeamName }}" style="flex:1 1 140px; padding:9px 12px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+              <input type="email" placeholder="Email" value="{{ inviteTeamEmail }}" onInput="{{ setInviteTeamEmail }}" style="flex:1 1 160px; padding:9px 12px; border-radius:9px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13px;">
+              <button onClick="{{ addTeamMember }}" style="padding:9px 16px; border-radius:9px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap;">Invite</button>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:6px;">Default hiring values</div>
+            <p style="font-size:12px; color:var(--text-3); margin-bottom:14px;">Pre-fills "What matters most" when you post a new role.</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+              <sc-for list="{{ defaultValuePillOptions }}" as="opt" hint-placeholder-count="6">
+                <button onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:16px;">Billing</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+              <div>
+                <div style="font-size:14.5px; font-weight:700; color:var(--text); margin-bottom:2px;">Growth plan</div>
+                <div style="font-size:12px; color:var(--text-3);">2 seats used · Renews Aug 14</div>
+              </div>
+              <button style="padding:9px 18px; border-radius:9px; border:1px solid var(--border); background:transparent; color:var(--text); font-size:13px; font-weight:600; cursor:pointer;">Manage plan</button>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:16px;">Integrations</div>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                  <div style="font-size:13.5px; font-weight:600;">Slack notifications</div>
+                  <div style="font-size:12px; color:var(--text-3);">New applicant alerts posted to a channel</div>
+                </div>
+                <button onClick="{{ toggleSlack }}" style="{{ slackToggleStyle }}"><span style="{{ slackKnobStyle }}"></span></button>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                  <div style="font-size:13.5px; font-weight:600;">ATS sync</div>
+                  <div style="font-size:12px; color:var(--text-3);">Two-way sync with your existing ATS</div>
+                </div>
+                <button onClick="{{ toggleAtsSync }}" style="{{ atsToggleStyle }}"><span style="{{ atsKnobStyle }}"></span></button>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:16px;">Preferences</div>
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              <div>
+                <div style="font-size:13.5px; font-weight:600;">Email notifications</div>
+                <div style="font-size:12px; color:var(--text-3);">New applicant &amp; stage change alerts</div>
+              </div>
+              <button onClick="{{ toggleNotify }}" style="{{ notifyToggleStyle }}"><span style="{{ notifyKnobStyle }}"></span></button>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border); border-radius:14px; padding:20px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:6px; color:var(--text-2);">Danger zone</div>
+            <p style="font-size:12.5px; color:var(--text-3); margin-bottom:14px;">Permanently delete this workspace and all role and candidate data.</p>
+            <button style="padding:9px 16px; border-radius:9px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-size:13px; font-weight:600; cursor:pointer;">Delete workspace</button>
+          </div>
+        </div>
+      </sc-if>
+    </main>
+  </div>
+
+  <sc-if value="{{ detailOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:95; background:rgba(0,0,0,0.5); animation:fadeIn .15s ease-out both;" onClick="{{ closeDetail }}"></div>
+    <div style="position:fixed; top:0; right:0; bottom:0; width:min(420px,100vw); z-index:96; background:var(--surface); border-left:1px solid var(--border); padding:24px; overflow-y:auto; animation:slideInRight .25s ease-out both;">
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:38px; height:38px; border-radius:50%; background:var(--surface-2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:var(--text-2); flex-shrink:0;">{{ activeCandidate.initials }}</div>
+          <div>
+            <div style="font-size:17px; font-weight:700;">{{ activeCandidate.name }}</div>
+            <div style="font-size:13px; color:var(--text-2);">{{ activeCandidate.headline }}</div>
+          </div>
+        </div>
+        <button onClick="{{ closeDetail }}" aria-label="Close" style="width:28px; height:28px; border-radius:8px; border:none; background:transparent; color:var(--text-3); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:16px; border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:20px;">
+        <svg width="64" height="64" viewBox="0 0 64 64" style="transform:rotate(-90deg); flex-shrink:0;">
+          <circle cx="32" cy="32" r="26" fill="none" stroke="var(--border)" stroke-width="6"></circle>
+          <circle cx="32" cy="32" r="26" fill="none" stroke="var(--glow-top)" stroke-width="6" stroke-linecap="round" stroke-dasharray="163" style="{{ activeCandidate.dashStyle }}"></circle>
+        </svg>
+        <div>
+          <div style="font-size:22px; font-weight:800; color:var(--glow-top); font-family:'Geist Mono',ui-monospace,monospace;">{{ activeCandidate.matchLabel }}</div>
+          <div style="font-size:12px; color:var(--text-3);">Compatibility with role</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;">Top skills</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <sc-for list="{{ activeCandidate.skills }}" as="sk" hint-placeholder-count="4">
+            <span style="font-size:12px; padding:6px 11px; border-radius:8px; background:color-mix(in srgb, var(--glow-top) 12%, var(--surface)); border:1px solid var(--border-glass); color:var(--glow-top); font-weight:600;">{{ sk }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-bottom:24px;">
+        <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;">Source &amp; stage</div>
+        <div style="display:flex; gap:16px; font-size:13px; color:var(--text-2);">
+          <span>{{ activeCandidate.source }}</span>
+          <span>·</span>
+          <span>{{ activeCandidate.stageLabel }}</span>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button onClick="{{ closeDetail }}" style="flex:1; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:600; font-size:13.5px; cursor:pointer;">Close</button>
+        <button onClick="{{ interviewActiveCandidate }}" style="{{ primaryBtnStyle }} flex:1; justify-content:center;" style-hover="{{ primaryBtnHoverStyle }}" style-active="{{ primaryBtnActiveStyle }}">Move to Interview</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ talentPreviewOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:97; background:rgba(0,0,0,0.5); animation:fadeIn .15s ease-out both;" onClick="{{ closeTalentPreview }}"></div>
+    <div style="position:fixed; top:0; right:0; bottom:0; width:min(460px,100vw); z-index:98; background:var(--surface); border-left:1px solid var(--border); padding:24px; overflow-y:auto; animation:slideInRight .25s ease-out both;">
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--surface-2); border:1px solid var(--border-glass); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:var(--glow-top); flex-shrink:0;">{{ talentPreview.initials }}</div>
+          <div>
+            <div style="font-size:17px; font-weight:700;">{{ talentPreview.name }}</div>
+            <div style="font-size:13px; color:var(--text-2);">{{ talentPreview.headline }}</div>
+          </div>
+        </div>
+        <button onClick="{{ closeTalentPreview }}" aria-label="Close" style="width:28px; height:28px; border-radius:8px; border:none; background:transparent; color:var(--text-3); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
+        <span style="{{ talentPreview.availStyle }}">{{ talentPreview.availLabel }}</span>
+        <span style="font-size:12px; color:var(--text-3);">{{ talentPreview.location }} · {{ talentPreview.yearsLabel }}</span>
+      </div>
+
+      <div style="margin-bottom:24px;">
+        <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;">Skills</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <sc-for list="{{ talentPreview.skills }}" as="sk" hint-placeholder-count="4">
+            <span style="font-size:12px; padding:6px 11px; border-radius:8px; background:color-mix(in srgb, var(--glow-top) 12%, var(--surface)); border:1px solid var(--border-glass); color:var(--glow-top); font-weight:600;">{{ sk }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-bottom:28px;">
+        <div style="font-size:12px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:14px;">Career story</div>
+        <sc-for list="{{ talentPreview.story }}" as="m" hint-placeholder-count="3">
+          <div style="{{ m.lineStyle }}">
+            <span style="position:absolute; left:-6px; top:2px; width:10px; height:10px; border-radius:50%; background:var(--glow-top); border:2px solid var(--surface); box-shadow:0 0 0 2px var(--border-glass);"></span>
+            <div style="font-size:11.5px; font-weight:700; color:var(--glow-top); font-family:'Geist Mono',ui-monospace,monospace; margin-bottom:4px;">{{ m.year }}</div>
+            <div style="font-size:13.5px; font-weight:700; color:var(--text); margin-bottom:4px;">{{ m.title }}</div>
+            <div style="font-size:12.5px; color:var(--text-2); line-height:1.5;">{{ m.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button onClick="{{ closeTalentPreview }}" style="flex:1; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:600; font-size:13.5px; cursor:pointer;">Close</button>
+        <button onClick="{{ talentPreview.onReachOut }}" style="{{ primaryBtnStyle }} flex:1; justify-content:center;" style-hover="{{ primaryBtnHoverStyle }}" style-active="{{ primaryBtnActiveStyle }}">{{ talentPreview.reachBtnLabel }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ outreachModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(0,0,0,0.55); animation:fadeIn .15s ease-out both;" onClick="{{ closeOutreach }}">
+      <div style="width:100%; max-width:440px; border-radius:16px; background:var(--surface); border:1px solid var(--border-glass); padding:26px; animation:scaleIn .18s ease-out both; box-shadow:0 30px 80px rgba(0,0,0,0.5);" onClick="{{ stopPropagation }}">
+        <h3 style="font-size:18px; font-weight:700; margin-bottom:4px;">Reach out to {{ outreachTarget.name }}</h3>
+        <p style="font-size:13px; color:var(--text-3); margin-bottom:16px;">Sent via Trackd — visible in their inbox alongside applications.</p>
+        <textarea rows="5" value="{{ outreachDraft }}" onInput="{{ setOutreachDraft }}" placeholder="Hi, I came across your profile and think you'd be a great fit for…" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13.5px; resize:none; margin-bottom:18px;"></textarea>
+        <div style="display:flex; gap:10px;">
+          <button onClick="{{ closeOutreach }}" style="flex:1; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:600; font-size:13.5px; cursor:pointer;">Cancel</button>
+          <button onClick="{{ sendOutreach }}" style="{{ postConfirmStyle }}">Send message</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ postModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(0,0,0,0.55); animation:fadeIn .15s ease-out both;" onClick="{{ closePostModal }}">
+      <div style="width:100%; max-width:600px; max-height:88vh; overflow-y:auto; border-radius:16px; background:var(--surface); border:1px solid var(--border-glass); padding:28px; animation:scaleIn .18s ease-out both; box-shadow:0 30px 80px rgba(0,0,0,0.5);" onClick="{{ stopPropagation }}">
+        <h3 style="font-size:18px; font-weight:700; margin-bottom:6px;">Post a role</h3>
+        <p style="font-size:13px; color:var(--text-3); margin-bottom:18px;">Roles posted here surface to Trackd candidates immediately.</p>
+
+        <div style="display:flex; gap:2px; padding:3px; border-radius:10px; border:1px solid var(--border); width:fit-content; margin-bottom:22px;">
+          <button onClick="{{ setPostModeLink }}" style="{{ postLinkToggleStyle }}">Paste a link</button>
+          <button onClick="{{ setPostModeForm }}" style="{{ postFormToggleStyle }}">Full details</button>
+        </div>
+
+        <sc-if value="{{ isPostModeLink }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:20px;">
+            <div>
+              <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Posting URL</label>
+              <input type="text" value="{{ newRoleLink }}" onInput="{{ setNewRoleLink }}" placeholder="https://jobs.example.com/senior-designer or a Google Form link" style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:14px;">
+              <p style="font-size:11.5px; color:var(--text-3); margin-top:8px; line-height:1.5;">Works with your career page, a job board, or a Google Form — we'll keep it discoverable and scoreable without duplicating your workflow.</p>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isPostModeForm }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:20px;">
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <div style="flex:1; min-width:200px;">
+                <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Job title</label>
+                <input type="text" value="{{ newRoleTitle }}" onInput="{{ setNewRoleTitle }}" placeholder="e.g. Staff Product Designer" style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:14px;">
+              </div>
+              <div style="flex:1; min-width:200px;">
+                <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Location</label>
+                <input type="text" value="{{ newRoleLocation }}" onInput="{{ setNewRoleLocation }}" placeholder="e.g. Remote" style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:14px;">
+              </div>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <div style="flex:1; min-width:200px;">
+                <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Compensation</label>
+                <input type="text" value="{{ newRoleComp }}" onInput="{{ setNewRoleComp }}" placeholder="$150k–190k" style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:14px;">
+              </div>
+              <div style="flex:1; min-width:200px;">
+                <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Preferred years of experience</label>
+                <input type="text" value="{{ newRoleYears }}" onInput="{{ setNewRoleYears }}" placeholder="4–7 years" style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:14px;">
+              </div>
+            </div>
+            <div>
+              <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:8px;">Seniority level</label>
+              <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                <sc-for list="{{ seniorityOptions }}" as="opt" hint-placeholder-count="4">
+                  <button onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:8px;">Level of determination</label>
+              <p style="font-size:11px; color:var(--text-3); margin-bottom:8px;">How urgently are you hiring for this role?</p>
+              <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                <sc-for list="{{ urgencyOptions }}" as="opt" hint-placeholder-count="3">
+                  <button onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:8px;">What matters most in a hire?</label>
+              <p style="font-size:11px; color:var(--text-3); margin-bottom:8px;">Select all that apply — this shapes how we rank and score applicants.</p>
+              <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                <sc-for list="{{ valuePillOptions }}" as="opt" hint-placeholder-count="6">
+                  <button onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Required skills / stack</label>
+              <input type="text" value="{{ newRoleStack }}" onInput="{{ setNewRoleStack }}" placeholder="React, TypeScript, GraphQL" style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:14px;">
+            </div>
+            <div>
+              <label style="display:block; font-size:12.5px; font-weight:600; color:var(--text-2); margin-bottom:6px;">Role description <span style="color:var(--text-3); font-weight:500;">(optional)</span></label>
+              <textarea rows="3" value="{{ newRoleDesc }}" onInput="{{ setNewRoleDesc }}" placeholder="Responsibilities, team context, anything candidates should know…" style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); font-size:13.5px; resize:none;"></textarea>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="display:flex; gap:10px;">
+          <button onClick="{{ closePostModal }}" style="flex:1; padding:11px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:600; font-size:13.5px; cursor:pointer;">Cancel</button>
+          <button onClick="{{ confirmPostRole }}" style="{{ postConfirmStyle }}">Publish role</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dark&quot;,&quot;options&quot;:[&quot;dark&quot;,&quot;light&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+const THEME_VARS = {
+  dark: { '--bg':'#09090B','--surface':'#18181B','--surface-2':'#1F1F23','--surface-alt':'rgba(255,255,255,0.045)','--brand':'#2438BD','--brand-2':'#0F52BA','--glow-mid':'#007FFF','--glow-top':'#52E8FF','--info':'#007BA7','--energy':'#0AFFFF','--text':'#FAFAFA','--text-2':'#A1A1AA','--text-3':'#71717A','--border':'rgba(255,255,255,0.10)','--border-glass':'rgba(82,232,255,0.20)' },
+  light: { '--bg':'#F3F6FF','--surface':'#FFFFFF','--surface-2':'#F1F4FC','--surface-alt':'rgba(15,82,186,0.05)','--brand':'#2438BD','--brand-2':'#0F52BA','--glow-mid':'#007FFF','--glow-top':'#0F52BA','--info':'#007BA7','--energy':'#00A9B4','--text':'#0A1040','--text-2':'#28348E','--text-3':'#5C6FA8','--border':'rgba(10,20,70,0.10)','--border-glass':'rgba(0,127,255,0.22)' }
+};
+
+const NAV_ITEMS = [
+  { key: 'overview', label: 'Overview', isOverview: true },
+  { key: 'roles', label: 'Roles', isRoles: true },
+  { key: 'talent', label: 'Talent Search', isTalent: true },
+  { key: 'candidates', label: 'Candidates', isCandidates: true },
+  { key: 'settings', label: 'Settings', isSettings: true }
+];
+
+const TALENT_POOL = [
+  { id: 1, name: 'Amara Chen', headline: 'Senior Frontend Engineer', years: 7, location: 'SF / Remote', skills: ['React', 'TypeScript', 'GraphQL'], available: true,
+    story: [
+      { year: '2018', title: 'Frontend Engineer, Lumen', desc: 'Joined as the 2nd frontend hire; built the checkout flow from scratch.' },
+      { year: '2020', title: 'Senior Engineer, Lumen', desc: 'Shipped a component library adopted by 4 product teams.' },
+      { year: '2023', title: 'Senior Engineer, Current Co.', desc: 'Led the React 18 migration, cutting bundle size 28%.' }
+    ] },
+  { id: 2, name: 'Luis Fontaine', headline: 'Product Designer', years: 5, location: 'NYC', skills: ['Figma', 'Design systems'], available: true,
+    story: [
+      { year: '2019', title: 'Product Designer, Studio Nine', desc: 'Designed onboarding flows for 3 B2B SaaS clients.' },
+      { year: '2022', title: 'Senior Designer, Current Co.', desc: 'Built and shipped the company\u2019s first design system.' }
+    ] },
+  { id: 3, name: 'Hana Kobayashi', headline: 'Backend Engineer', years: 6, location: 'Remote', skills: ['Node.js', 'Postgres', 'AWS'], available: false,
+    story: [
+      { year: '2019', title: 'Backend Engineer, DataForge', desc: 'Built the billing service handling 2M+ transactions/mo.' },
+      { year: '2022', title: 'Senior Backend Engineer, Current Co.', desc: 'Migrated core services to AWS, improving uptime to 99.98%.' }
+    ] },
+  { id: 4, name: 'Marcus Webb', headline: 'Full-stack Engineer', years: 4, location: 'Austin / Remote', skills: ['React', 'Node.js'], available: true,
+    story: [
+      { year: '2021', title: 'Software Engineer, Bright Labs', desc: 'Shipped end-to-end features across a React/Node stack.' },
+      { year: '2023', title: 'Full-stack Engineer, Current Co.', desc: 'Owns the internal admin tooling used by 40+ staff.' }
+    ] },
+  { id: 5, name: 'Ines Duarte', headline: 'Staff Engineer', years: 9, location: 'Remote', skills: ['Go', 'Kubernetes', 'AWS'], available: true,
+    story: [
+      { year: '2016', title: 'Backend Engineer, Corex', desc: 'Built the first version of the payments infra.' },
+      { year: '2019', title: 'Senior Engineer, Corex', desc: 'Led migration to Kubernetes, cutting infra cost 35%.' },
+      { year: '2023', title: 'Staff Engineer, Current Co.', desc: 'Sets technical direction for the platform team.' }
+    ] },
+  { id: 6, name: 'Sam Okafor', headline: 'Product Designer', years: 3, location: 'SF', skills: ['Figma', 'User research'], available: false,
+    story: [
+      { year: '2021', title: 'Junior Designer, Studio Nine', desc: 'Ran user research for 3 major feature launches.' },
+      { year: '2023', title: 'Product Designer, Current Co.', desc: 'Owns the mobile app design end-to-end.' }
+    ] },
+  { id: 7, name: 'Petra Novak', headline: 'Frontend Engineer', years: 5, location: 'Remote', skills: ['Vue', 'React', 'CSS'], available: true,
+    story: [
+      { year: '2019', title: 'Frontend Engineer, Northwind', desc: 'Built the marketing site and internal style guide.' },
+      { year: '2022', title: 'Frontend Engineer, Current Co.', desc: 'Migrated legacy Vue app to React incrementally.' }
+    ] },
+  { id: 8, name: 'Diego Ramos', headline: 'Data Engineer', years: 6, location: 'NYC / Remote', skills: ['Python', 'Spark', 'AWS'], available: true,
+    story: [
+      { year: '2018', title: 'Data Analyst, Corex', desc: 'Built the first reporting pipeline for the finance team.' },
+      { year: '2021', title: 'Data Engineer, Current Co.', desc: 'Rebuilt the data warehouse on Spark, 10x throughput.' }
+    ] }
+];
+
+const JOBS = [
+  { id: 1, title: 'Senior Frontend Engineer', location: 'Remote', comp: '$150–190k', isNew: false },
+  { id: 2, title: 'Product Designer', location: 'SF / Remote', comp: '$130–165k', isNew: true },
+  { id: 3, title: 'Backend Engineer', location: 'NYC / Remote', comp: '$145–180k', isNew: false }
+];
+
+const STAGE_DEFS = [
+  { key: 'all', label: 'All' },
+  { key: 'applied', label: 'Applied' },
+  { key: 'screening', label: 'Screening' },
+  { key: 'interview', label: 'Interview' },
+  { key: 'offer', label: 'Offer' }
+];
+const STAGE_LABEL = { applied: 'Applied', screening: 'Screening', interview: 'Interview', offer: 'Offer' };
+
+const CANDIDATES_BY_JOB = {
+  1: [
+    { id: 11, name: 'Maya Alvarez', headline: 'Senior Frontend Engineer · 6 yrs', match: 94, stage: 'interview', source: 'Trackd', skills: ['React', 'TypeScript', 'Next.js'] },
+    { id: 12, name: 'Daniel Osei', headline: 'Frontend Engineer · 5 yrs', match: 88, stage: 'screening', source: 'Trackd', skills: ['Vue', 'React', 'CSS'] },
+    { id: 13, name: 'Priya Nandakumar', headline: 'Full-stack Engineer · 7 yrs', match: 81, stage: 'applied', source: 'Referral', skills: ['Node.js', 'React', 'AWS'] },
+    { id: 14, name: 'Ken Ishida', headline: 'Frontend Engineer · 4 yrs', match: 76, stage: 'applied', source: 'Trackd', skills: ['React', 'Redux'] },
+    { id: 15, name: 'Sofia Marin', headline: 'Senior Engineer · 8 yrs', match: 91, stage: 'offer', source: 'Trackd', skills: ['React', 'TypeScript', 'GraphQL'] }
+  ],
+  2: [
+    { id: 21, name: 'Theo Brandt', headline: 'Product Designer · 5 yrs', match: 89, stage: 'interview', source: 'Trackd', skills: ['Figma', 'Design systems'] },
+    { id: 22, name: 'Nina Kowalski', headline: 'Product Designer · 3 yrs', match: 74, stage: 'applied', source: 'Trackd', skills: ['Figma', 'User research'] }
+  ],
+  3: [
+    { id: 31, name: 'Omar Haddad', headline: 'Backend Engineer · 6 yrs', match: 86, stage: 'screening', source: 'Referral', skills: ['Node.js', 'Postgres', 'AWS'] },
+    { id: 32, name: 'Grace Liu', headline: 'Backend Engineer · 4 yrs', match: 79, stage: 'applied', source: 'Trackd', skills: ['Python', 'Postgres'] }
+  ]
+};
+
+function stageBadgeStyle(stage) {
+  const active = stage === 'interview' || stage === 'offer';
+  return `font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:999px; background:${active ? 'color-mix(in srgb, var(--glow-top) 12%, var(--surface))' : 'var(--surface-2)'}; border:1px solid ${active ? 'var(--border-glass)' : 'var(--border)'}; color:${active ? 'var(--glow-top)' : 'var(--text-2)'};`;
+}
+
+class Component extends DCLogic {
+  state = {
+    theme: null,
+    isMobile: false,
+    sidebarOpen: false,
+    activeTab: 'roles',
+    searchQuery: '',
+    candSearchQuery: '',
+    allStageFilter: 'all',
+    activeJobId: 1,
+    stageFilter: 'all',
+    candidatesByJob: CANDIDATES_BY_JOB,
+    detailId: null,
+    detailJobId: null,
+    postModalOpen: false,
+    postMode: 'form',
+    newRoleTitle: '',
+    newRoleLocation: '',
+    newRoleLink: '',
+    newRoleComp: '',
+    newRoleYears: '',
+    newRoleStack: '',
+    newRoleDesc: '',
+    newRoleSeniority: 'Mid',
+    newRoleUrgency: 'Actively hiring',
+    newRoleValues: ['Work output'],
+    jobs: JOBS,
+    talentQuery: '', talentAvailableOnly: false, talentLocationFilter: 'all', talentSkillFilter: 'all', talentMinYears: 0,
+    outreachId: null, outreachDraft: '', outreachSentIds: [],
+    previewTalentId: null,
+    selectedCandIds: [],
+    settings: {
+      companyName: 'Acme Inc.', fullName: 'Alex Kim', email: 'alex@acme.com',
+      website: 'acme.com', size: '51–200 employees', industry: 'Software'
+    },
+    notifyEmail: true,
+    defaultValues: ['Work output', 'Culture fit'],
+    team: [
+      { id: 1, name: 'Alex Kim', email: 'alex@acme.com', role: 'Admin' },
+      { id: 2, name: 'Priya Rao', email: 'priya@acme.com', role: 'Recruiter' }
+    ],
+    inviteTeamName: '', inviteTeamEmail: '',
+    slackConnected: false, atsSyncEnabled: false
+  };
+
+  componentDidMount() {
+    let theme = this.props.initialTheme || 'dark';
+    try { theme = localStorage.getItem('trackd-theme') || theme; } catch (e) {}
+    this.setState({ theme });
+    this.applyTheme(theme);
+    this._onResize = () => this.setState({ isMobile: window.innerWidth <= 900 });
+    this._onResize();
+    window.addEventListener('resize', this._onResize);
+  }
+
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+
+  applyTheme(name) {
+    if (!this._root) return;
+    const vars = THEME_VARS[name] || THEME_VARS.dark;
+    Object.keys(vars).forEach(k => this._root.style.setProperty(k, vars[k]));
+  }
+
+  getTheme() { return this.state.theme || this.props.initialTheme || 'dark'; }
+
+  setCandidateStage(jobId, candId, stage) {
+    this.setState(s => ({
+      candidatesByJob: {
+        ...s.candidatesByJob,
+        [jobId]: s.candidatesByJob[jobId].map(c => c.id === candId ? { ...c, stage } : c)
+      }
+    }));
+  }
+
+  renderVals() {
+    const theme = this.getTheme();
+    const isDark = theme === 'dark';
+    const { isMobile, sidebarOpen, activeTab, activeJobId, stageFilter, candidatesByJob, jobs, detailId, searchQuery, candSearchQuery, allStageFilter } = this.state;
+    const detailJobId = this.state.detailJobId != null ? this.state.detailJobId : activeJobId;
+
+    const toggleTheme = () => {
+      const next = this.getTheme() === 'dark' ? 'light' : 'dark';
+      this.setState({ theme: next });
+      this.applyTheme(next);
+      try { localStorage.setItem('trackd-theme', next); } catch (e) {}
+    };
+
+    const navItems = NAV_ITEMS.map(n => ({
+      ...n,
+      onClick: () => this.setState({ activeTab: n.key, sidebarOpen: false }),
+      style: `width:100%; display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:9px; font-size:13.5px; font-weight:600; cursor:pointer; text-align:left; transition:all .15s ease-out; border:none; ${n.key === activeTab
+        ? 'background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 2px rgba(0,0,0,0.2), 0 4px 12px rgba(15,82,186,0.3);'
+        : 'background:transparent; color:var(--text-2);'}`
+    }));
+    const pageTitle = activeTab === 'overview' ? 'Overview' : activeTab === 'candidates' ? 'Candidates' : activeTab === 'talent' ? 'Talent Search' : activeTab === 'settings' ? 'Settings' : 'Roles';
+
+    const sidebarStyle = isMobile
+      ? `position:fixed; top:0; left:0; bottom:0; width:240px; z-index:95; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; transition:transform .25s cubic-bezier(0.16,1,0.3,1); transform:translateX(${sidebarOpen ? '0' : '-100%'});`
+      : 'position:relative; width:240px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column;';
+
+    const allCandidates = Object.values(candidatesByJob).flat();
+    const openRolesCount = jobs.length;
+    const interviewingCount = allCandidates.filter(c => c.stage === 'interview').length;
+    const screeningCount = allCandidates.filter(c => c.stage === 'screening').length;
+    const offersOut = allCandidates.filter(c => c.stage === 'offer').length;
+
+    const statCards = [
+      { label: 'Open roles', value: String(openRolesCount), delta: '1 new this week', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' },
+      { label: 'Interviewing', value: String(interviewingCount), delta: 'across all roles', deltaStyle: 'font-size:11.5px; color:var(--text-3);' },
+      { label: 'Screening', value: String(screeningCount), delta: 'awaiting decision', deltaStyle: 'font-size:11.5px; color:var(--text-3);' },
+      { label: 'Offers made', value: String(offersOut), delta: 'awaiting response', deltaStyle: 'font-size:11.5px; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' }
+    ];
+
+    const jobList = jobs.map(j => {
+      const active = j.id === activeJobId;
+      const count = (candidatesByJob[j.id] || []).length;
+      return {
+        id: j.id,
+        title: j.title,
+        applicantCount: count,
+        newLabel: j.isNew ? 'NEW' : '',
+        newBadgeStyle: j.isNew ? 'font-size:10px; font-weight:700; color:var(--glow-top); font-family:\'Geist Mono\',ui-monospace,monospace;' : 'display:none;',
+        onClick: () => this.setState({ activeJobId: j.id, stageFilter: 'all', detailId: null }),
+        style: `width:100%; text-align:left; padding:12px 14px; border-radius:11px; cursor:pointer; border:1px solid ${active ? 'var(--border-glass)' : 'var(--border)'}; background:${active ? 'var(--surface-alt)' : 'transparent'}; transition:all .15s ease-out;`
+      };
+    });
+
+    const activeJob = jobs.find(j => j.id === activeJobId) || jobs[0];
+    const jobCandidates = candidatesByJob[activeJob.id] || [];
+
+    const q = searchQuery.trim().toLowerCase();
+    const filteredByStage = stageFilter === 'all' ? jobCandidates : jobCandidates.filter(c => c.stage === stageFilter);
+    const filtered = q ? filteredByStage.filter(c => (c.name + ' ' + c.headline).toLowerCase().includes(q)) : filteredByStage;
+
+    const stageFilters = STAGE_DEFS.map(f => ({
+      ...f,
+      onClick: () => this.setState({ stageFilter: f.key }),
+      style: `padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out; background:${stageFilter === f.key ? 'var(--surface-2)' : 'transparent'}; color:${stageFilter === f.key ? 'var(--text)' : 'var(--text-3)'};`
+    }));
+
+    const funnelStages = ['applied', 'screening', 'interview', 'offer'];
+    const funnelColors = { applied: 'var(--text-3)', screening: 'var(--info)', interview: 'var(--glow-mid)', offer: 'var(--glow-top)' };
+    const funnelSegments = funnelStages.map(st => {
+      const count = jobCandidates.filter(c => c.stage === st).length;
+      const pct = jobCandidates.length ? Math.max(6, (count / jobCandidates.length) * 100) : 0;
+      return { label: STAGE_LABEL[st] + ': ' + count, style: `flex:${pct}; border-radius:4px; background:${funnelColors[st]}; opacity:0.85; transition:flex .3s ease-out;` };
+    });
+
+    const applicantRows = filtered.map(c => ({
+      id: c.id,
+      name: c.name,
+      headline: c.headline,
+      matchLabel: c.match + '%',
+      stageLabel: STAGE_LABEL[c.stage],
+      stageBadgeStyle: stageBadgeStyle(c.stage),
+      source: c.source,
+      onClick: () => this.setState({ detailId: c.id, detailJobId: activeJob.id }),
+      onInterview: (e) => { e.stopPropagation(); this.setCandidateStage(activeJob.id, c.id, 'interview'); },
+      onPass: (e) => { e.stopPropagation(); }
+    }));
+
+    const detailCandidates = candidatesByJob[detailJobId] || [];
+    const activeCand = detailCandidates.find(c => c.id === detailId);
+    const activeCandidate = activeCand ? {
+      initials: activeCand.name.split(' ').map(w => w[0]).join(''),
+      name: activeCand.name,
+      headline: activeCand.headline,
+      matchLabel: activeCand.match + '%',
+      dashStyle: `stroke-dashoffset:${163 - (activeCand.match / 100) * 163}; transition:stroke-dashoffset .5s ease-out;`,
+      skills: activeCand.skills,
+      source: activeCand.source,
+      stageLabel: STAGE_LABEL[activeCand.stage]
+    } : { initials: '', name: '', headline: '', matchLabel: '0%', dashStyle: '', skills: [], source: '', stageLabel: '' };
+
+    const interviewActiveCandidate = () => {
+      if (activeCand) this.setCandidateStage(detailJobId, activeCand.id, 'interview');
+      this.setState({ detailId: null });
+    };
+
+    const needsAttention = jobs.map(j => ({ job: j, pending: (candidatesByJob[j.id] || []).filter(c => c.stage === 'applied').length }))
+      .filter(x => x.pending > 0).sort((a, b) => b.pending - a.pending).slice(0, 3)
+      .map(x => ({
+        title: x.job.title,
+        subtitle: x.pending + ' awaiting review',
+        badgeLabel: String(x.pending),
+        badgeStyle: 'font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; background:color-mix(in srgb, var(--glow-top) 12%, var(--surface)); border:1px solid var(--border-glass); color:var(--glow-top); flex-shrink:0; font-family:\'Geist Mono\',ui-monospace,monospace;',
+        onClick: () => this.setState({ activeTab: 'roles', activeJobId: x.job.id, stageFilter: 'applied', detailId: null })
+      }));
+
+    const activityFeed = [
+      { text: 'Maya Alvarez moved to Interview — Senior Frontend Engineer', time: '2h ago' },
+      { text: 'New applicant — Product Designer', time: '5h ago' },
+      { text: 'Offer extended — Sofia Marin', time: '1d ago' },
+      { text: 'Role published — Backend Engineer', time: '3d ago' }
+    ];
+
+    const jobTitleMap = {};
+    jobs.forEach(j => { jobTitleMap[j.id] = j.title; });
+    let allCandsFlat = [];
+    Object.keys(candidatesByJob).forEach(jid => {
+      candidatesByJob[jid].forEach(c => allCandsFlat.push({ ...c, jobId: Number(jid) }));
+    });
+    const allQ = candSearchQuery.trim().toLowerCase();
+    const allFilteredByStage = allStageFilter === 'all' ? allCandsFlat : allCandsFlat.filter(c => c.stage === allStageFilter);
+    const allFiltered = allQ ? allFilteredByStage.filter(c => (c.name + ' ' + c.headline).toLowerCase().includes(allQ)) : allFilteredByStage;
+
+    const allStageFilters = STAGE_DEFS.map(f => ({
+      ...f,
+      onClick: () => this.setState({ allStageFilter: f.key }),
+      style: `padding:7px 14px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out; background:${allStageFilter === f.key ? 'var(--surface-2)' : 'transparent'}; color:${allStageFilter === f.key ? 'var(--text)' : 'var(--text-3)'};`
+    }));
+
+    const { selectedCandIds } = this.state;
+    const allCandidateRows = allFiltered.map(c => {
+      const checked = selectedCandIds.includes(c.id);
+      return {
+        id: c.id,
+        name: c.name,
+        headline: c.headline,
+        roleTitle: jobTitleMap[c.jobId] || '—',
+        matchLabel: c.match + '%',
+        stageLabel: STAGE_LABEL[c.stage],
+        stageBadgeStyle: stageBadgeStyle(c.stage),
+        source: c.source,
+        checked,
+        onToggleCheck: (e) => { e.stopPropagation(); this.setState(s => ({ selectedCandIds: checked ? s.selectedCandIds.filter(id => id !== c.id) : [...s.selectedCandIds, c.id] })); },
+        onClick: () => this.setState({ detailId: c.id, detailJobId: c.jobId }),
+        onInterview: (e) => { e.stopPropagation(); this.setCandidateStage(c.jobId, c.id, 'interview'); },
+        onPass: (e) => { e.stopPropagation(); }
+      };
+    });
+    const allCandidatesCountLabel = allFiltered.length + ' of ' + allCandsFlat.length;
+    const allSelectedOnPage = allFiltered.length > 0 && allFiltered.every(c => selectedCandIds.includes(c.id));
+    const toggleSelectAllCandidates = () => {
+      if (allSelectedOnPage) this.setState(s => ({ selectedCandIds: s.selectedCandIds.filter(id => !allFiltered.some(c => c.id === id)) }));
+      else this.setState(s => ({ selectedCandIds: [...new Set([...s.selectedCandIds, ...allFiltered.map(c => c.id)])] }));
+    };
+    const bulkMoveToInterview = () => {
+      selectedCandIds.forEach(id => {
+        const c = allCandsFlat.find(x => x.id === id);
+        if (c) this.setCandidateStage(c.jobId, c.id, 'interview');
+      });
+      this.setState({ selectedCandIds: [] });
+    };
+    const bulkClearSelection = () => this.setState({ selectedCandIds: [] });
+
+    const SUCCESS_STORIES = [
+      { name: 'Maya Alvarez', role: 'Senior Frontend Engineer', company: 'Acme Inc.', quote: 'Hired in 3 weeks after applying through Trackd.' },
+      { name: 'Sofia Marin', role: 'Senior Engineer', company: 'Acme Inc.', quote: 'Went from applied to offer in 12 days.' },
+      { name: 'Theo Brandt', role: 'Product Designer', company: 'Acme Inc.', quote: 'Matched at 89% compatibility — hired within a month.' }
+    ];
+    const successStories = SUCCESS_STORIES.map(s => ({ ...s, initials: s.name.split(' ').map(w => w[0]).join('') }));
+
+    const primaryBtnStyle = 'display:flex; align-items:center; gap:6px; padding:9px 16px; border-radius:9px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); backdrop-filter:blur(10px); color:#fff; font-size:13.5px; font-weight:600; cursor:pointer; flex-shrink:0; transition:transform .15s ease-out,box-shadow .15s ease-out; box-shadow:inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 12px rgba(15,82,186,0.3);';
+    const primaryBtnHoverStyle = 'transform:translateY(-2px); box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), 0 8px 20px rgba(15,82,186,0.4);';
+    const primaryBtnActiveStyle = 'transform:translateY(0) scale(0.97);';
+
+    const { postMode, newRoleLink, newRoleComp, newRoleYears, newRoleStack, newRoleDesc, newRoleSeniority, newRoleUrgency, newRoleValues } = this.state;
+    const postToggleBase = 'flex:1; padding:8px 16px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer; border:none; transition:all .15s ease-out;';
+    const postLinkToggleStyle = postToggleBase + (postMode === 'link' ? ' background:var(--surface-2); color:var(--text);' : ' background:transparent; color:var(--text-3);');
+    const postFormToggleStyle = postToggleBase + (postMode === 'form' ? ' background:var(--surface-2); color:var(--text);' : ' background:transparent; color:var(--text-3);');
+    const pillBase = 'padding:8px 14px; border-radius:999px; font-size:12.5px; font-weight:600; border:none; cursor:pointer; transition:all .15s ease-out;';
+    const pillActive = pillBase + ' background:var(--surface-alt); border:1px solid var(--border-glass); color:var(--glow-top);';
+    const pillInactive = pillBase + ' border:1px solid var(--border); background:transparent; color:var(--text-2);';
+
+    const SENIORITY_OPTS = ['Junior', 'Mid', 'Senior', 'Staff+'];
+    const seniorityOptions = SENIORITY_OPTS.map(label => ({
+      label, onClick: () => this.setState({ newRoleSeniority: label }),
+      style: newRoleSeniority === label ? pillActive : pillInactive
+    }));
+    const URGENCY_OPTS = ['Exploratory', 'Actively hiring', 'Urgent — backfill'];
+    const urgencyOptions = URGENCY_OPTS.map(label => ({
+      label, onClick: () => this.setState({ newRoleUrgency: label }),
+      style: newRoleUrgency === label ? pillActive : pillInactive
+    }));
+    const VALUE_OPTS = ['Work output', 'Attitude', 'Culture fit', 'Efficiency', 'Feedback receptiveness', 'Ownership', 'Collaboration'];
+    const valuePillOptions = VALUE_OPTS.map(label => ({
+      label,
+      onClick: () => this.setState(s => ({ newRoleValues: s.newRoleValues.includes(label) ? s.newRoleValues.filter(v => v !== label) : [...s.newRoleValues, label] })),
+      style: newRoleValues.includes(label) ? pillActive : pillInactive
+    }));
+
+    const confirmPostRole = () => {
+      if (this.state.postMode === 'link') {
+        const link = this.state.newRoleLink.trim();
+        if (!link) return;
+        const newId = Math.max(0, ...this.state.jobs.map(j => j.id)) + 1;
+        let title = 'New role';
+        try { title = new URL(link).hostname.replace('www.', '') + ' posting'; } catch (e) {}
+        this.setState(s => ({
+          jobs: [...s.jobs, { id: newId, title, location: 'See posting', comp: '—', isNew: true }],
+          candidatesByJob: { ...s.candidatesByJob, [newId]: [] },
+          postModalOpen: false, newRoleLink: '', activeJobId: newId
+        }));
+        return;
+      }
+      const title = this.state.newRoleTitle.trim();
+      if (!title) return;
+      const newId = Math.max(0, ...this.state.jobs.map(j => j.id)) + 1;
+      this.setState(s => ({
+        jobs: [...s.jobs, { id: newId, title, location: s.newRoleLocation.trim() || 'Remote', comp: s.newRoleComp.trim() || '—', isNew: true }],
+        candidatesByJob: { ...s.candidatesByJob, [newId]: [] },
+        postModalOpen: false, newRoleTitle: '', newRoleLocation: '', newRoleComp: '', newRoleYears: '', newRoleStack: '', newRoleDesc: '',
+        newRoleSeniority: 'Mid', newRoleUrgency: 'Actively hiring', newRoleValues: ['Work output'],
+        activeJobId: newId
+      }));
+    };
+
+    const { talentQuery, talentAvailableOnly, talentLocationFilter, talentSkillFilter, talentMinYears, outreachId, outreachDraft, outreachSentIds, previewTalentId } = this.state;
+    const talentQ = talentQuery.trim().toLowerCase();
+    const uniqueLocations = ['all', ...new Set(TALENT_POOL.map(t => t.location))];
+    const uniqueSkills = ['all', ...new Set(TALENT_POOL.flatMap(t => t.skills))];
+    let talentFiltered = talentAvailableOnly ? TALENT_POOL.filter(t => t.available) : TALENT_POOL.slice();
+    if (talentLocationFilter !== 'all') talentFiltered = talentFiltered.filter(t => t.location === talentLocationFilter);
+    if (talentSkillFilter !== 'all') talentFiltered = talentFiltered.filter(t => t.skills.includes(talentSkillFilter));
+    if (talentMinYears > 0) talentFiltered = talentFiltered.filter(t => t.years >= talentMinYears);
+    if (talentQ) talentFiltered = talentFiltered.filter(t => (t.name + ' ' + t.headline + ' ' + t.location + ' ' + t.skills.join(' ')).toLowerCase().includes(talentQ));
+
+    const talentLocationOptions = uniqueLocations.map(loc => ({
+      value: loc, label: loc === 'all' ? 'All locations' : loc,
+      onClick: () => this.setState({ talentLocationFilter: loc }),
+      style: pillBase + (talentLocationFilter === loc ? ' background:var(--surface-alt); border:1px solid var(--border-glass); color:var(--glow-top);' : ' border:1px solid var(--border); background:transparent; color:var(--text-2);')
+    }));
+    const talentSkillOptions = uniqueSkills.map(sk => ({
+      value: sk, label: sk === 'all' ? 'All skills' : sk,
+      onClick: () => this.setState({ talentSkillFilter: sk }),
+      style: pillBase + (talentSkillFilter === sk ? ' background:var(--surface-alt); border:1px solid var(--border-glass); color:var(--glow-top);' : ' border:1px solid var(--border); background:transparent; color:var(--text-2);')
+    }));
+    const YEARS_OPTS = [0, 3, 5, 8];
+    const talentYearsOptions = YEARS_OPTS.map(y => ({
+      value: y, label: y === 0 ? 'Any experience' : y + '+ yrs',
+      onClick: () => this.setState({ talentMinYears: y }),
+      style: pillBase + (talentMinYears === y ? ' background:var(--surface-alt); border:1px solid var(--border-glass); color:var(--glow-top);' : ' border:1px solid var(--border); background:transparent; color:var(--text-2);')
+    }));
+
+    const talentRows = talentFiltered.map(t => {
+      const sent = outreachSentIds.includes(t.id);
+      return {
+        id: t.id, initials: t.name.split(' ').map(w => w[0]).join(''), name: t.name, headline: t.headline, location: t.location,
+        yearsLabel: t.years + ' yrs',
+        skills: t.skills.slice(0, 3).map(s => ({ label: s })),
+        availLabel: t.available ? 'Open to work' : 'Not looking',
+        availStyle: `font-size:11px; font-weight:600; padding:3px 9px; border-radius:999px; background:${t.available ? 'color-mix(in srgb, var(--glow-top) 12%, var(--surface))' : 'var(--surface-2)'}; border:1px solid ${t.available ? 'var(--border-glass)' : 'var(--border)'}; color:${t.available ? 'var(--glow-top)' : 'var(--text-3)'};`,
+        reachBtnLabel: sent ? 'Sent ✓' : 'Reach out',
+        reachBtnStyle: sent
+          ? 'font-size:11.5px; font-weight:600; padding:6px 12px; border-radius:999px; border:1px solid var(--border); background:transparent; color:var(--text-3); cursor:default;'
+          : 'font-size:11.5px; font-weight:600; padding:6px 12px; border-radius:999px; border:1px solid var(--border-glass); background:var(--surface-alt); color:var(--glow-top); cursor:pointer;',
+        onReachOut: (e) => { e.stopPropagation(); if (!sent) this.setState({ outreachId: t.id, outreachDraft: '' }); },
+        onOpenPreview: () => this.setState({ previewTalentId: t.id })
+      };
+    });
+    const outreachTargetData = TALENT_POOL.find(t => t.id === outreachId);
+    const outreachTarget = outreachTargetData ? { name: outreachTargetData.name } : { name: '' };
+
+    const previewData = TALENT_POOL.find(t => t.id === previewTalentId);
+    const previewSent = previewData ? outreachSentIds.includes(previewData.id) : false;
+    const talentPreview = previewData ? {
+      initials: previewData.name.split(' ').map(w => w[0]).join(''), name: previewData.name, headline: previewData.headline,
+      location: previewData.location, yearsLabel: previewData.years + ' years experience',
+      skills: previewData.skills,
+      availLabel: previewData.available ? 'Open to work' : 'Not looking',
+      availStyle: `font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; background:${previewData.available ? 'color-mix(in srgb, var(--glow-top) 12%, var(--surface))' : 'var(--surface-2)'}; border:1px solid ${previewData.available ? 'var(--border-glass)' : 'var(--border)'}; color:${previewData.available ? 'var(--glow-top)' : 'var(--text-3)'};`,
+      story: previewData.story.map((m, i) => ({ year: m.year, title: m.title, desc: m.desc, lineStyle: `position:relative; padding-left:20px; padding-bottom:22px; border-left:2px solid ${i === previewData.story.length - 1 ? 'transparent' : 'var(--border)'};` })),
+      reachBtnLabel: previewSent ? 'Message sent ✓' : 'Reach out',
+      onReachOut: () => { if (!previewSent) this.setState({ outreachId: previewData.id, outreachDraft: '', previewTalentId: null }); }
+    } : { initials: '', name: '', headline: '', location: '', yearsLabel: '', skills: [], availLabel: '', availStyle: '', story: [], reachBtnLabel: '', onReachOut: () => {} };
+
+    return {
+      rootRef: (el) => { this._root = el; },
+      isDark, isLight: !isDark,
+      toggleTheme,
+      isMobile,
+      sidebarOpen: sidebarOpen && isMobile,
+      openSidebar: () => this.setState({ sidebarOpen: true }),
+      closeSidebar: () => this.setState({ sidebarOpen: false }),
+      sidebarStyle,
+      navItems,
+      searchQuery,
+      setSearchQuery: (e) => this.setState({ searchQuery: e.target.value }),
+      statCards,
+      jobList,
+      activeJob,
+      stageFilters,
+      funnelSegments,
+      applicantRows,
+      detailOpen: detailId != null,
+      activeCandidate,
+      closeDetail: () => this.setState({ detailId: null, detailJobId: null }),
+      interviewActiveCandidate,
+      pageTitle,
+      isOverviewTab: activeTab === 'overview',
+      isRolesTab: activeTab === 'roles',
+      isCandidatesTab: activeTab === 'candidates',
+      isTalentTab: activeTab === 'talent',
+      isSettingsTab: activeTab === 'settings',
+      postLinkToggleStyle, postFormToggleStyle,
+      setPostModeLink: () => this.setState({ postMode: 'link' }),
+      setPostModeForm: () => this.setState({ postMode: 'form' }),
+      isPostModeLink: postMode === 'link', isPostModeForm: postMode === 'form',
+      newRoleLink, setNewRoleLink: (e) => this.setState({ newRoleLink: e.target.value }),
+      newRoleComp, setNewRoleComp: (e) => this.setState({ newRoleComp: e.target.value }),
+      newRoleYears, setNewRoleYears: (e) => this.setState({ newRoleYears: e.target.value }),
+      newRoleStack, setNewRoleStack: (e) => this.setState({ newRoleStack: e.target.value }),
+      newRoleDesc, setNewRoleDesc: (e) => this.setState({ newRoleDesc: e.target.value }),
+      seniorityOptions, urgencyOptions, valuePillOptions,
+      talentQuery, setTalentQuery: (e) => this.setState({ talentQuery: e.target.value }),
+      talentAvailableOnly, toggleTalentAvailable: () => this.setState(s => ({ talentAvailableOnly: !s.talentAvailableOnly })),
+      talentAvailToggleStyle: `width:42px; height:24px; border-radius:999px; border:1px solid var(--border-glass); background:${talentAvailableOnly ? 'var(--surface-alt)' : 'var(--surface-2)'}; position:relative; cursor:pointer; flex-shrink:0;`,
+      talentAvailKnobStyle: `position:absolute; top:2px; left:${talentAvailableOnly ? '20px' : '2px'}; width:18px; height:18px; border-radius:50%; background:${talentAvailableOnly ? 'var(--glow-top)' : 'var(--text-3)'}; transition:left .15s ease-out;`,
+      talentResultsLabel: talentRows.length + ' of ' + TALENT_POOL.length + ' candidates',
+      outreachModalOpen: outreachId != null, outreachTarget, outreachDraft,
+      setOutreachDraft: (e) => this.setState({ outreachDraft: e.target.value }),
+      closeOutreach: () => this.setState({ outreachId: null, outreachDraft: '' }),
+      sendOutreach: () => {
+        if (!outreachId) return;
+        this.setState(s => ({ outreachSentIds: [...s.outreachSentIds, outreachId], outreachId: null, outreachDraft: '' }));
+      },
+      needsAttention, activityFeed,
+      candSearchQuery,
+      setCandSearchQuery: (e) => this.setState({ candSearchQuery: e.target.value }),
+      allStageFilters, allCandidateRows, allCandidatesCountLabel,
+      allSelectedOnPage, toggleSelectAllCandidates,
+      selectedCount: selectedCandIds.length,
+      bulkBarVisible: selectedCandIds.length > 0,
+      bulkMoveToInterview, bulkClearSelection,
+      successStories,
+      talentLocationOptions, talentSkillOptions, talentYearsOptions,
+      talentRows,
+      talentPreviewOpen: previewTalentId != null,
+      talentPreview,
+      closeTalentPreview: () => this.setState({ previewTalentId: null }),
+      settings: this.state.settings,
+      setSettingsCompanyName: (e) => this.setState(s => ({ settings: { ...s.settings, companyName: e.target.value } })),
+      setSettingsFullName: (e) => this.setState(s => ({ settings: { ...s.settings, fullName: e.target.value } })),
+      setSettingsEmail: (e) => this.setState(s => ({ settings: { ...s.settings, email: e.target.value } })),
+      setSettingsWebsite: (e) => this.setState(s => ({ settings: { ...s.settings, website: e.target.value } })),
+      setSettingsSize: (e) => this.setState(s => ({ settings: { ...s.settings, size: e.target.value } })),
+      setSettingsIndustry: (e) => this.setState(s => ({ settings: { ...s.settings, industry: e.target.value } })),
+      toggleNotify: () => this.setState(s => ({ notifyEmail: !s.notifyEmail })),
+      notifyToggleStyle: `width:42px; height:24px; border-radius:999px; border:1px solid var(--border-glass); background:${this.state.notifyEmail ? 'var(--surface-alt)' : 'var(--surface-2)'}; position:relative; cursor:pointer; flex-shrink:0;`,
+      notifyKnobStyle: `position:absolute; top:2px; left:${this.state.notifyEmail ? '20px' : '2px'}; width:18px; height:18px; border-radius:50%; background:${this.state.notifyEmail ? 'var(--glow-top)' : 'var(--text-3)'}; transition:left .15s ease-out;`,
+      team: this.state.team.map(m => ({
+        ...m, initials: m.name.split(' ').map(w => w[0]).join(''),
+        onRemove: () => this.setState(s => ({ team: s.team.filter(x => x.id !== m.id) }))
+      })),
+      inviteTeamName: this.state.inviteTeamName, inviteTeamEmail: this.state.inviteTeamEmail,
+      setInviteTeamName: (e) => this.setState({ inviteTeamName: e.target.value }),
+      setInviteTeamEmail: (e) => this.setState({ inviteTeamEmail: e.target.value }),
+      addTeamMember: () => {
+        const name = this.state.inviteTeamName.trim(), email = this.state.inviteTeamEmail.trim();
+        if (!name || !email) return;
+        const newId = Math.max(0, ...this.state.team.map(m => m.id)) + 1;
+        this.setState(s => ({ team: [...s.team, { id: newId, name, email, role: 'Recruiter' }], inviteTeamName: '', inviteTeamEmail: '' }));
+      },
+      defaultValuePillOptions: VALUE_OPTS.map(label => ({
+        label,
+        onClick: () => this.setState(s => ({ defaultValues: s.defaultValues.includes(label) ? s.defaultValues.filter(v => v !== label) : [...s.defaultValues, label] })),
+        style: this.state.defaultValues.includes(label) ? pillActive : pillInactive
+      })),
+      slackConnected: this.state.slackConnected,
+      toggleSlack: () => this.setState(s => ({ slackConnected: !s.slackConnected })),
+      slackToggleStyle: `width:42px; height:24px; border-radius:999px; border:1px solid var(--border-glass); background:${this.state.slackConnected ? 'var(--surface-alt)' : 'var(--surface-2)'}; position:relative; cursor:pointer; flex-shrink:0;`,
+      slackKnobStyle: `position:absolute; top:2px; left:${this.state.slackConnected ? '20px' : '2px'}; width:18px; height:18px; border-radius:50%; background:${this.state.slackConnected ? 'var(--glow-top)' : 'var(--text-3)'}; transition:left .15s ease-out;`,
+      atsSyncEnabled: this.state.atsSyncEnabled,
+      toggleAtsSync: () => this.setState(s => ({ atsSyncEnabled: !s.atsSyncEnabled })),
+      atsToggleStyle: `width:42px; height:24px; border-radius:999px; border:1px solid var(--border-glass); background:${this.state.atsSyncEnabled ? 'var(--surface-alt)' : 'var(--surface-2)'}; position:relative; cursor:pointer; flex-shrink:0;`,
+      atsKnobStyle: `position:absolute; top:2px; left:${this.state.atsSyncEnabled ? '20px' : '2px'}; width:18px; height:18px; border-radius:50%; background:${this.state.atsSyncEnabled ? 'var(--glow-top)' : 'var(--text-3)'}; transition:left .15s ease-out;`,
+      primaryBtnStyle, primaryBtnHoverStyle, primaryBtnActiveStyle,
+      openPostModal: () => this.setState({ postModalOpen: true }),
+      closePostModal: () => this.setState({ postModalOpen: false }),
+      postModalOpen: this.state.postModalOpen,
+      stopPropagation: (e) => e.stopPropagation(),
+      newRoleTitle: this.state.newRoleTitle,
+      setNewRoleTitle: (e) => this.setState({ newRoleTitle: e.target.value }),
+      newRoleLocation: this.state.newRoleLocation,
+      setNewRoleLocation: (e) => this.setState({ newRoleLocation: e.target.value }),
+      postConfirmStyle: 'flex:1; padding:11px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-weight:600; font-size:13.5px; cursor:pointer; box-shadow:inset 0 1px 0 rgba(255,255,255,0.3);',
+      confirmPostRole
+    };
+  }
+}
+
+</script>
+</body>
+</html>

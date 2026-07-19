@@ -1,33 +1,26 @@
-// React import not required with the react-jsx transform
-import { Toaster } from 'react-hot-toast'
-import { useAppStore } from './store/appStore'
-import { AppShell } from './components/layout/AppShell'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Landing from './pages/Landing'
-import Dashboard from './pages/Dashboard'
-import IngestionModule from './pages/IngestionModule'
-import ProPage from './pages/ProPage'
+import Auth from './pages/Auth'
+import FAQPage from './pages/FAQPage'
+import Privacy from './pages/Privacy'
+import ForCandidatesPage from './pages/ForCandidatesPage'
+import ForRecruitersPage from './pages/ForRecruitersPage'
+import ScrollToTop from './components/ScrollToTop'
 
-const SHELL_VIEWS = new Set(['dashboard', 'ingestion', 'pro'])
-
-export default function App() {
-  const currentView = useAppStore((state) => state.currentView)
-  const useShell = SHELL_VIEWS.has(currentView)
-
-  const content = (
-    <>
-      {currentView === 'landing' && <Landing />}
-      {currentView === 'auth' && <Landing showAuth={true} />}
-      {currentView === 'onboarding' && <Landing showOnboarding={true} />}
-      {currentView === 'ingestion' && <IngestionModule />}
-      {currentView === 'dashboard' && <Dashboard />}
-      {currentView === 'pro' && <ProPage />}
-    </>
-  )
-
+function App() {
   return (
-    <div className="min-h-screen">
-      {useShell ? <AppShell>{content}</AppShell> : <div className="app-shell">{content}</div>}
-      <Toaster position="top-right" />
-    </div>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/for-candidates" element={<ForCandidatesPage />} />
+        <Route path="/for-recruiters" element={<ForRecruitersPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
+
+export default App

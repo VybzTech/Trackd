@@ -1,0 +1,248 @@
+/* =============================================================
+   Trackd — shared design tokens for the landing → auth → dashboard
+   prototype flow. Ported from client/src/styles/tokens.css +
+   docs/TRACKD_Design_System_v3.md. Status colors are FIXED.
+   ============================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap");
+
+:root {
+  /* ---------- Pipeline status colors (FIXED — do not restyle) ---------- */
+  --status-saved: #1d4ed8;
+  --status-applied: #06b6d4;
+  --status-interviewing: #f59e0b;
+  --status-offer: #10b981;
+  --status-rejected: #ef4444;
+
+  /* ---------- Atmosphere / UI palette ---------- */
+  --bg-ground: #000871;
+  --bg-mid: #241571;
+  --brand-primary: #2438bd;
+  --brand-secondary: #0f52ba;
+  --glow-mid: #007fff;
+  --glow-top: #52e8ff;
+  --accent-info: #007ba7;
+  --accent-energy: #0affff;
+  --text-tint-1: #70b8ff;
+  --text-tint-2: #99ccff;
+  --border-glass: rgba(173, 255, 255, 0.1);
+  --border-glass-strong: rgba(173, 255, 255, 0.22);
+
+  /* ---------- Typography ---------- */
+  --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---------- Radius ---------- */
+  --radius-chip: 0.75rem;
+  --radius-card: 1.25rem;
+  --radius-shell: 1.75rem;
+  --radius-pill: 999px;
+
+  /* ---------- Motion ---------- */
+  --motion-fast: 150ms;
+  --motion-drawer: 220ms;
+  --easing-standard: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  color: var(--text-tint-2);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* ---------- App shell background (ground-to-glow, brightens toward top) --- */
+
+.app-shell {
+  position: relative;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 0%, rgba(82, 232, 255, 0.16), transparent 65%),
+    linear-gradient(to top, #000871 0%, #0b1148 30%, #182466 55%, #1f2e86 75%, #2438bd 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+/* Subtle TV-like vignette + inset frame */
+.app-shell::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  box-shadow: inset 0 0 160px rgba(0, 4, 40, 0.45);
+  background: radial-gradient(ellipse 140% 100% at 50% 50%, transparent 60%, rgba(0, 4, 40, 0.25) 100%);
+}
+
+/* ---------- Glass surface recipe (ordinary cards: hairline only) ---------- */
+
+.glass-surface {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-card);
+  box-shadow: 0 8px 32px rgba(0, 8, 113, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.hairline-surface {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-card);
+}
+
+/* ---------- Icon chip recipe (liquid glass — reserved for nav/icons) ------ */
+
+.icon-chip {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-chip);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border-glass);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -6px 10px rgba(0, 4, 40, 0.3), 0 4px 12px rgba(0, 4, 40, 0.4);
+  color: var(--text-tint-1);
+  transition: transform var(--motion-fast) var(--easing-standard),
+    box-shadow var(--motion-fast) var(--easing-standard),
+    color var(--motion-fast) var(--easing-standard);
+}
+
+.icon-chip:hover { transform: translateY(-2px); color: #ffffff; }
+
+.icon-chip.is-active {
+  box-shadow: 0 0 0 1px rgba(82, 232, 255, 0.45), 0 0 24px rgba(82, 232, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  background: linear-gradient(145deg, rgba(82, 232, 255, 0.22), rgba(255, 255, 255, 0.03));
+}
+
+/* ---------- Status pill ---------- */
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.status-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.status-pill.saved { color: var(--status-saved); background: rgba(29, 78, 216, 0.16); }
+.status-pill.applied { color: var(--status-applied); background: rgba(6, 182, 212, 0.16); }
+.status-pill.interviewing { color: var(--status-interviewing); background: rgba(245, 158, 11, 0.18); }
+.status-pill.offer { color: var(--status-offer); background: rgba(16, 185, 129, 0.16); }
+.status-pill.rejected { color: var(--status-rejected); background: rgba(239, 68, 68, 0.16); }
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  border-radius: 0.875rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform var(--motion-fast) var(--easing-standard), box-shadow var(--motion-fast) var(--easing-standard), background var(--motion-fast) var(--easing-standard);
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+  background: linear-gradient(160deg, var(--glow-mid), var(--brand-primary));
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 127, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.btn-primary:hover { box-shadow: 0 8px 26px rgba(82, 232, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); transform: translateY(-1px); }
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  border-color: var(--border-glass);
+}
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.08); }
+.btn-block { width: 100%; }
+
+/* ---------- Inputs ---------- */
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field label { font-size: 0.8rem; font-weight: 600; color: #ffffff; }
+.field input, .field select {
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-glass);
+  background: rgba(0, 8, 40, 0.35);
+  color: #ffffff;
+  padding: 0 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--motion-fast) var(--easing-standard), box-shadow var(--motion-fast) var(--easing-standard);
+}
+.field input::placeholder { color: var(--text-tint-2); opacity: 0.55; }
+.field input:focus, .field select:focus {
+  border-color: var(--glow-top);
+  box-shadow: 0 0 0 3px rgba(82, 232, 255, 0.22);
+}
+
+/* ---------- Floating background icon field ---------- */
+
+.icon-field { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.icon-field svg {
+  position: absolute;
+  stroke: var(--glow-top);
+  fill: none;
+  opacity: 0.14;
+  filter: drop-shadow(0 4px 10px rgba(0, 4, 40, 0.5));
+  animation: drift 22s ease-in-out infinite;
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(14px, -18px) rotate(6deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .icon-field svg { animation: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+  .icon-chip:hover { transform: none; }
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}

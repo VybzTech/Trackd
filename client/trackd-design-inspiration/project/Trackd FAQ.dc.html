@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&amp;family=Geist+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body, h1, h2, h3, p, ul, li, button, input { margin: 0; padding: 0; }
+    button, input { font-family: inherit; }
+    a { text-decoration: none; }
+    ::selection { background: #52E8FF; color: #000871; }
+    *:focus { outline: none; }
+    *:focus-visible { outline: 2px solid var(--glow-top); outline-offset: 2px; }
+    @keyframes revealUp { from{ opacity: 0; transform: translateY(20px); } to{ opacity: 1; transform: translateY(0); } }
+    @keyframes auroraShift { 0%{ background-position: 0% 50%; } 50%{ background-position: 100% 50%; } 100%{ background-position: 0% 50%; } }
+  </style>
+</helmet>
+<div ref="{{ rootRef }}" style="--bg:#09090B; --surface:#18181B; --surface-alt:rgba(255,255,255,0.045); --brand:#2438BD; --brand-2:#0F52BA; --glow-mid:#007FFF; --glow-top:#52E8FF; --info:#007BA7; --energy:#0AFFFF; --text:#FAFAFA; --text-2:#A1A1AA; --text-3:#71717A; --border:rgba(255,255,255,0.10); --border-glass:rgba(82,232,255,0.20); background:var(--bg); color:var(--text); min-height:100vh; font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif; transition:background-color .2s ease-out,color .2s ease-out; position:relative;">
+
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px clamp(20px,4vw,32px); border-bottom:1px solid var(--border); flex-wrap:wrap;">
+    <a href="Trackd Landing.dc.html" style="display:flex; align-items:baseline; gap:1px; font-weight:800; font-size:19px; letter-spacing:-0.02em; color:var(--text);">Trackd<span style="color:var(--glow-top);">.</span></a>
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+      <a href="Trackd Landing.dc.html" style="font-size:13.5px; color:var(--text-2); transition:color .15s ease-out;" style-hover="color:var(--text);">← Back to Trackd</a>
+      <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:34px; height:34px; border-radius:999px; border:1px solid var(--border); background:transparent; color:var(--text-2); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .15s ease-out,border-color .15s ease-out,color .15s ease-out;" style-hover="transform:translateY(-2px); border-color:var(--border-glass); color:var(--glow-top);">
+        <sc-if value="{{ isDark }}" hint-placeholder-val="{{ true }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.4M12 19.1v2.4M4.5 12H2.1M21.9 12h-2.4M6.2 6.2 4.5 4.5M19.5 19.5l-1.7-1.7M6.2 17.8 4.5 19.5M19.5 4.5l-1.7 1.7"></path></svg></sc-if>
+        <sc-if value="{{ isLight }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z"></path></svg></sc-if>
+      </button>
+      <a href="Trackd Auth.dc.html?screen=signin" style="font-size:14px; font-weight:500; color:var(--text-2);">Sign in</a>
+      <a href="Trackd Auth.dc.html?screen=signup" style="padding:9px 18px; border-radius:999px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-size:13.5px; font-weight:600; white-space:nowrap;">Get started</a>
+    </div>
+  </div>
+
+  <main style="max-width:820px; margin:0 auto; padding:clamp(48px,8vw,88px) clamp(20px,5vw,32px) 100px;">
+    <div style="position:relative; text-align:center; margin-bottom:56px; animation:revealUp .5s ease-out both;">
+      <div style="position:absolute; inset:-30% -20% auto; height:280px; background:radial-gradient(50% 50% at 50% 30%, color-mix(in srgb, var(--brand) 40%, transparent), transparent 70%); background-size:200% 200%; animation:auroraShift 16s ease-in-out infinite; filter:blur(50px); opacity:0.5; pointer-events:none;"></div>
+      <div style="position:relative;">
+        <div style="font-size:12.5px; font-weight:600; color:var(--glow-top); font-family:'Geist Mono',ui-monospace,monospace; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:12px;">Help center</div>
+        <h1 style="font-size:clamp(32px,5vw,48px); font-weight:800; letter-spacing:-0.02em; margin-bottom:14px; text-wrap:pretty;">Frequently asked questions.</h1>
+        <p style="font-size:16px; color:var(--text-2); line-height:1.6; max-width:520px; margin:0 auto;">Everything on how Trackd works, what we do with your data, and how billing and support operate.</p>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:44px; position:sticky; top:0; padding:14px 0; background:color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter:blur(10px); z-index:5;">
+      <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="6">
+        <a href="{{ cat.href }}" style="font-size:12.5px; font-weight:600; padding:8px 14px; border-radius:999px; border:1px solid var(--border); color:var(--text-2); transition:all .15s ease-out;" style-hover="border-color:var(--border-glass); color:var(--glow-top);">{{ cat.label }}</a>
+      </sc-for>
+    </div>
+
+    <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="6">
+      <section id="{{ cat.id }}" style="margin-bottom:48px; scroll-margin-top:80px;">
+        <h2 style="font-size:20px; font-weight:800; letter-spacing:-0.01em; margin-bottom:16px; color:var(--glow-top);">{{ cat.label }}</h2>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <sc-for list="{{ cat.items }}" as="item" hint-placeholder-count="3">
+            <div style="border:1px solid var(--border); border-radius:12px; overflow:hidden;">
+              <button onClick="{{ item.toggle }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 20px; background:transparent; border:none; cursor:pointer; text-align:left;">
+                <span style="font-size:15px; font-weight:600; color:var(--text);">{{ item.q }}</span>
+                <span style="{{ item.chevronStyle }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+              </button>
+              <div style="{{ item.answerStyle }}">
+                <p style="padding:0 20px 18px; font-size:14px; color:var(--text-2); line-height:1.6; text-wrap:pretty;">{{ item.a }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+
+    <div style="border:1px solid var(--border-glass); background:var(--surface-alt); border-radius:16px; padding:28px; text-align:center; margin-top:20px;">
+      <h3 style="font-size:17px; font-weight:700; margin-bottom:8px;">Still have questions?</h3>
+      <p style="font-size:13.5px; color:var(--text-3); margin-bottom:18px;">Our team replies within one business day.</p>
+      <a href="Trackd Landing.dc.html#contact" style="display:inline-block; padding:11px 22px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%); color:#fff; font-weight:600; font-size:13.5px;">Contact support</a>
+    </div>
+  </main>
+
+  <footer style="border-top:1px solid var(--border); padding:32px clamp(20px,5vw,32px); text-align:center; font-size:12px; color:var(--text-3);">© 2026 Trackd. All rights reserved. · <a href="Trackd Privacy.dc.html" style="color:var(--text-3);">Privacy Policy</a></footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dark&quot;,&quot;options&quot;:[&quot;dark&quot;,&quot;light&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+const THEME_VARS = {
+  dark: { '--bg':'#09090B','--surface':'#18181B','--surface-alt':'rgba(255,255,255,0.045)','--brand':'#2438BD','--brand-2':'#0F52BA','--glow-mid':'#007FFF','--glow-top':'#52E8FF','--info':'#007BA7','--energy':'#0AFFFF','--text':'#FAFAFA','--text-2':'#A1A1AA','--text-3':'#71717A','--border':'rgba(255,255,255,0.10)','--border-glass':'rgba(82,232,255,0.20)' },
+  light: { '--bg':'#F3F6FF','--surface':'#FFFFFF','--surface-alt':'rgba(15,82,186,0.05)','--brand':'#2438BD','--brand-2':'#0F52BA','--glow-mid':'#007FFF','--glow-top':'#0F52BA','--info':'#007BA7','--energy':'#00A9B4','--text':'#0A1040','--text-2':'#28348E','--text-3':'#5C6FA8','--border':'rgba(10,20,70,0.10)','--border-glass':'rgba(0,127,255,0.22)' }
+};
+
+const CATEGORIES = [
+  { id: 'getting-started', label: 'Getting started', items: [
+    { q: 'What is Trackd?', a: 'Trackd is an autonomous career engine: candidates get a structured, scored pipeline for every job they apply to, and recruiters get a pre-vetted, searchable view of applicants — both sides read and write to the same record.' },
+    { q: 'Is Trackd free for candidates?', a: 'Yes. Smart Ingestion, the Kanban/table/calendar pipeline, and unlimited applications are free permanently. Pro adds AI resume tools, ATS scoring, and cover letter generation.' },
+    { q: 'How do I get started as a recruiter?', a: "Create a recruiter workspace from Sign up, add your company details, and post your first role — either by pasting a link to an existing posting or filling out our structured job form." }
+  ]},
+  { id: 'how-it-works', label: 'How it works', items: [
+    { q: 'How does Smart Ingestion work?', a: 'Paste a job URL or a wall of copied text and Trackd extracts the role, comp, stack, seniority, and requirements into structured fields in seconds — no manual typing.' },
+    { q: 'How does the compatibility score work?', a: "We compare your resume against the structured job record — skills, seniority, and keyword coverage — and return a live score plus exactly what's missing, not a black-box number." },
+    { q: 'What is the browser extension and how do I install it?', a: "The Trackd extension captures the job posting on the tab you're viewing with one click, so it shows up ready to verify in your Ingestion queue. Install it from your candidate dashboard's Ingestion page." }
+  ]},
+  { id: 'data-privacy', label: 'Data & privacy', items: [
+    { q: 'Do recruiters see my full pipeline?', a: 'No. Recruiters only ever see applications you explicitly submit to their postings through Trackd — never your saved jobs, other applications, or your compatibility scores for other roles.' },
+    { q: 'How is my resume data used to generate scores?', a: 'Your resume is parsed into structured skills and experience, matched against a job\u2019s requirements to produce a score, and used to power AI suggestions. It is never sold or shared with third parties for marketing.' },
+    { q: 'How do I delete my data?', a: 'Request deletion anytime from Settings → Danger zone. We remove your account and associated data within 30 days, except records we\u2019re legally required to retain.' }
+  ]},
+  { id: 'recruiters-hiring', label: 'Recruiters & hiring', items: [
+    { q: 'Can I use Trackd alongside our existing ATS?', a: "Yes — Trackd sits on top as a pre-vetted, structured view of applicants. It doesn't require replacing your ATS; many teams use it purely for sourcing and scoring." },
+    { q: 'How are candidates vetted before they reach me?', a: 'Every applicant is scored against your job\u2019s structured requirements before you see them, and our moderation team reviews accounts flagged for suspicious activity.' },
+    { q: 'Can multiple teammates access one workspace?', a: 'Yes. Recruiter workspaces support multiple seats with shared visibility into roles, candidates, and pipeline status — manage seats from your workspace settings.' }
+  ]},
+  { id: 'billing-plans', label: 'Billing & plans', items: [
+    { q: "What's included in Pro?", a: 'Pro adds the AI Optimization Nexus (resume canvas with ATS scoring), tailored cover letter generation, deeper compatibility breakdowns, and Explore Deck marketplace access.' },
+    { q: 'Can I cancel anytime?', a: 'Yes, from Settings. Your plan stays active through the end of the current billing period, and you keep full access to free features afterward.' },
+    { q: 'Do you offer team or enterprise pricing?', a: 'Yes — recruiter workspaces scale by seats and hiring volume. Contact us for a plan tailored to your team size.' }
+  ]},
+  { id: 'policies-operations', label: 'Policies & operations', items: [
+    { q: "What's your data retention policy?", a: 'Active account data is retained for as long as your account exists. After a deletion request, data is purged from production within 30 days and from backups within 90.' },
+    { q: 'How do you handle disputes between recruiters and candidates?', a: 'Our trust & safety team reviews reported disputes (e.g. no-shows, misrepresented postings) and can suspend accounts or listings that violate our terms.' },
+    { q: 'Who can I contact for support?', a: 'Reach support@trackd.io for account issues or hello@trackd.io for everything else — we reply within one business day.' }
+  ]}
+];
+
+class Component extends DCLogic {
+  state = { theme: null, openKey: null };
+
+  componentDidMount() {
+    let theme = this.props.initialTheme || 'dark';
+    try { theme = localStorage.getItem('trackd-theme') || theme; } catch (e) {}
+    this.setState({ theme });
+    this.applyTheme(theme);
+  }
+  applyTheme(name) {
+    if (!this._root) return;
+    const vars = THEME_VARS[name] || THEME_VARS.dark;
+    Object.keys(vars).forEach(k => this._root.style.setProperty(k, vars[k]));
+  }
+  getTheme() { return this.state.theme || this.props.initialTheme || 'dark'; }
+
+  renderVals() {
+    const theme = this.getTheme();
+    const isDark = theme === 'dark';
+    const toggleTheme = () => {
+      const next = this.getTheme() === 'dark' ? 'light' : 'dark';
+      this.setState({ theme: next });
+      this.applyTheme(next);
+      try { localStorage.setItem('trackd-theme', next); } catch (e) {}
+    };
+
+    const openKey = this.state.openKey;
+    const categories = CATEGORIES.map(cat => ({
+      id: cat.id, label: cat.label, href: '#' + cat.id,
+      items: cat.items.map((it, i) => {
+        const key = cat.id + '-' + i;
+        const open = openKey === key;
+        return {
+          q: it.q, a: it.a,
+          toggle: () => this.setState(s => ({ openKey: s.openKey === key ? null : key })),
+          chevronStyle: `display:flex; flex-shrink:0; color:var(--text-3); transition:transform .15s ease-out; transform:rotate(${open ? '180deg' : '0deg'});`,
+          answerStyle: `display:grid; grid-template-rows:${open ? '1fr' : '0fr'}; transition:grid-template-rows .2s ease-out; overflow:hidden;`
+        };
+      })
+    }));
+
+    return { rootRef: (el) => { this._root = el; }, isDark, isLight: !isDark, toggleTheme, categories };
+  }
+}
+
+</script>
+</body>
+</html>

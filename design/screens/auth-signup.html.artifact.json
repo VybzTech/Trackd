@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/auth-signup.html",
+  "entry": "screens/auth-signup.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-07-16T12:53:02.775Z",
+  "updatedAt": "2026-07-16T12:53:02.775Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

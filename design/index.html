@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trackd — Prototype flow</title>
+<link rel="stylesheet" href="shared/trackd.css">
+<style>
+  .wrap { max-width: 980px; margin: 0 auto; padding: 5rem 2rem; position: relative; z-index: 1; }
+  .brand { display: flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: #fff; margin-bottom: 3rem; }
+  .brand-mark {
+    width: 2.1rem; height: 2.1rem; border-radius: 0.65rem;
+    background: linear-gradient(160deg, var(--glow-top), var(--brand-primary));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 4px 14px rgba(0,127,255,.35);
+    font-family: var(--font-display); font-weight: 700; color: #041043; font-size: 1rem;
+  }
+  h1 { font-size: clamp(1.9rem, 3.2vw, 2.5rem); margin-bottom: 0.75rem; }
+  .lede { color: var(--text-tint-1); font-size: 1rem; max-width: 60ch; margin-bottom: 3rem; line-height: 1.6; }
+  .flow-row { display: flex; align-items: stretch; gap: 1rem; flex-wrap: wrap; }
+  .flow-card {
+    flex: 1; min-width: 220px; padding: 1.75rem; display: flex; flex-direction: column; gap: 0.9rem;
+    transition: transform var(--motion-fast) var(--easing-standard), border-color var(--motion-fast) var(--easing-standard);
+  }
+  .flow-card:hover { transform: translateY(-3px); border-color: var(--border-glass-strong); }
+  .flow-card .step { font-family: var(--font-mono); font-size: 0.72rem; color: var(--glow-top); }
+  .flow-card h3 { font-size: 1.1rem; }
+  .flow-card p { font-size: 0.84rem; color: var(--text-tint-2); line-height: 1.55; flex: 1; }
+  .flow-card .go { font-size: 0.82rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 0.4rem; }
+  .arrow { display: flex; align-items: center; color: var(--text-tint-2); }
+  .note { margin-top: 3rem; font-size: 0.82rem; color: var(--text-tint-2); }
+  .note strong { color: #fff; }
+  @media (max-width: 780px) {
+    .flow-row { flex-direction: column; }
+    .arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="icon-field" aria-hidden="true" id="iconField"></div>
+  <div class="wrap">
+    <div class="brand"><span class="brand-mark">T</span> Trackd</div>
+    <h1>Landing → Authentication → Dashboard</h1>
+    <p class="lede">Prototype flow for Trackd's candidate journey, built against the real docs/TRACKD_Design_System_v3.md tokens (dark glass HUD) and mockData.ts pipeline data. Click through in order.</p>
+
+    <div class="flow-row" data-od-id="flow-launcher">
+      <a class="glass-surface flow-card" href="landing.html" data-od-id="link-landing">
+        <span class="step">01 · Marketing</span>
+        <h3>Landing page</h3>
+        <p>Two-sided value prop for candidates and recruiters, feature grid, how-it-works, CTA.</p>
+        <span class="go">Open landing.html →</span>
+      </a>
+      <div class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <a class="glass-surface flow-card" href="screens/auth-signup.html" data-od-id="link-signup">
+        <span class="step">02 · Sign up</span>
+        <h3>Create account</h3>
+        <p>Candidate / recruiter account-type toggle, email + Google auth, links to login.</p>
+        <span class="go">Open auth-signup.html →</span>
+      </a>
+      <div class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <a class="glass-surface flow-card" href="screens/auth-login.html" data-od-id="link-login">
+        <span class="step">03 · Log in</span>
+        <h3>Log in</h3>
+        <p>Returning-user auth screen; submitting routes straight into the dashboard.</p>
+        <span class="go">Open auth-login.html →</span>
+      </a>
+      <div class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <a class="glass-surface flow-card" href="screens/dashboard.html" data-od-id="link-dashboard">
+        <span class="step">04 · Product</span>
+        <h3>Pipeline dashboard</h3>
+        <p>Candidate Kanban — sidebar, KPI strip, 5-column board with focused cards + pill stacking, real mock jobs.</p>
+        <span class="go">Open dashboard.html →</span>
+      </a>
+    </div>
+
+    <p class="note"><strong>Note:</strong> Inbox / Explore / Analytics / Profile nav items in the dashboard are out of scope for this flow and are non-functional placeholders.</p>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const field = document.getElementById('iconField');
+    if (!field) return;
+    const glyphs = ['M4 7h16M4 12h16M4 17h10', 'M3 21h18M5 21V7l7-4 7 4v14', 'M3 3v18h18M8 17V9m5 8V5m5 12v-6'];
+    for (let i = 0; i < 10; i++) {
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('width', 26 + Math.round(Math.random() * 16));
+      svg.setAttribute('height', 26 + Math.round(Math.random() * 16));
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('stroke-width', '1.6');
+      const path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('d', glyphs[i % glyphs.length]);
+      svg.appendChild(path);
+      svg.style.left = Math.random() * 100 + '%';
+      svg.style.top = Math.random() * 100 + '%';
+      svg.style.animationDelay = (Math.random() * 10).toFixed(2) + 's';
+      svg.style.animationDuration = (18 + Math.random() * 10).toFixed(2) + 's';
+      field.appendChild(svg);
+    }
+  })();
+</script>
+</body>
+</html>
