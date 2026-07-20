@@ -8,6 +8,7 @@
 :root {
   --bg: #09090b;
   --surface: #18181b;
+  --surface-2: #1f1f23;
   --surface-alt: rgba(255, 255, 255, 0.045);
   --brand: #2438bd;
   --brand-2: #0f52ba;
@@ -17,7 +18,7 @@
   --energy: #0affff;
   --text: #fafafa;
   --text-2: #a1a1aa;
-  --text-3: #71717a;
+  --text-3: #84848d;
   --border: rgba(255, 255, 255, 0.1);
   --border-glass: rgba(82, 232, 255, 0.2);
   --glass-bg: rgba(255, 255, 255, 0.06);
@@ -26,6 +27,7 @@
 :root[data-theme='light'] {
   --bg: #f3f6ff;
   --surface: #ffffff;
+  --surface-2: #f1f4fc;
   --surface-alt: rgba(15, 82, 186, 0.05);
   --brand: #2438bd;
   --brand-2: #0f52ba;
@@ -216,6 +218,27 @@ input[type='range']::-moz-range-thumb {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseDot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(82, 232, 255, 0.32);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(82, 232, 255, 0);
   }
 }
 

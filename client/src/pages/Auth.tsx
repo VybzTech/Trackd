@@ -102,10 +102,7 @@ export default function Auth() {
     if (onboardStep === 0) setScreen('role')
     else setOnboardStep((s) => s - 1)
   }
-  // The prototype navigates to the candidate/recruiter dashboard here, but those
-  // routes aren't built yet — send the user back to Landing for now.
-  // TODO: point to the real candidate/recruiter dashboard once that route exists.
-  const clickDashboard = () => navigate('/')
+  const clickDashboard = () => navigate(role === 'recruiter' ? '/dashboard/recruiter' : '/dashboard/candidate')
 
   const onboardStepValid =
     role === 'candidate' && onboardStep === 0
@@ -126,8 +123,8 @@ export default function Auth() {
   const doneSubtext = cameFromSignIn
     ? 'Taking you to your workspace.'
     : role === 'recruiter'
-      ? 'Your hiring workspace is configured. The dashboard is the next build phase.'
-      : 'Your candidate workspace is configured. The dashboard is the next build phase.'
+      ? 'Your hiring workspace is configured and ready.'
+      : 'Your candidate workspace is configured and ready.'
 
   return (
     <div className="flex min-h-screen flex-col" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
