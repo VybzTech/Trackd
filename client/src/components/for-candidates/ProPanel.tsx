@@ -29,7 +29,7 @@ export default function ProPanel() {
         {PRO_FEATURES.map((f) => (
           <div
             key={f.title}
-            className="rounded-[14px] border p-5"
+            className="rounded-[14px] border p-6"
             style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
           >
             <h3 className="mb-1.5 text-[14.5px] font-bold">{f.title}</h3>
@@ -41,7 +41,7 @@ export default function ProPanel() {
       </div>
 
       <div className="mt-7 text-center">
-        <CtaLink to="/#pricing" className="rounded-[10px] px-6 py-3 text-sm" shadow={false}>
+        <CtaLink to="/#pricing" className="rounded-xl px-6 py-3 text-sm" shadow={false}>
           See Pro plan
         </CtaLink>
       </div>

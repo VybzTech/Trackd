@@ -1,7 +1,7 @@
 # TRACKD — Product Requirements Document (PRD)
 
 **Version:** 2.0 (Curated) | **Date:** July 2026
-**Companion docs:** `01-Trackd-BRD.md` (business case), `03-Trackd-Architecture-and-Features.md` (module map + data model), `mockData.ts` (candidate-side data shape — authoritative, do not change shape)
+**Companion docs:** `01-Trackd-BRD.md` (business case), `03-Trackd-Architecture-and-Features.md` (module map + data model), `mockData.ts` (candidate-side data shape — authoritative,  do not change shape)
 
 ---
 

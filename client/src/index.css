@@ -6,9 +6,9 @@
 }
 
 :root {
-  --bg: #09090b;
-  --surface: #18181b;
-  --surface-2: #1f1f23;
+  --bg: #111a2c;
+  --surface: #0a0f1c;
+  --surface-2: #060a13;
   --surface-alt: rgba(255, 255, 255, 0.045);
   --brand: #2438bd;
   --brand-2: #0f52ba;
@@ -47,17 +47,38 @@
   box-sizing: border-box;
 }
 
+.trackd-logo-dark {
+  display: none;
+}
+:root[data-theme='dark'] .trackd-logo-light {
+  display: none;
+}
+:root[data-theme='dark'] .trackd-logo-dark {
+  display: block;
+}
+
 body,
 h1,
 h2,
 h3,
 p,
 ul,
-li,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * button/input intentionally excluded from the reset above: this file's
+ * rules are unlayered, so they beat Tailwind's `@layer utilities` in the
+ * cascade regardless of source order — a blanket `padding: 0` here was
+ * silently zeroing every `px-*`/`py-*` Tailwind class on every button and
+ * input app-wide. Components set their own padding explicitly (inline
+ * style or Tailwind classes) everywhere, so no reset is needed here.
+ */
 button,
 input {
   margin: 0;
-  padding: 0;
 }
 
 button,

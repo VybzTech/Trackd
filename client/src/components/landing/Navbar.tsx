@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { NAV_ITEMS } from '../../lib/landingData'
 import type { Theme } from '../../lib/landingData'
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from './icons'
+import Logo from '../Logo'
 
 interface NavbarProps {
   theme: Theme
@@ -23,8 +24,8 @@ export default function Navbar({ theme, toggleTheme, scrolled, activeNav, onNavC
 
   return (
     <div
-      className="sticky top-0 z-[60] flex justify-center transition-[padding] duration-300"
-      style={{ padding: scrolled ? '16px clamp(16px,4vw,32px) 0' : '0' }}
+      className="sticky top-0 z-[60] flex justify-center transition-[padding,background-color] duration-300"
+      style={{ padding: scrolled ? '16px clamp(16px,4vw,32px) 0' : '0', background: 'var(--bg)' }}
     >
       <div className="relative w-full transition-[max-width] duration-300" style={{ maxWidth: scrolled ? '960px' : '100%' }}>
         <nav
@@ -48,12 +49,8 @@ export default function Navbar({ theme, toggleTheme, scrolled, activeNav, onNavC
                 }
           }
         >
-          <a
-            href="#top"
-            className="flex shrink-0 items-baseline gap-px whitespace-nowrap text-[19px] font-extrabold tracking-[-0.02em]"
-            style={{ color: 'var(--text)' }}
-          >
-            Trackd<span style={{ color: 'var(--glow-top)' }}>.</span>
+          <a href="#top" className="flex shrink-0 items-center">
+            <Logo height={19} />
           </a>
 
           <div className="hidden min-w-0 items-center gap-0.5 overflow-hidden lg:flex">
@@ -103,7 +100,7 @@ export default function Navbar({ theme, toggleTheme, scrolled, activeNav, onNavC
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
-              className="flex h-[34px] w-[34px] shrink-0 cursor-pointer items-center justify-center rounded-full border transition-transform duration-150 hover:-translate-y-0.5"
+              className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-transform duration-150 hover:-translate-y-0.5 lg:h-[34px] lg:w-[34px]"
               style={{ borderColor: 'var(--border)', color: 'var(--text-2)', background: 'transparent' }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--border-glass)'
@@ -136,7 +133,7 @@ export default function Navbar({ theme, toggleTheme, scrolled, activeNav, onNavC
             <button
               onClick={() => setMobileMenuOpen((v) => !v)}
               aria-label="Menu"
-              className="flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-[10px] border lg:hidden"
+              className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border lg:hidden"
               style={{ borderColor: 'var(--border)', color: 'var(--text)', background: 'transparent' }}
             >
               {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
@@ -162,7 +159,7 @@ export default function Navbar({ theme, toggleTheme, scrolled, activeNav, onNavC
                 e.preventDefault()
                 handleNav(link.id)
               }}
-              className="px-1 py-1.5 text-base font-semibold"
+              className="px-1 py-2.5 text-base font-semibold"
               style={{ color: 'var(--text)' }}
             >
               {link.label}
@@ -171,7 +168,7 @@ export default function Navbar({ theme, toggleTheme, scrolled, activeNav, onNavC
           <div className="mt-2 flex gap-2.5 border-t pt-3.5" style={{ borderColor: 'var(--border)' }}>
             <Link
               to="/auth?screen=signin"
-              className="flex-1 rounded-[10px] border py-2.5 text-center font-semibold"
+              className="flex-1 rounded-xl border py-2.5 text-center font-semibold"
               style={{ borderColor: 'var(--border)', color: 'var(--text)' }}
             >
               Sign in
@@ -181,7 +178,7 @@ export default function Navbar({ theme, toggleTheme, scrolled, activeNav, onNavC
                 setMobileMenuOpen(false)
                 onGetStarted()
               }}
-              className="flex-1 cursor-pointer whitespace-nowrap rounded-[10px] border border-white/22 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--brand-2)_85%,white_15%),var(--brand-2)_45%,var(--brand)_100%)] py-2.5 text-center font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_6px_16px_rgba(15,82,186,0.3)]"
+              className="flex-1 cursor-pointer whitespace-nowrap rounded-xl border border-white/22 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--brand-2)_85%,white_15%),var(--brand-2)_45%,var(--brand)_100%)] py-2.5 text-center font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_6px_16px_rgba(15,82,186,0.3)]"
             >
               Get started
             </button>

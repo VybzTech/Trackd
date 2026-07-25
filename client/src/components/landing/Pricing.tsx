@@ -1,5 +1,6 @@
 import { PRICING_FREE_FEATURES, PRICING_PRO_FEATURES, PRO_ANNUAL_PRICE, PRO_MONTHLY_PRICE } from '../../lib/landingData'
 import { CheckIcon } from './icons'
+import { PrimaryButton, SecondaryButton } from './Buttons'
 
 interface PricingProps {
   annual: boolean
@@ -73,15 +74,9 @@ export default function Pricing({ annual, onToggle, onGetStarted }: PricingProps
           <p className="mb-6 text-[13.5px]" style={{ color: 'var(--text-3)' }}>
             For candidates getting started
           </p>
-          <button
-            onClick={onGetStarted}
-            className="mb-6 w-full cursor-pointer rounded-[10px] border py-3 text-sm font-semibold transition-colors duration-150"
-            style={{ borderColor: 'var(--border)', color: 'var(--text)', background: 'transparent' }}
-            onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--border-glass)')}
-            onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
-          >
+          <SecondaryButton onClick={onGetStarted} className="mb-6 w-full">
             Get started free
-          </button>
+          </SecondaryButton>
           {PRICING_FREE_FEATURES.map((f) => (
             <div key={f} className="mb-3 flex items-start gap-2.5">
               <span className="mt-0.5 shrink-0" style={{ color: 'var(--glow-top)' }}>
@@ -116,12 +111,9 @@ export default function Pricing({ annual, onToggle, onGetStarted }: PricingProps
           <p className="mb-6 text-[13.5px]" style={{ color: 'var(--text-3)' }}>
             {proNote}
           </p>
-          <button
-            onClick={onGetStarted}
-            className="mb-6 w-full cursor-pointer rounded-[10px] border border-white/22 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--brand-2)_85%,white_15%),var(--brand-2)_45%,var(--brand)_100%)] py-3 text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35),inset_0_-1px_2px_rgba(0,0,0,0.25),0_1px_2px_rgba(0,0,0,0.25),0_8px_20px_rgba(15,82,186,0.3)] backdrop-blur-[14px] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5"
-          >
+          <PrimaryButton onClick={onGetStarted} className="mb-6 w-full">
             Go Pro
-          </button>
+          </PrimaryButton>
           {PRICING_PRO_FEATURES.map((f) => (
             <div key={f} className="mb-3 flex items-start gap-2.5">
               <span className="mt-0.5 shrink-0" style={{ color: 'var(--glow-top)' }}>

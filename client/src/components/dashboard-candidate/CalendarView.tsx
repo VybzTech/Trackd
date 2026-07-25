@@ -24,14 +24,14 @@ export default function CalendarView({ monthOffset, reminders, onPrevMonth, onNe
   const navBtn = 'flex items-center justify-center rounded-lg text-[16px] leading-none transition-colors duration-150'
 
   return (
-    <div className="rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+    <div className="rounded-2xl p-3 sm:p-6" style={{ border: '1px solid var(--border)' }}>
       <div className="mb-[18px] flex items-center justify-between">
         <button
           type="button"
           onClick={onPrevMonth}
           aria-label="Previous month"
           className={navBtn}
-          style={{ width: 30, height: 30, border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}
+          style={{ width: 36, height: 36, border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}
         >
           ‹
         </button>
@@ -41,13 +41,13 @@ export default function CalendarView({ monthOffset, reminders, onPrevMonth, onNe
           onClick={onNextMonth}
           aria-label="Next month"
           className={navBtn}
-          style={{ width: 30, height: 30, border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}
+          style={{ width: 36, height: 36, border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}
         >
           ›
         </button>
       </div>
 
-      <div className="mb-2 grid gap-1.5" style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}>
+      <div className="mb-2 grid gap-1 sm:gap-1.5" style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}>
         {WEEKDAY_LABELS.map((w) => (
           <div key={w} className="text-center text-[10.5px] font-semibold uppercase" style={{ color: 'var(--text-3)' }}>
             {w}
@@ -55,7 +55,7 @@ export default function CalendarView({ monthOffset, reminders, onPrevMonth, onNe
         ))}
       </div>
 
-      <div className="grid gap-1.5" style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}>
+      <div className="grid gap-1 sm:gap-1.5" style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}>
         {Array.from({ length: firstWeekday }).map((_, i) => (
           <div key={`pad-${i}`} style={{ visibility: 'hidden' }} />
         ))}
@@ -77,7 +77,7 @@ export default function CalendarView({ monthOffset, reminders, onPrevMonth, onNe
               <span className="text-[11.5px] font-bold" style={count > 0 ? { color: 'var(--text)' } : { color: 'var(--text-2)' }}>
                 {day}
               </span>
-              <span className="text-[9px]" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)' }}>
+              <span className="hidden text-[9px] sm:block" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-3)' }}>
                 {count > 0 ? `${count} apps` : ''}
               </span>
               <div className="mt-0.5 flex gap-[3px]" style={{ height: 6 }}>

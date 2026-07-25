@@ -9,7 +9,7 @@ function heatBackground(level: number): string {
 export default function TrackCard() {
   return (
     <div
-      className="min-w-[280px] flex-[1_1_380px] rounded-2xl border p-[22px] [animation:revealUp_.6s_ease-out_both]"
+      className="min-w-[280px] flex-[1_1_380px] rounded-2xl border p-6 [animation:revealUp_.6s_ease-out_both]"
       style={{ borderColor: 'var(--border)' }}
     >
       {/* Mini 3-column Kanban */}

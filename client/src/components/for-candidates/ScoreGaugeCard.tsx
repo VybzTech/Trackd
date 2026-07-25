@@ -1,7 +1,7 @@
 export default function ScoreGaugeCard() {
   return (
     <div
-      className="flex min-w-[280px] flex-[1_1_380px] items-center justify-center rounded-2xl border p-[26px] [animation:revealUp_.6s_ease-out_both]"
+      className="flex min-w-[280px] flex-[1_1_380px] items-center justify-center rounded-2xl border p-6 [animation:revealUp_.6s_ease-out_both]"
       style={{ borderColor: 'var(--border)' }}
     >
       {/* Static illustrative compatibility gauge (non-interactive) */}

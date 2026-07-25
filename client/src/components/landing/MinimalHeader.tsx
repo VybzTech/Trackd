@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { Theme } from '../../lib/landingData'
 import { MoonIcon, SunIcon } from './icons'
+import Logo from '../Logo'
 
 interface CrossLink {
   label: string
@@ -36,12 +37,8 @@ export default function MinimalHeader({ theme, toggleTheme, showBackLink, crossL
       }}
     >
       <div className="flex items-center gap-5">
-        <Link
-          to="/"
-          className="flex shrink-0 items-baseline gap-px whitespace-nowrap text-[19px] font-extrabold tracking-[-0.02em]"
-          style={{ color: 'var(--text)' }}
-        >
-          Trackd<span style={{ color: 'var(--glow-top)' }}>.</span>
+        <Link to="/" className="flex shrink-0 items-center">
+          <Logo height={19} />
         </Link>
         {showBackLink && (
           <Link
@@ -71,7 +68,7 @@ export default function MinimalHeader({ theme, toggleTheme, showBackLink, crossL
         <button
           onClick={toggleTheme}
           aria-label="Toggle theme"
-          className="flex h-[34px] w-[34px] shrink-0 cursor-pointer items-center justify-center rounded-full border transition-transform duration-150 hover:-translate-y-0.5"
+          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-transform duration-150 hover:-translate-y-0.5 lg:h-[34px] lg:w-[34px]"
           style={{ borderColor: 'var(--border)', color: 'var(--text-2)', background: 'transparent' }}
           onMouseEnter={(e) => {
             e.currentTarget.style.borderColor = 'var(--border-glass)'

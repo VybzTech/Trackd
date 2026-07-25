@@ -1,7 +1,7 @@
 export default function Testimonial() {
   return (
     <div
-      className="rounded-2xl border p-7 [animation:revealUp_.6s_ease-out_both]"
+      className="rounded-2xl border p-6 [animation:revealUp_.6s_ease-out_both]"
       style={{ borderColor: 'var(--border)' }}
     >
       <p

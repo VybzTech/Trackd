@@ -6,7 +6,7 @@ interface ForCandidatesProps {
 }
 
 const cardClasses =
-  'rounded-2xl border p-[26px] transition-[transform,border-color] duration-150 ease-out [animation:revealUp_.6s_ease-out_both] hover:-translate-y-0.5'
+  'rounded-2xl border p-6 transition-[transform,border-color] duration-150 ease-out [animation:revealUp_.6s_ease-out_both] hover:-translate-y-0.5'
 
 function FeatureCard({ children, minWidth }: { children: React.ReactNode; minWidth?: boolean }) {
   return (

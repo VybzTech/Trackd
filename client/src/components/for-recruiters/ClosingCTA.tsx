@@ -19,14 +19,14 @@ export default function ClosingCTA() {
       <div className="flex flex-wrap justify-center gap-3">
         <Link
           to="/auth?screen=signup&role=recruiter"
-          className="inline-block rounded-xl px-[26px] py-[13px] text-[15px] font-semibold text-white transition-transform duration-150 ease-out hover:-translate-y-0.5"
+          className="inline-block rounded-xl px-6 py-3.5 text-[15px] font-semibold text-white transition-transform duration-150 ease-out hover:-translate-y-0.5"
           style={primaryCta}
         >
           Start hiring
         </Link>
         <Link
           to="/#contact"
-          className="inline-flex items-center rounded-xl border px-[26px] py-[13px] text-[15px] font-semibold transition-transform duration-150 ease-out hover:-translate-y-0.5"
+          className="inline-flex items-center rounded-xl border px-6 py-3.5 text-[15px] font-semibold transition-transform duration-150 ease-out hover:-translate-y-0.5"
           style={{ borderColor: 'var(--border)', color: 'var(--text)' }}
         >
           Talk to sales →

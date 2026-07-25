@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { Theme } from '../../lib/landingData'
 import { CloseIcon, MenuIcon, MoonIcon, SearchIcon, SunIcon } from '../landing/icons'
+import Logo from '../Logo'
 
 export interface DashboardNavItem {
   id: string
@@ -56,6 +57,7 @@ export default function DashboardShell({
 }: DashboardShellProps) {
   const [isMobile, setIsMobile] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth <= 960)
@@ -66,6 +68,7 @@ export default function DashboardShell({
 
   useEffect(() => {
     setSidebarOpen(false)
+    setMobileSearchOpen(false)
   }, [activeTab])
 
   const handleTabChange = (id: string) => {
@@ -76,12 +79,8 @@ export default function DashboardShell({
   const sidebarContent = (
     <>
       <div className="flex items-center gap-2 px-5 py-5">
-        <Link
-          to="/"
-          className="flex shrink-0 items-baseline gap-px whitespace-nowrap text-[18px] font-extrabold tracking-[-0.02em]"
-          style={{ color: 'var(--text)' }}
-        >
-          Trackd<span style={{ color: 'var(--glow-top)' }}>.</span>
+        <Link to="/" className="flex shrink-0 items-center">
+          <Logo height={18} />
         </Link>
       </div>
 
@@ -189,48 +188,85 @@ export default function DashboardShell({
             backdropFilter: 'blur(14px)',
           }}
         >
-          <div className="flex min-w-0 items-center gap-3">
-            {isMobile && (
+          {isMobile && showSearch && mobileSearchOpen ? (
+            <div className="relative flex-1">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-3)' }}>
+                <SearchIcon size={13} />
+              </span>
+              <input
+                autoFocus
+                type="text"
+                value={searchValue ?? ''}
+                onChange={(e) => onSearchChange?.(e.target.value)}
+                placeholder={searchPlaceholder ?? 'Search…'}
+                className="w-full rounded-lg border py-2 pl-8 pr-3 text-[13px]"
+                style={{ borderColor: 'var(--border)', background: 'var(--surface-alt)', color: 'var(--text)' }}
+              />
               <button
-                onClick={() => setSidebarOpen(true)}
-                aria-label="Open menu"
-                className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border"
-                style={{ borderColor: 'var(--border)', color: 'var(--text)' }}
+                onClick={() => setMobileSearchOpen(false)}
+                aria-label="Close search"
+                className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 shrink-0 cursor-pointer items-center justify-center rounded-full"
+                style={{ color: 'var(--text-3)' }}
               >
-                <MenuIcon size={15} />
+                <CloseIcon size={13} />
               </button>
-            )}
-            <h1 className="truncate text-[16px] font-bold tracking-[-0.01em]">{pageTitle}</h1>
-          </div>
-
-          <div className="flex shrink-0 items-center gap-3">
-            {showSearch && (
-              <div className="relative hidden sm:block">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-3)' }}>
-                  <SearchIcon size={13} />
-                </span>
-                <input
-                  type="text"
-                  value={searchValue ?? ''}
-                  onChange={(e) => onSearchChange?.(e.target.value)}
-                  placeholder={searchPlaceholder ?? 'Search…'}
-                  className="w-[200px] rounded-lg border py-1.5 pl-8 pr-3 text-[13px] transition-[width] duration-150 focus:w-[260px]"
-                  style={{ borderColor: 'var(--border)', background: 'var(--surface-alt)', color: 'var(--text)' }}
-                />
+            </div>
+          ) : (
+            <>
+              <div className="flex min-w-0 items-center gap-3">
+                {isMobile && (
+                  <button
+                    onClick={() => setSidebarOpen(true)}
+                    aria-label="Open menu"
+                    className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border"
+                    style={{ borderColor: 'var(--border)', color: 'var(--text)' }}
+                  >
+                    <MenuIcon size={15} />
+                  </button>
+                )}
+                <h1 className="truncate text-[16px] font-bold tracking-[-0.01em]">{pageTitle}</h1>
               </div>
-            )}
-            {headerActions}
-            {isMobile && (
-              <button
-                onClick={toggleTheme}
-                aria-label="Toggle theme"
-                className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border"
-                style={{ borderColor: 'var(--border)', color: 'var(--text-2)' }}
-              >
-                {theme === 'dark' ? <SunIcon size={14} /> : <MoonIcon size={14} />}
-              </button>
-            )}
-          </div>
+
+              <div className="flex shrink-0 items-center gap-3">
+                {showSearch && !isMobile && (
+                  <div className="relative">
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-3)' }}>
+                      <SearchIcon size={13} />
+                    </span>
+                    <input
+                      type="text"
+                      value={searchValue ?? ''}
+                      onChange={(e) => onSearchChange?.(e.target.value)}
+                      placeholder={searchPlaceholder ?? 'Search…'}
+                      className="w-[200px] rounded-lg border py-1.5 pl-8 pr-3 text-[13px] transition-[width] duration-150 focus:w-[260px]"
+                      style={{ borderColor: 'var(--border)', background: 'var(--surface-alt)', color: 'var(--text)' }}
+                    />
+                  </div>
+                )}
+                {showSearch && isMobile && (
+                  <button
+                    onClick={() => setMobileSearchOpen(true)}
+                    aria-label="Search"
+                    className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border"
+                    style={{ borderColor: 'var(--border)', color: 'var(--text-2)' }}
+                  >
+                    <SearchIcon size={14} />
+                  </button>
+                )}
+                {headerActions}
+                {isMobile && (
+                  <button
+                    onClick={toggleTheme}
+                    aria-label="Toggle theme"
+                    className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border"
+                    style={{ borderColor: 'var(--border)', color: 'var(--text-2)' }}
+                  >
+                    {theme === 'dark' ? <SunIcon size={14} /> : <MoonIcon size={14} />}
+                  </button>
+                )}
+              </div>
+            </>
+          )}
         </header>
 
         <main className="min-w-0 flex-1 p-5 sm:p-7">{children}</main>

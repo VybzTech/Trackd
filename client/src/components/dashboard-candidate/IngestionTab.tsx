@@ -75,7 +75,7 @@ export default function IngestionTab({ onCommit }: IngestionTabProps) {
     committedTimerRef.current = setTimeout(() => setJustCommitted(false), 2600)
   }
 
-  const toggleBase = 'flex-1 rounded-[7px] px-3.5 py-[7px] text-[12.5px] font-semibold transition-colors duration-150'
+  const toggleBase = 'flex-1 rounded-lg px-4 py-[7px] text-[13px] font-semibold transition-colors duration-150'
   const toggleStyle = (active: boolean) =>
     active ? { background: 'var(--surface-2)', color: 'var(--text)', cursor: 'pointer' as const, border: 'none' as const } : { background: 'transparent', color: 'var(--text-3)', cursor: 'pointer' as const, border: 'none' as const }
 
@@ -88,8 +88,8 @@ export default function IngestionTab({ onCommit }: IngestionTabProps) {
 
       <div className="flex flex-wrap items-start gap-5">
         <div className="min-w-[300px] flex-1 basis-96">
-          <div className="mb-6 rounded-2xl p-[22px]" style={{ border: '1px solid var(--border)' }}>
-            <div className="mb-4 flex w-fit gap-0.5 rounded-[9px] p-[3px]" style={{ border: '1px solid var(--border)' }}>
+          <div className="mb-6 rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
+            <div className="mb-4 flex w-fit gap-0.5 rounded-[10px] p-[3px]" style={{ border: '1px solid var(--border)' }}>
               <button type="button" onClick={() => setMode('link')} className={toggleBase} style={toggleStyle(mode === 'link')}>
                 Paste link
               </button>
@@ -122,7 +122,7 @@ export default function IngestionTab({ onCommit }: IngestionTabProps) {
               type="button"
               onClick={extract}
               disabled={!input.trim() || stage === 'loading'}
-              className="w-full rounded-[10px] py-[11px] text-[13.5px] font-semibold text-white transition-opacity duration-150"
+              className="w-full rounded-[10px] py-2.5 text-[13.5px] font-semibold text-white transition-opacity duration-150"
               style={{
                 border: 'none',
                 background: 'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)',
@@ -195,9 +195,9 @@ export default function IngestionTab({ onCommit }: IngestionTabProps) {
           </div>
         </div>
 
-        <div className="sticky top-0 min-w-[300px] flex-1 basis-[340px]">
+        <div className="min-w-[300px] flex-1 basis-[340px] lg:sticky lg:top-[84px]">
           {draft && stage === 'ready' && (
-            <div className="rounded-2xl p-[22px]" style={{ border: '1px solid var(--border-glass)', background: 'var(--surface-alt)' }}>
+            <div className="rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border-glass)', background: 'var(--surface-alt)' }}>
               <div className="mb-4 flex items-center gap-2" style={{ color: 'var(--glow-top)' }}>
                 <CheckIcon size={17} />
                 <h3 className="text-[15.5px] font-bold" style={{ color: 'var(--text)' }}>
@@ -307,7 +307,7 @@ export default function IngestionTab({ onCommit }: IngestionTabProps) {
 
           {!draft && justCommitted && (
             <div
-              className="rounded-2xl p-[22px] text-center"
+              className="rounded-2xl p-5 sm:p-6 text-center"
               style={{ border: '1px solid var(--border-glass)', background: 'color-mix(in srgb, var(--glow-top) 10%, var(--surface))', animation: 'scaleIn .2s ease-out both' }}
             >
               <div
@@ -326,7 +326,7 @@ export default function IngestionTab({ onCommit }: IngestionTabProps) {
           )}
 
           {!draft && !justCommitted && (
-            <div className="rounded-2xl p-8 text-center" style={{ border: '1px dashed var(--border)' }}>
+            <div className="rounded-2xl p-6 sm:p-8 text-center" style={{ border: '1px dashed var(--border)' }}>
               <p className="text-[13px] leading-[1.6]" style={{ color: 'var(--text-3)' }}>
                 Paste a link or text, or review a capture from the extension — the extracted details show up here to verify before they join your pipeline.
               </p>

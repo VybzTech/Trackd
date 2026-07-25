@@ -9,7 +9,7 @@ export default function FeatureBullets() {
           className="flex min-w-[220px] flex-[1_1_220px] gap-3.5 [animation:revealUp_.6s_ease-out_both]"
         >
           <div
-            className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[9px] border"
+            className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[10px] border"
             style={{ background: 'var(--surface)', borderColor: 'var(--border-glass)', color: 'var(--glow-top)' }}
           >
             <Icon />

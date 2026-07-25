@@ -1,6 +1,16 @@
 import type { Theme } from '../../lib/landingData'
 import { cap, type Flag } from './adminData'
-import { Badge, LiftButton, SectionLabel, StatCard, severityTone, statGridStyle } from './adminUi'
+import {
+  Badge,
+  LiftButton,
+  PAD_CARD,
+  PAD_FEATURE,
+  RADIUS_CARD,
+  SectionLabel,
+  StatCard,
+  severityTone,
+  statGridStyle,
+} from './adminUi'
 
 const GROWTH_MONTHS = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
 const CAND_SERIES = [980, 1120, 1050, 1300, 1480, 1620]
@@ -56,7 +66,7 @@ export default function OverviewTab({
       </div>
 
       {/* Marketplace growth — dual-series bar chart (brand-chrome colours) */}
-      <div style={{ border: '1px solid var(--border)', borderRadius: 14, padding: 20, marginBottom: 24 }}>
+      <div style={{ border: '1px solid var(--border)', borderRadius: RADIUS_CARD, padding: PAD_FEATURE, marginBottom: 24 }}>
         <div
           style={{
             display: 'flex',
@@ -128,7 +138,7 @@ export default function OverviewTab({
               <LiftButton
                 key={f.id}
                 onClick={onGoModeration}
-                style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 14, borderRadius: 12 }}
+                style={{ display: 'flex', alignItems: 'center', gap: 12 }}
               >
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div
@@ -163,8 +173,8 @@ export default function OverviewTab({
               flexDirection: 'column',
               gap: 14,
               border: '1px solid var(--border)',
-              borderRadius: 14,
-              padding: 16,
+              borderRadius: RADIUS_CARD,
+              padding: PAD_CARD,
             }}
           >
             {ACTIVITY_FEED.map((a) => (

@@ -59,7 +59,7 @@ export default function ForCandidatesPage() {
             <h2 className="mb-4 text-[clamp(26px,4vw,36px)] font-extrabold tracking-[-0.02em]">
               Stop guessing. Start tracking.
             </h2>
-            <CtaLink to="/auth?screen=signup&role=candidate" className="rounded-xl px-[26px] py-[13px] text-[15px]">
+            <CtaLink to="/auth?screen=signup&role=candidate" className="rounded-xl px-6 py-3.5 text-[15px]">
               Get started free
             </CtaLink>
           </div>

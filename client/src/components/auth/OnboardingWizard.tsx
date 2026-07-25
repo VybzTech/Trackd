@@ -110,7 +110,7 @@ export default function OnboardingWizard({
             Optional now — you can add this anytime from your dashboard.
           </p>
           <div
-            className="mb-[22px] rounded-xl p-7 text-center"
+            className="mb-[22px] rounded-xl p-6 text-center"
             style={{
               border: '1px dashed var(--border-glass)',
               transition: 'border-color .15s ease-out, background-color .15s ease-out',

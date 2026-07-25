@@ -1,7 +1,19 @@
 import { useMemo, useState } from 'react'
 import { AUDIT_LOG, PAST_REPORTS, type AuditEntry } from './adminData'
 import { CheckIcon } from './adminIcons'
-import { FilterTabs, SectionLabel, StatCard, statGridStyle } from './adminUi'
+import {
+  FilterTabs,
+  PAD_CARD,
+  RADIUS_CARD,
+  SectionLabel,
+  StatCard,
+  TableShell,
+  smBtnStyle,
+  statGridStyle,
+  tdMono,
+  tdMuted,
+  tdStyle,
+} from './adminUi'
 
 export type ReportPeriod = '7d' | '30d' | '90d' | 'ytd'
 const PERIOD_OPTIONS: { key: ReportPeriod; label: string }[] = [
@@ -101,10 +113,10 @@ export default function ReportsTab({
             display: 'flex',
             alignItems: 'center',
             gap: 12,
-            padding: '14px 18px',
+            padding: '16px 20px',
             border: '1px solid var(--border-glass)',
             background: 'color-mix(in srgb, var(--glow-top) 8%, var(--surface))',
-            borderRadius: 12,
+            borderRadius: RADIUS_CARD,
             marginBottom: 24,
           }}
         >
@@ -116,14 +128,10 @@ export default function ReportsTab({
           </span>
           <button
             style={{
-              fontSize: 12,
-              fontWeight: 600,
-              padding: '7px 14px',
-              borderRadius: 999,
+              ...smBtnStyle,
               border: '1px solid var(--border-glass)',
               background: 'var(--surface)',
               color: 'var(--glow-top)',
-              cursor: 'pointer',
               flexShrink: 0,
             }}
           >
@@ -147,96 +155,38 @@ export default function ReportsTab({
             <SectionLabel>Audit log</SectionLabel>
             <FilterTabs options={CATEGORY_OPTIONS} value={categoryFilter} onChange={setCategoryFilter} />
           </div>
-          <div style={{ border: '1px solid var(--border)', borderRadius: 14, overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-              <thead>
-                <tr>
-                  {['Actor', 'Action', 'Target', 'Time'].map((h) => (
-                    <th
-                      key={h}
-                      style={{
-                        textAlign: 'left',
-                        padding: '10px 14px',
-                        color: 'var(--text-3)',
-                        fontWeight: 600,
-                        fontSize: 10.5,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.04em',
-                        borderBottom: '1px solid var(--border)',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {auditRows.map((row) => (
-                  <tr key={row.id}>
-                    <td style={{ padding: '10px 14px', borderBottom: '1px solid var(--border)', whiteSpace: 'nowrap' }}>
-                      <div style={{ fontWeight: 600, color: 'var(--text)' }}>{row.actor}</div>
-                      <div style={{ fontSize: 11, color: 'var(--text-3)' }}>{row.role}</div>
-                    </td>
-                    <td
-                      style={{
-                        padding: '10px 14px',
-                        borderBottom: '1px solid var(--border)',
-                        color: 'var(--text-2)',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {row.action}
-                    </td>
-                    <td
-                      style={{
-                        padding: '10px 14px',
-                        borderBottom: '1px solid var(--border)',
-                        color: 'var(--text-2)',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {row.target}
-                    </td>
-                    <td
-                      style={{
-                        padding: '10px 14px',
-                        borderBottom: '1px solid var(--border)',
-                        color: 'var(--text-3)',
-                        fontFamily: 'var(--font-mono)',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {row.time}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <TableShell headers={['Actor', 'Action', 'Target', 'Time']}>
+            {auditRows.map((row) => (
+              <tr key={row.id}>
+                <td style={tdStyle}>
+                  <div style={{ fontWeight: 600, color: 'var(--text)' }}>{row.actor}</div>
+                  <div style={{ fontSize: 11.5, color: 'var(--text-3)' }}>{row.role}</div>
+                </td>
+                <td style={tdMuted}>{row.action}</td>
+                <td style={tdMuted}>{row.target}</td>
+                <td style={tdMono}>{row.time}</td>
+              </tr>
+            ))}
+          </TableShell>
         </div>
 
         <div style={{ flex: '1 1 260px', minWidth: 240 }}>
           <SectionLabel style={{ marginBottom: 12 }}>Past reports</SectionLabel>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {PAST_REPORTS.map((r) => (
-              <div key={r.id} style={{ border: '1px solid var(--border)', borderRadius: 12, padding: 14 }}>
+              <div key={r.id} style={{ border: '1px solid var(--border)', borderRadius: RADIUS_CARD, padding: PAD_CARD }}>
                 <div style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}>
                   {r.name}
                 </div>
-                <div style={{ fontSize: 11.5, color: 'var(--text-3)', marginBottom: 10 }}>
+                <div style={{ fontSize: 11.5, color: 'var(--text-3)', marginBottom: 14 }}>
                   {r.period} · generated {r.generated}
                 </div>
                 <button
                   style={{
-                    fontSize: 11.5,
-                    fontWeight: 600,
-                    padding: '6px 12px',
-                    borderRadius: 999,
-                    border: '1px solid var(--border-glass)',
+                    ...smBtnStyle,
+                    borderColor: 'var(--border-glass)',
                     background: 'var(--surface-alt)',
                     color: 'var(--glow-top)',
-                    cursor: 'pointer',
                   }}
                 >
                   Download

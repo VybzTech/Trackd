@@ -5,6 +5,7 @@
 
 import type { MouseEvent } from 'react'
 import { STAGE_META } from './data'
+import { PILL_ACTION, BRAND_GRADIENT, CONTROL_PAD } from './ui'
 
 function stop(e: MouseEvent, fn?: () => void) {
   e.stopPropagation()
@@ -25,20 +26,16 @@ export function RowActions({
       <button
         type="button"
         onClick={(e) => stop(e, onInterview)}
-        className="rounded-full border px-3 py-1.5 text-[11.5px] font-semibold text-white transition-transform duration-150 ease-out hover:-translate-y-0.5"
-        style={{
-          borderColor: 'var(--border-glass)',
-          background:
-            'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)',
-        }}
+        className={`${PILL_ACTION} border text-white hover:-translate-y-0.5`}
+        style={{ padding: CONTROL_PAD.pill, borderColor: 'var(--border-glass)', background: BRAND_GRADIENT }}
       >
         Interview
       </button>
       <button
         type="button"
         onClick={(e) => stop(e, onReject)}
-        className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11.5px] font-semibold transition-colors duration-150 ease-out"
-        style={{ borderColor: 'var(--border)', color: 'var(--text-2)', background: 'transparent' }}
+        className={`${PILL_ACTION} border`}
+        style={{ padding: CONTROL_PAD.pill, borderColor: 'var(--border)', color: 'var(--text-2)', background: 'transparent' }}
         onMouseEnter={(e) => {
           e.currentTarget.style.borderColor = STAGE_META.rejected.color
           e.currentTarget.style.color = 'var(--text)'
@@ -54,8 +51,8 @@ export function RowActions({
       <button
         type="button"
         onClick={(e) => stop(e, onPass)}
-        className="rounded-full border px-3 py-1.5 text-[11.5px] font-semibold"
-        style={{ borderColor: 'var(--border)', color: 'var(--text-3)', background: 'transparent' }}
+        className={`${PILL_ACTION} border`}
+        style={{ padding: CONTROL_PAD.pill, borderColor: 'var(--border)', color: 'var(--text-3)', background: 'transparent' }}
       >
         Pass
       </button>

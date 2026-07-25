@@ -40,7 +40,7 @@ export default function OverviewTab({
           <SectionLabel className="mb-3">Needs attention</SectionLabel>
           <div className="flex flex-col gap-2.5">
             {needsAttention.length === 0 && (
-              <div className="rounded-[12px] border p-3.5 text-[13px]" style={{ borderColor: 'var(--border)', color: 'var(--text-3)' }}>
+              <div className="rounded-[14px] border p-6 text-[13px]" style={{ borderColor: 'var(--border)', color: 'var(--text-3)' }}>
                 Nothing awaiting review — you're all caught up.
               </div>
             )}
@@ -48,8 +48,8 @@ export default function OverviewTab({
               <button
                 key={x.job.id}
                 onClick={() => onOpenRolePending(x.job.id)}
-                className="flex w-full items-center gap-3 rounded-[12px] border p-3.5 text-left transition-all duration-150 ease-out hover:-translate-y-0.5"
-                style={{ borderColor: 'var(--border)', background: 'transparent' }}
+                className="flex w-full items-center gap-3 rounded-[14px] border p-6 text-left transition-all duration-150 ease-out hover:-translate-y-0.5"
+                style={{ padding: '24px', borderColor: 'var(--border)', background: 'transparent' }}
                 onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--border-glass)')}
                 onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
               >
@@ -78,7 +78,7 @@ export default function OverviewTab({
 
         <div className="min-w-[280px] flex-[1_1_320px]">
           <SectionLabel className="mb-3">Recent activity</SectionLabel>
-          <div className="flex flex-col gap-3.5 rounded-[14px] border p-4" style={{ borderColor: 'var(--border)' }}>
+          <div className="flex flex-col gap-3.5 rounded-[14px] border p-6" style={{ borderColor: 'var(--border)' }}>
             {ACTIVITY_FEED.map((a) => (
               <div key={a.text} className="flex items-start gap-3">
                 <span

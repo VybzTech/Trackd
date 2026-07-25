@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { initialsOf, type AdminRole, type AdminUser } from './adminData'
-import { primaryBtnStyle } from './adminUi'
+import { PAD_FEATURE, RADIUS_BTN, RADIUS_CARD, primaryBtnStyle } from './adminUi'
 
 const ROLE_OPTS: AdminRole[] = ['Super Admin', 'Support', 'Moderator']
 
@@ -78,19 +78,18 @@ export default function SettingsTab({
       </p>
 
       <div style={{ maxWidth: 600, display: 'flex', flexDirection: 'column', gap: 24 }}>
-        <div style={{ border: '1px solid var(--border)', borderRadius: 14, padding: 20 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 16 }}>Admin users</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 18 }}>
-            {adminUsers.map((a) => (
+        <div style={{ border: '1px solid var(--border)', borderRadius: RADIUS_CARD, padding: PAD_FEATURE }}>
+          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8 }}>Admin users</div>
+          <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 18 }}>
+            {adminUsers.map((a, i) => (
               <div
                 key={a.id}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: 12,
-                  padding: '10px 12px',
-                  border: '1px solid var(--border)',
-                  borderRadius: 10,
+                  padding: '12px 0',
+                  borderTop: i === 0 ? 'none' : '1px solid var(--border)',
                 }}
               >
                 <div
@@ -152,8 +151,8 @@ export default function SettingsTab({
                 onChange={(e) => setInviteName(e.target.value)}
                 style={{
                   flex: '1 1 140px',
-                  padding: '9px 12px',
-                  borderRadius: 9,
+                  padding: '10px 12px',
+                  borderRadius: RADIUS_BTN,
                   border: '1px solid var(--border)',
                   background: 'var(--surface-alt)',
                   color: 'var(--text)',
@@ -167,8 +166,8 @@ export default function SettingsTab({
                 onChange={(e) => setInviteEmail(e.target.value)}
                 style={{
                   flex: '1 1 160px',
-                  padding: '9px 12px',
-                  borderRadius: 9,
+                  padding: '10px 12px',
+                  borderRadius: RADIUS_BTN,
                   border: '1px solid var(--border)',
                   background: 'var(--surface-alt)',
                   color: 'var(--text)',
@@ -184,8 +183,8 @@ export default function SettingsTab({
                     key={r}
                     onClick={() => setInviteRole(r)}
                     style={{
-                      padding: '7px 14px',
-                      borderRadius: 999,
+                      padding: '9px 14px',
+                      borderRadius: RADIUS_BTN,
                       fontSize: 12,
                       fontWeight: 600,
                       border: `1px solid ${active ? 'var(--border-glass)' : 'var(--border)'}`,
@@ -208,7 +207,7 @@ export default function SettingsTab({
           </div>
         </div>
 
-        <div style={{ border: '1px solid var(--border)', borderRadius: 14, padding: 20 }}>
+        <div style={{ border: '1px solid var(--border)', borderRadius: RADIUS_CARD, padding: PAD_FEATURE }}>
           <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 16 }}>Platform controls</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -232,7 +231,7 @@ export default function SettingsTab({
           </div>
         </div>
 
-        <div style={{ border: '1px solid var(--border)', borderRadius: 14, padding: 20 }}>
+        <div style={{ border: '1px solid var(--border)', borderRadius: RADIUS_CARD, padding: PAD_FEATURE }}>
           <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 6, color: 'var(--text-2)' }}>
             Emergency controls
           </div>
@@ -242,8 +241,8 @@ export default function SettingsTab({
           <button
             onClick={onToggleLockdown}
             style={{
-              padding: '9px 16px',
-              borderRadius: 9,
+              padding: '10px 16px',
+              borderRadius: RADIUS_BTN,
               border: `1px solid ${lockdownActive ? 'var(--border-glass)' : 'var(--border)'}`,
               background: lockdownActive
                 ? 'color-mix(in srgb, var(--glow-top) 12%, var(--surface))'

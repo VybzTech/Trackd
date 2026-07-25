@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { CheckIcon, MailIcon, SocialIcon, SupportIcon } from './icons'
+import { PrimaryButton } from './Buttons'
 
 const inputClasses = 'w-full rounded-[10px] border px-3.5 py-2.5 text-sm'
 
@@ -83,7 +84,7 @@ export default function Contact() {
         </div>
 
         <div
-          className="min-w-[280px] flex-[1_1_380px] rounded-2xl border p-7 [animation:revealUp_.6s_ease-out_both]"
+          className="min-w-[280px] flex-[1_1_380px] rounded-2xl border p-6 [animation:revealUp_.6s_ease-out_both]"
           style={{ borderColor: 'var(--border)' }}
         >
           {sent && (
@@ -143,12 +144,9 @@ export default function Contact() {
                   />
                 </div>
               </div>
-              <button
-                onClick={submit}
-                className="w-full cursor-pointer rounded-[10px] border border-white/22 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--brand-2)_85%,white_15%),var(--brand-2)_45%,var(--brand)_100%)] py-3 text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]"
-              >
+              <PrimaryButton onClick={submit} className="w-full">
                 Send message
-              </button>
+              </PrimaryButton>
             </div>
           )}
         </div>

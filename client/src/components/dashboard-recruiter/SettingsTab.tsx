@@ -1,9 +1,9 @@
 import { VALUE_OPTS, initials, type CompanySettings, type TeamMember } from './data'
-import { Field, Pill, Toggle, PrimaryButton, GhostButton, Avatar } from './ui'
+import { Field, Pill, Toggle, PrimaryButton, GhostButton, Avatar, CONTROL_PAD } from './ui'
 
 function SettingsCard({ title, children, subtitle }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[14px] border p-5" style={{ borderColor: 'var(--border)' }}>
+    <div className="rounded-[14px] border p-6" style={{ borderColor: 'var(--border)' }}>
       <div className="mb-1 text-[13px] font-bold">{title}</div>
       {subtitle && (
         <p className="mb-3.5 text-xs" style={{ color: 'var(--text-3)' }}>
@@ -91,8 +91,8 @@ export default function SettingsTab({
             {team.map((m) => (
               <div
                 key={m.id}
-                className="flex items-center gap-3 rounded-[10px] border px-3 py-2.5"
-                style={{ borderColor: 'var(--border)' }}
+                className="flex items-center gap-3 rounded-[10px] px-3 py-2.5"
+                style={{ background: 'var(--surface-alt)' }}
               >
                 <Avatar text={initials(m.name)} size={30} />
                 <div className="min-w-0 flex-1">
@@ -113,8 +113,10 @@ export default function SettingsTab({
                   type="button"
                   aria-label={`Remove ${m.name}`}
                   onClick={() => onRemoveTeamMember(m.id)}
-                  className="h-6 w-6 shrink-0"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-base transition-colors duration-150"
                   style={{ border: 'none', background: 'transparent', color: 'var(--text-3)', cursor: 'pointer' }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-3)')}
                 >
                   ×
                 </button>
@@ -127,16 +129,16 @@ export default function SettingsTab({
               placeholder="Name"
               value={inviteName}
               onChange={(e) => onInviteNameChange(e.target.value)}
-              className="flex-[1_1_140px] rounded-[9px] border px-3 py-2.5 text-[13px]"
-              style={{ borderColor: 'var(--border)', background: 'var(--surface-alt)', color: 'var(--text)' }}
+              className="flex-[1_1_140px] rounded-[10px] border px-3 py-2.5 text-[13px]"
+              style={{ padding: CONTROL_PAD.field, borderColor: 'var(--border)', background: 'var(--surface-alt)', color: 'var(--text)' }}
             />
             <input
               type="email"
               placeholder="Email"
               value={inviteEmail}
               onChange={(e) => onInviteEmailChange(e.target.value)}
-              className="flex-[1_1_160px] rounded-[9px] border px-3 py-2.5 text-[13px]"
-              style={{ borderColor: 'var(--border)', background: 'var(--surface-alt)', color: 'var(--text)' }}
+              className="flex-[1_1_160px] rounded-[10px] border px-3 py-2.5 text-[13px]"
+              style={{ padding: CONTROL_PAD.field, borderColor: 'var(--border)', background: 'var(--surface-alt)', color: 'var(--text)' }}
             />
             <PrimaryButton onClick={onAddTeamMember} className="whitespace-nowrap">
               Invite

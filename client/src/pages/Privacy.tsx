@@ -295,8 +295,8 @@ export default function Privacy() {
               href="mailto:privacy@trackd.io"
               style={{
                 display: 'inline-block',
-                padding: '11px 22px',
-                borderRadius: '10px',
+                padding: '12px 24px',
+                borderRadius: '12px',
                 border: '1px solid rgba(255,255,255,0.22)',
                 background:
                   'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)',

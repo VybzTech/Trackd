@@ -1,9 +1,38 @@
 // Shared primitives for the Recruiter dashboard. Kept small and composable so
 // tabs/drawers/modals don't each re-declare the same button/pill/toggle styles.
 
-import { useEffect, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { STAGE_META, type RecruiterStage } from './data'
 import { CloseIcon } from './icons'
+
+/**
+ * ── Recruiter dashboard design tokens ────────────────────────────────
+ * A deliberate, small scale so every card/button/pill reads as one system.
+ *
+ * Radius:   8px segment/icon · 10px input+button+row · 14px card/panel · 16px modal · full pill/badge
+ * Padding:  24px standard card (incl. KPI tiles) · 32px desktop feature panel (modal/drawer)
+ * Buttons:  md CTA (px-4 py-2.5, r-10) · pill action (px-3.5 py-2, rounded-full) · segment (px-3.5 py-1.5, r-8)
+ */
+export const PILL_ACTION =
+  'inline-flex items-center justify-center gap-1.5 rounded-full px-3.5 py-2 text-[12px] font-semibold transition-all duration-150 ease-out'
+
+/**
+ * NOTE: the global reset in `index.css` (`button, input { padding: 0 }`) is
+ * unlayered, so it overrides Tailwind's layered padding utilities (px-N, py-N)
+ * on every button/input. Until that reset is scoped into `@layer base`, buttons
+ * and inputs must carry their padding as an inline style (inline beats the
+ * reset). These constants keep that padding on one deliberate scale.
+ */
+export const CONTROL_PAD = {
+  btn: '10px 16px', // md CTA — Primary/Ghost (~40px tall)
+  pill: '8px 14px', // pill actions + filter pills
+  segment: '6px 14px', // segmented control tabs
+  field: '10px 14px', // text inputs
+} as const
+
+/** Raised gradient fill shared by primary buttons, sidebar active state, and primary pill actions. */
+export const BRAND_GRADIENT =
+  'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)'
 
 /** Signature raised gradient button (primary CTA). */
 export function PrimaryButton({
@@ -23,8 +52,9 @@ export function PrimaryButton({
     <button
       type={type}
       onClick={onClick}
-      className={`inline-flex items-center justify-center gap-1.5 rounded-[9px] px-4 py-2.5 text-[13.5px] font-semibold text-white transition-transform duration-150 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] ${className}`}
+      className={`inline-flex items-center justify-center gap-1.5 rounded-[10px] px-4 py-2.5 text-[13.5px] font-semibold text-white transition-transform duration-150 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] ${className}`}
       style={{
+        padding: CONTROL_PAD.btn,
         border: '1px solid rgba(255,255,255,0.22)',
         background:
           'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)',
@@ -54,8 +84,8 @@ export function GhostButton({
       type="button"
       aria-label={ariaLabel}
       onClick={onClick}
-      className={`inline-flex items-center justify-center gap-1.5 rounded-[9px] border px-4 py-2.5 text-[13.5px] font-semibold transition-colors duration-150 ease-out ${className}`}
-      style={{ borderColor: 'var(--border)', color: 'var(--text)', background: 'transparent' }}
+      className={`inline-flex items-center justify-center gap-1.5 rounded-[10px] border px-4 py-2.5 text-[13.5px] font-semibold transition-colors duration-150 ease-out ${className}`}
+      style={{ padding: CONTROL_PAD.btn, borderColor: 'var(--border)', color: 'var(--text)', background: 'transparent' }}
       onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--border-glass)')}
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
     >
@@ -82,8 +112,8 @@ export function Pill({
       className="rounded-full border px-3.5 py-2 text-[12.5px] font-semibold transition-all duration-150 ease-out"
       style={
         active
-          ? { background: 'var(--surface-alt)', borderColor: 'var(--border-glass)', color: 'var(--glow-top)' }
-          : { background: 'transparent', borderColor: 'var(--border)', color: 'var(--text-2)' }
+          ? { padding: CONTROL_PAD.pill, background: 'var(--surface-alt)', borderColor: 'var(--border-glass)', color: 'var(--glow-top)' }
+          : { padding: CONTROL_PAD.pill, background: 'transparent', borderColor: 'var(--border)', color: 'var(--text-2)' }
       }
     >
       {label}
@@ -110,6 +140,7 @@ export function SegmentButton({
       onClick={onClick}
       className={`rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold transition-all duration-150 ease-out ${grow ? 'flex-1' : ''}`}
       style={{
+        padding: CONTROL_PAD.segment,
         border: 'none',
         background: active ? 'var(--surface-2)' : 'transparent',
         color: active ? 'var(--text)' : 'var(--text-3)',
@@ -163,7 +194,7 @@ export function Toggle({
 export function StatCard({ label, value, delta, deltaAccent }: { label: string; value: string; delta: string; deltaAccent?: boolean }) {
   return (
     <div
-      className="rounded-[14px] border px-[18px] py-4 [animation:revealUp_.3s_ease-out_both]"
+      className="rounded-[14px] border p-6 [animation:revealUp_.2s_ease-out_both]"
       style={{ borderColor: 'var(--border)' }}
     >
       <div className="mb-2 text-xs" style={{ color: 'var(--text-3)' }}>
@@ -253,6 +284,7 @@ export function Field({
   optional?: boolean
 }) {
   const fieldStyle: CSSProperties = {
+    padding: CONTROL_PAD.field,
     borderColor: 'var(--border)',
     background: 'var(--surface-alt)',
     color: 'var(--text)',
@@ -319,7 +351,7 @@ export function ModalShell({
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledBy}
-        className="max-h-[88vh] w-full overflow-y-auto rounded-2xl border p-6 sm:p-7"
+        className="max-h-[88vh] w-full overflow-y-auto rounded-2xl border p-6 sm:p-8"
         style={{
           maxWidth,
           background: 'var(--surface)',
@@ -361,13 +393,13 @@ export function DrawerShell({
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledBy}
-        className="fixed bottom-0 right-0 top-0 overflow-y-auto border-l p-6"
+        className="fixed bottom-0 right-0 top-0 overflow-y-auto border-l p-6 sm:p-8"
         style={{
           zIndex: z,
           width: `min(${width}px, 100vw)`,
           background: 'var(--surface)',
           borderColor: 'var(--border)',
-          animation: 'slideInRight .25s ease-out both',
+          animation: 'slideInRight .2s ease-out both',
         }}
       >
         {children}
@@ -408,6 +440,81 @@ export function Avatar({ text, size = 32, accent = false }: { text: string; size
       }}
     >
       {text}
+    </div>
+  )
+}
+
+/**
+ * Horizontally-scrollable container for wide tables. Renders the card border +
+ * radius, and shows a soft edge-fade whenever content overflows in that
+ * direction — a real "there's more →" cue (overlay scrollbars show nothing at
+ * rest, especially on touch).
+ */
+export function TableScroll({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [edges, setEdges] = useState({ left: false, right: false })
+
+  const update = () => {
+    const el = ref.current
+    if (!el) return
+    const left = el.scrollLeft > 1
+    const right = el.scrollLeft + el.clientWidth < el.scrollWidth - 1
+    // Bail out when unchanged — returning the same object keeps the
+    // recompute-every-render effect below from looping infinitely.
+    setEdges((prev) => (prev.left === left && prev.right === right ? prev : { left, right }))
+  }
+
+  // Recompute after every render (row count / filters can change scrollWidth).
+  useLayoutEffect(update)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    el.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      el.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+
+  const fadeBase: CSSProperties = {
+    position: 'absolute',
+    top: 1,
+    bottom: 1,
+    width: 40,
+    pointerEvents: 'none',
+    transition: 'opacity .15s ease-out',
+    zIndex: 1,
+  }
+
+  return (
+    <div className="relative rounded-[14px] border" style={{ borderColor: 'var(--border)' }}>
+      <div ref={ref} className="overflow-x-auto rounded-[14px]">
+        {children}
+      </div>
+      <div
+        aria-hidden
+        style={{
+          ...fadeBase,
+          left: 1,
+          borderTopLeftRadius: 14,
+          borderBottomLeftRadius: 14,
+          background: 'linear-gradient(90deg, var(--bg), transparent)',
+          opacity: edges.left ? 1 : 0,
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          ...fadeBase,
+          right: 1,
+          borderTopRightRadius: 14,
+          borderBottomRightRadius: 14,
+          background: 'linear-gradient(270deg, var(--bg), transparent)',
+          opacity: edges.right ? 1 : 0,
+        }}
+      />
     </div>
   )
 }

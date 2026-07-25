@@ -4,6 +4,7 @@ import {
   Badge,
   SectionLabel,
   StatCard,
+  TableShell,
   incidentSeverityTone,
   incidentStatusTone,
   statGridStyle,
@@ -29,51 +30,25 @@ export default function SystemTab({ theme }: { theme: Theme }) {
       </div>
 
       <SectionLabel style={{ marginBottom: 12 }}>Incident log</SectionLabel>
-      <div style={{ border: '1px solid var(--border)', borderRadius: 14, overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5 }}>
-          <thead>
-            <tr>
-              {['Service', 'Severity', 'Status', 'Time', 'Message'].map((h) => (
-                <th
-                  key={h}
-                  style={{
-                    textAlign: 'left',
-                    padding: '11px 16px',
-                    color: 'var(--text-3)',
-                    fontWeight: 600,
-                    fontSize: 11,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                    borderBottom: '1px solid var(--border)',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {INCIDENTS.map((inc) => (
-              <tr key={inc.id}>
-                <td style={{ ...tdStyle, fontWeight: 600, color: 'var(--text)' }}>{inc.service}</td>
-                <td style={tdStyle}>
-                  <Badge tone={incidentSeverityTone(inc.severity)} theme={theme} upper>
-                    {cap(inc.severity)}
-                  </Badge>
-                </td>
-                <td style={tdStyle}>
-                  <Badge tone={incidentStatusTone(inc.status)} theme={theme}>
-                    {cap(inc.status)}
-                  </Badge>
-                </td>
-                <td style={tdMono}>{inc.time}</td>
-                <td style={{ ...tdMuted, whiteSpace: 'normal' }}>{inc.message}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <TableShell headers={['Service', 'Severity', 'Status', 'Time', 'Message']}>
+        {INCIDENTS.map((inc) => (
+          <tr key={inc.id}>
+            <td style={{ ...tdStyle, fontWeight: 600, color: 'var(--text)' }}>{inc.service}</td>
+            <td style={tdStyle}>
+              <Badge tone={incidentSeverityTone(inc.severity)} theme={theme} upper>
+                {cap(inc.severity)}
+              </Badge>
+            </td>
+            <td style={tdStyle}>
+              <Badge tone={incidentStatusTone(inc.status)} theme={theme}>
+                {cap(inc.status)}
+              </Badge>
+            </td>
+            <td style={tdMono}>{inc.time}</td>
+            <td style={{ ...tdMuted, whiteSpace: 'normal', minWidth: 220 }}>{inc.message}</td>
+          </tr>
+        ))}
+      </TableShell>
     </>
   )
 }

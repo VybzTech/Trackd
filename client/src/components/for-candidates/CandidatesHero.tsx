@@ -31,7 +31,7 @@ export default function CandidatesHero() {
           Stop copy-pasting into spreadsheets. Trackd turns raw job posts into a living pipeline,
           scores your fit before you apply, and tells you exactly what to fix.
         </p>
-        <CtaLink to="/auth?screen=signup&role=candidate" className="rounded-xl px-[26px] py-[13px] text-[15px]">
+        <CtaLink to="/auth?screen=signup&role=candidate" className="rounded-xl px-6 py-3.5 text-[15px]">
           Get started free
         </CtaLink>
         <p className="mt-3.5 font-mono text-[12.5px]" style={{ color: 'var(--text-3)' }}>

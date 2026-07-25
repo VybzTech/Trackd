@@ -54,7 +54,7 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
         How your search is trending, and what's holding scores back.
       </p>
 
-      <div className="mb-6 rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+      <div className="mb-6 rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
         <div className="mb-4 text-[12px] font-semibold uppercase tracking-[0.04em]" style={{ color: 'var(--text-3)' }}>
           Avg. compatibility, last 6 months
         </div>
@@ -79,7 +79,7 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
       </div>
 
       <div className="flex flex-wrap gap-5">
-        <div className="min-w-[260px] flex-1 basis-72 rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <div className="min-w-[260px] flex-1 basis-72 rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-3.5 text-[12px] font-semibold uppercase tracking-[0.04em]" style={{ color: 'var(--text-3)' }}>
             Pipeline conversion
           </div>
@@ -108,7 +108,7 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
           </div>
         </div>
 
-        <div className="min-w-[260px] flex-1 basis-72 rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <div className="min-w-[260px] flex-1 basis-72 rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-3.5 text-[12px] font-semibold uppercase tracking-[0.04em]" style={{ color: 'var(--text-3)' }}>
             Most common gaps
           </div>
@@ -144,12 +144,12 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
 
         {docView === 'coverLetter' && (
           <div className="mb-4 flex flex-wrap gap-2.5">
-            <button type="button" className="rounded-[9px] px-4 py-2.5 text-[12.5px] font-semibold" style={{ border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}>
+            <button type="button" className="rounded-[10px] px-4 py-2.5 text-[12.5px] font-semibold" style={{ border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}>
               Upload your template
             </button>
             <button
               type="button"
-              className="rounded-[9px] px-4 py-2.5 text-[12.5px] font-semibold text-white"
+              className="rounded-[10px] px-4 py-2.5 text-[12.5px] font-semibold text-white"
               style={{ border: 'none', background: 'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.3)', cursor: 'pointer' }}
             >
               Generate tailored letter →
@@ -240,7 +240,7 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
                   <p className="mb-2.5 text-[12.5px] leading-[1.5]" style={{ color: 'var(--text-2)' }}>
                     {d.desc}
                   </p>
-                  <button type="button" className="rounded-full px-3 py-1.5 text-[11.5px] font-semibold" style={{ border: '1px solid var(--border-glass)', background: 'transparent', color: 'var(--glow-top)', cursor: 'pointer' }}>
+                  <button type="button" className="rounded-full px-3.5 py-2 text-[11.5px] font-semibold" style={{ border: '1px solid var(--border-glass)', background: 'transparent', color: 'var(--glow-top)', cursor: 'pointer' }}>
                     Fix with AI →
                   </button>
                 </div>
@@ -250,7 +250,7 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
         </div>
       </div>
 
-      <div className="mt-10 rounded-[20px] p-6 sm:p-9" style={{ border: '1px solid var(--border-glass)', background: 'var(--surface-alt)' }}>
+      <div className="mt-10 rounded-3xl p-6 sm:p-8" style={{ border: '1px solid var(--border-glass)', background: 'var(--surface-alt)' }}>
         <div className="mx-auto mb-7 max-w-[560px] text-center">
           <div className="mb-3 text-[12.5px] font-semibold uppercase tracking-[0.06em]" style={{ color: 'var(--glow-top)', fontFamily: 'var(--font-mono)' }}>
             Trackd Pro
@@ -261,7 +261,7 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
           </p>
         </div>
         <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
-          <div className="rounded-2xl p-[22px]" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+          <div className="rounded-2xl p-5" style={{ background: 'var(--surface)' }}>
             <div className="mb-3.5 flex items-center gap-3.5">
               <svg width="56" height="56" viewBox="0 0 56 56" style={{ transform: 'rotate(-90deg)', flexShrink: 0 }}>
                 <circle cx="28" cy="28" r="22" fill="none" stroke="var(--border)" strokeWidth="5" />
@@ -291,14 +291,14 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
             </p>
             <button
               type="button"
-              className="w-full rounded-lg py-2.5 text-[12.5px] font-semibold text-white"
+              className="w-full rounded-[10px] py-2.5 text-[12.5px] font-semibold text-white"
               style={{ border: '1px solid rgba(255,255,255,0.22)', background: 'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)', cursor: 'pointer' }}
             >
               Boost with AI
             </button>
           </div>
 
-          <div className="rounded-2xl p-[22px]" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+          <div className="rounded-2xl p-5" style={{ background: 'var(--surface)' }}>
             <h4 className="mb-3 text-[14px] font-bold">Resume vs. what recruiters want</h4>
             <div className="mb-3.5 flex flex-col gap-2.5">
               {SKILL_GAP_DATA.map((sg) => (
@@ -327,12 +327,12 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
                 Market demand
               </span>
             </div>
-            <button type="button" className="w-full rounded-lg py-2.5 text-[12.5px] font-semibold" style={{ border: '1px solid var(--border-glass)', background: 'transparent', color: 'var(--glow-top)', cursor: 'pointer' }}>
+            <button type="button" className="w-full rounded-[10px] py-2.5 text-[12.5px] font-semibold" style={{ border: '1px solid var(--border-glass)', background: 'transparent', color: 'var(--glow-top)', cursor: 'pointer' }}>
               See full gap report
             </button>
           </div>
 
-          <div className="rounded-2xl p-[22px]" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+          <div className="rounded-2xl p-5" style={{ background: 'var(--surface)' }}>
             <h4 className="mb-3 text-[14px] font-bold">What got others hired</h4>
             <div className="mb-3.5 flex flex-col gap-2.5">
               {HIRED_PATTERNS.map((p) => (
@@ -346,7 +346,7 @@ export default function InsightsTab({ apps, onUpgrade }: InsightsTabProps) {
                 </div>
               ))}
             </div>
-            <button type="button" className="w-full rounded-lg py-2.5 text-[12.5px] font-semibold" style={{ border: '1px solid var(--border-glass)', background: 'transparent', color: 'var(--glow-top)', cursor: 'pointer' }}>
+            <button type="button" className="w-full rounded-[10px] py-2.5 text-[12.5px] font-semibold" style={{ border: '1px solid var(--border-glass)', background: 'transparent', color: 'var(--glow-top)', cursor: 'pointer' }}>
               See all patterns
             </button>
           </div>

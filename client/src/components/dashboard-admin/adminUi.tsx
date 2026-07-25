@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import type { Theme } from '../../lib/landingData'
 import type {
   AccountStatus,
@@ -93,6 +93,25 @@ export function riskTone(risk: number): Tone {
   return risk >= 60 ? 'critical' : risk >= 30 ? 'warning' : 'neutral'
 }
 
+/**
+ * ── Spacing & shape scale ────────────────────────────────────────────────
+ * A deliberate 2-tier padding rhythm and a small radius set, shared by every
+ * tab/drawer so the whole dashboard reads as one system (no per-instance
+ * one-off values):
+ *   • PAD_CARD (24)    — standard cards: KPI stats, list-item cards, tables,
+ *                        activity/report panels.
+ *   • PAD_FEATURE (32) — hero/feature panels: the growth chart, the large
+ *                        Settings section cards.
+ *   • RADIUS_CARD (14) — every card/panel.  RADIUS_TILE (12) — nested mini
+ *                        tiles inside a surface.  RADIUS_BTN (10) — every
+ *                        button and input.  999 is reserved for badges/pills.
+ */
+export const PAD_CARD = 24
+export const PAD_FEATURE = 32
+export const RADIUS_CARD = 14
+export const RADIUS_TILE = 12
+export const RADIUS_BTN = 10
+
 // ── Badge ───────────────────────────────────────────────────────────────
 export function Badge({
   tone,
@@ -143,8 +162,8 @@ export function StatCard({
     <div
       style={{
         border: '1px solid var(--border)',
-        borderRadius: 14,
-        padding: '16px 18px',
+        borderRadius: RADIUS_CARD,
+        padding: PAD_CARD,
         animation: 'revealUp .3s ease-out both',
       }}
     >
@@ -213,9 +232,12 @@ export function FilterTabs<T extends string>({
         display: 'flex',
         gap: 2,
         padding: 3,
-        borderRadius: 10,
+        borderRadius: RADIUS_BTN,
         border: '1px solid var(--border)',
         width: 'fit-content',
+        maxWidth: '100%',
+        overflowX: 'auto',
+        scrollbarWidth: 'none',
       }}
     >
       {options.map((o) => {
@@ -225,13 +247,15 @@ export function FilterTabs<T extends string>({
             key={o.key}
             onClick={() => onChange(o.key)}
             style={{
-              padding: '7px 14px',
+              flexShrink: 0,
+              whiteSpace: 'nowrap',
+              padding: '8px 14px',
               borderRadius: 8,
               fontSize: 12.5,
               fontWeight: 600,
               cursor: 'pointer',
               border: 'none',
-              transition: 'all .15s ease-out',
+              transition: 'background-color .15s ease-out, color .15s ease-out',
               background: active ? 'var(--surface-2, var(--surface-alt))' : 'transparent',
               color: active ? 'var(--text)' : 'var(--text-3)',
             }}
@@ -265,21 +289,62 @@ const thStyle: CSSProperties = {
   whiteSpace: 'nowrap',
 }
 
+/**
+ * Bordered table card. The inner track scrolls horizontally when the table is
+ * wider than the viewport (mobile) and a right-edge fade appears as a visible
+ * "there's more →" cue, hiding itself once scrolled to the end. This is the ONE
+ * responsive-table pattern used across every admin data table.
+ */
 export function TableShell({ headers, children }: { headers: string[]; children: ReactNode }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [showCue, setShowCue] = useState(false)
+
+  useEffect(() => {
+    const el = trackRef.current
+    if (!el) return
+    const check = () =>
+      setShowCue(el.scrollWidth - el.clientWidth > 2 && el.scrollLeft + el.clientWidth < el.scrollWidth - 2)
+    check()
+    const ro = new ResizeObserver(check)
+    ro.observe(el)
+    el.addEventListener('scroll', check, { passive: true })
+    return () => {
+      ro.disconnect()
+      el.removeEventListener('scroll', check)
+    }
+  }, [children, headers])
+
   return (
-    <div style={{ border: '1px solid var(--border)', borderRadius: 14, overflowX: 'auto' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5 }}>
-        <thead>
-          <tr>
-            {headers.map((h) => (
-              <th key={h} style={thStyle}>
-                {h}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{children}</tbody>
-      </table>
+    <div style={{ position: 'relative', border: '1px solid var(--border)', borderRadius: RADIUS_CARD }}>
+      <div ref={trackRef} style={{ overflowX: 'auto', borderRadius: RADIUS_CARD, scrollbarWidth: 'thin' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5 }}>
+          <thead>
+            <tr>
+              {headers.map((h) => (
+                <th key={h} style={thStyle}>
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>{children}</tbody>
+        </table>
+      </div>
+      {showCue && (
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            top: 1,
+            bottom: 1,
+            right: 1,
+            width: 40,
+            borderRadius: `0 ${RADIUS_CARD}px ${RADIUS_CARD}px 0`,
+            pointerEvents: 'none',
+            background: 'linear-gradient(90deg, transparent, var(--bg))',
+          }}
+        />
+      )}
     </div>
   )
 }
@@ -343,8 +408,8 @@ export function LiftButton({
         textAlign: 'left',
         border: '1px solid',
         borderColor: hover ? 'var(--border-glass)' : 'var(--border)',
-        borderRadius: 14,
-        padding: 16,
+        borderRadius: RADIUS_CARD,
+        padding: PAD_CARD,
         background: 'transparent',
         cursor: 'pointer',
         transition: 'transform .15s ease-out, border-color .15s ease-out',
@@ -358,16 +423,24 @@ export function LiftButton({
   )
 }
 
-// ── Primary (brand) button style — the gradient action from the shell ───
+/**
+ * ── Button system ────────────────────────────────────────────────────────
+ * Two sizes, ONE radius (RADIUS_BTN = 10). `md` (~40px tall) is the primary
+ * page/drawer action; `sm` (~35px, comfortable thumb target) is a row action.
+ * The brand gradient marks the primary action; outline marks the secondary.
+ */
+const BRAND_GRADIENT =
+  'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)'
+
+// md primary (brand) — the gradient action from the shell
 export const primaryBtnStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   gap: 6,
-  padding: '9px 16px',
-  borderRadius: 9,
+  padding: '10px 16px',
+  borderRadius: RADIUS_BTN,
   border: '1px solid rgba(255,255,255,0.22)',
-  background:
-    'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)',
+  background: BRAND_GRADIENT,
   color: '#fff',
   fontSize: 13.5,
   fontWeight: 600,
@@ -375,13 +448,33 @@ export const primaryBtnStyle: CSSProperties = {
   boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.3)',
 }
 
+// md secondary — outline
 export const ghostBtnStyle: CSSProperties = {
-  padding: 11,
-  borderRadius: 10,
+  padding: '10px 16px',
+  borderRadius: RADIUS_BTN,
   border: '1px solid var(--border)',
   background: 'transparent',
   color: 'var(--text)',
   fontWeight: 600,
   fontSize: 13.5,
+  cursor: 'pointer',
+}
+
+// sm primary (brand) — compact row action
+export const smPrimaryBtnStyle: CSSProperties = {
+  ...primaryBtnStyle,
+  padding: '9px 14px',
+  fontSize: 12,
+}
+
+// sm secondary — compact outline row action
+export const smBtnStyle: CSSProperties = {
+  padding: '9px 14px',
+  borderRadius: RADIUS_BTN,
+  border: '1px solid var(--border)',
+  background: 'transparent',
+  color: 'var(--text-2)',
+  fontWeight: 600,
+  fontSize: 12,
   cursor: 'pointer',
 }

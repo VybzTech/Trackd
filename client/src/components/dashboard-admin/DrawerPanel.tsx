@@ -3,6 +3,9 @@ import { cap, type CandAccount, type Company, type RolePosting, type SupportTick
 import { DrawerCloseIcon } from './adminIcons'
 import {
   Badge,
+  RADIUS_BTN,
+  RADIUS_CARD,
+  RADIUS_TILE,
   accountStatusTone,
   ghostBtnStyle,
   primaryBtnStyle,
@@ -15,9 +18,9 @@ import {
 export type DrawerType = 'company' | 'candidate' | 'role' | 'ticket' | null
 
 const closeIconBtnStyle = {
-  width: 28,
-  height: 28,
-  borderRadius: 8,
+  width: 32,
+  height: 32,
+  borderRadius: RADIUS_BTN,
   border: 'none',
   background: 'transparent',
   color: 'var(--text-3)',
@@ -37,7 +40,7 @@ const drawerHeaderStyle = {
 
 const statTileStyle = {
   border: '1px solid var(--border)',
-  borderRadius: 12,
+  borderRadius: RADIUS_TILE,
   padding: 14,
 } as const
 
@@ -230,7 +233,7 @@ function CandidateDrawer({
           alignItems: 'center',
           gap: 16,
           border: '1px solid var(--border)',
-          borderRadius: 14,
+          borderRadius: RADIUS_CARD,
           padding: 16,
           marginBottom: 20,
         }}
@@ -285,7 +288,7 @@ function CandidateDrawer({
                 style={{
                   fontSize: 12.5,
                   padding: '8px 12px',
-                  borderRadius: 9,
+                  borderRadius: RADIUS_BTN,
                   background: 'color-mix(in srgb, var(--glow-top) 10%, var(--surface))',
                   border: '1px solid var(--border-glass)',
                   color: 'var(--text)',

@@ -61,6 +61,9 @@ export default function DashboardRecruiter() {
   const [activeJobId, setActiveJobId] = useState(1)
   const [rolesStageFilter, setRolesStageFilter] = useState<RecruiterStage | 'all'>('all')
   const [rolesSearchQuery, setRolesSearchQuery] = useState('')
+  // Increments each time a role is deep-linked from Overview, so RolesTab's
+  // mobile drill-in can jump straight to the selected role's pipeline.
+  const [rolePipelineSignal, setRolePipelineSignal] = useState(0)
 
   // ── Candidates tab state ──────────────────────────────────────────
   const [candStageFilter, setCandStageFilter] = useState<RecruiterStage | 'all'>('all')
@@ -203,6 +206,7 @@ export default function DashboardRecruiter() {
             setActiveTab('roles')
             setActiveJobId(jobId)
             setRolesStageFilter('applied')
+            setRolePipelineSignal((n) => n + 1)
           }}
         />
       )}
@@ -220,6 +224,7 @@ export default function DashboardRecruiter() {
           stageFilter={rolesStageFilter}
           onStageFilter={setRolesStageFilter}
           searchQuery={rolesSearchQuery}
+          openPipelineSignal={rolePipelineSignal}
           onOpenDetail={openDetail}
           onSetStage={setCandidateStage}
         />
@@ -311,6 +316,10 @@ export default function DashboardRecruiter() {
           onClose={closeDetail}
           onInterview={() => {
             setCandidateStage(detailJobId, detailCandidate.id, 'interview')
+            closeDetail()
+          }}
+          onReject={() => {
+            setCandidateStage(detailJobId, detailCandidate.id, 'rejected')
             closeDetail()
           }}
         />

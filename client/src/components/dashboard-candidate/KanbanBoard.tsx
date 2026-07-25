@@ -18,10 +18,14 @@ export default function KanbanBoard({ apps, onMoveCard, onOpenDetail }: KanbanBo
   }
 
   return (
-    <div
-      className="grid gap-4 overflow-x-auto pb-2"
-      style={{ gridTemplateColumns: `repeat(${STATUS_ORDER.length}, minmax(220px, 1fr))` }}
-    >
+    <div>
+      <div className="mb-2 flex items-center justify-end gap-1 text-[11px] font-medium sm:hidden" style={{ color: 'var(--text-3)' }} aria-hidden="true">
+        Swipe across stages<span aria-hidden="true">→</span>
+      </div>
+      <div
+        className="grid gap-3 overflow-x-auto pb-3 sm:gap-4"
+        style={{ gridTemplateColumns: `repeat(${STATUS_ORDER.length}, minmax(220px, 1fr))`, scrollSnapType: 'x proximity', scrollPaddingLeft: 4 }}
+      >
       {STATUS_ORDER.map((status) => {
         const cards = apps.filter((a) => a.status === status)
         const color = STATUS_COLORS[status]
@@ -47,6 +51,7 @@ export default function KanbanBoard({ apps, onMoveCard, onOpenDetail }: KanbanBo
             style={{
               border: `1px solid ${isOver ? 'var(--border-glass)' : 'var(--border)'}`,
               background: isOver ? `color-mix(in srgb, ${color} 8%, var(--surface-alt))` : 'var(--surface-alt)',
+              scrollSnapAlign: 'start',
             }}
           >
             <div className="mb-3 flex items-center justify-between">
@@ -99,7 +104,7 @@ export default function KanbanBoard({ apps, onMoveCard, onOpenDetail }: KanbanBo
                     background: 'var(--surface)',
                     cursor: 'grab',
                     opacity: dragId === a.id ? 0.5 : 1,
-                    animation: 'revealUp .25s ease-out both',
+                    animation: 'revealUp .2s ease-out both',
                   }}
                   aria-label={`${a.role} at ${a.company}, ${a.match}% match, ${a.status}. Use left and right arrow keys to change stage.`}
                 >
@@ -129,6 +134,7 @@ export default function KanbanBoard({ apps, onMoveCard, onOpenDetail }: KanbanBo
           </div>
         )
       })}
+      </div>
     </div>
   )
 }

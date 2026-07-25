@@ -55,7 +55,7 @@ export default function PipelineTable({ apps, onOpenDetail }: PipelineTableProps
               key={p}
               type="button"
               onClick={() => setStageFilter(p)}
-              className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold transition-colors duration-150"
+              className="flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12px] font-semibold transition-colors duration-150"
               style={{
                 border: `1px solid ${active ? 'var(--border-glass)' : 'var(--border)'}`,
                 background: active ? 'var(--surface-alt)' : 'transparent',
@@ -70,6 +70,9 @@ export default function PipelineTable({ apps, onOpenDetail }: PipelineTableProps
         })}
       </div>
 
+      <div className="mb-2 flex items-center justify-end gap-1 text-[11px] font-medium sm:hidden" style={{ color: 'var(--text-3)' }} aria-hidden="true">
+        Swipe to see more<span aria-hidden="true">→</span>
+      </div>
       <div className="overflow-x-auto rounded-2xl" style={{ border: '1px solid var(--border)' }}>
         <table className="w-full border-collapse text-[13.5px]">
           <thead>

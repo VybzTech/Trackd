@@ -105,7 +105,7 @@ export default function DashboardCandidate() {
       <button
         type="button"
         onClick={togglePlan}
-        className="block w-full rounded-lg py-2 text-center text-[12.5px] font-semibold text-white"
+        className="block w-full rounded-[10px] py-2 text-center text-[12.5px] font-semibold text-white"
         style={{ background: 'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.3)', border: 'none', cursor: 'pointer' }}
       >
         See Pro plan

@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { YEARS_OPTS, initials, type TalentProfile } from './data'
-import { Pill, Toggle, Avatar } from './ui'
+import { Pill, Toggle, Avatar, TableScroll, PILL_ACTION, CONTROL_PAD } from './ui'
 
 const TH = 'whitespace-nowrap border-b px-4 py-[11px] text-[11px] font-semibold uppercase tracking-[0.04em]'
 
@@ -51,8 +52,13 @@ export default function TalentSearchTab({
   onOpenPreview: (id: number) => void
   onReachOut: (id: number) => void
 }) {
+  const [filtersOpen, setFiltersOpen] = useState(false)
+
   const uniqueLocations = ['all', ...Array.from(new Set(pool.map((t) => t.location)))]
   const uniqueSkills = ['all', ...Array.from(new Set(pool.flatMap((t) => t.skills)))]
+
+  const activeFilterCount =
+    (locationFilter !== 'all' ? 1 : 0) + (skillFilter !== 'all' ? 1 : 0) + (minYears > 0 ? 1 : 0) + (availableOnly ? 1 : 0)
 
   const q = query.trim().toLowerCase()
   let filtered = availableOnly ? pool.filter((t) => t.available) : pool.slice()
@@ -71,41 +77,75 @@ export default function TalentSearchTab({
         Browse candidates across the whole Trackd network and reach out directly.
       </p>
 
-      <div className="mb-3.5 flex flex-wrap gap-1.5">
-        {uniqueLocations.map((loc) => (
-          <Pill
-            key={loc}
-            label={loc === 'all' ? 'All locations' : loc}
-            active={locationFilter === loc}
-            onClick={() => onLocationFilter(loc)}
-          />
-        ))}
+      {/* Mobile: filters collapse behind a toggle; desktop shows them inline. */}
+      <div className="mb-3.5 flex items-center justify-between gap-3">
+        <button
+          type="button"
+          onClick={() => setFiltersOpen((o) => !o)}
+          aria-expanded={filtersOpen}
+          className="inline-flex items-center gap-2 rounded-[10px] border px-3.5 py-2 text-[12.5px] font-semibold transition-colors duration-150 ease-out md:hidden"
+          style={{ padding: CONTROL_PAD.pill, borderColor: 'var(--border)', color: 'var(--text-2)' }}
+        >
+          Filters
+          {activeFilterCount > 0 && (
+            <span
+              className="inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-full px-1 font-mono text-[10.5px] font-bold text-white"
+              style={{ background: 'var(--brand-2)' }}
+            >
+              {activeFilterCount}
+            </span>
+          )}
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{ transform: filtersOpen ? 'rotate(180deg)' : 'none', transition: 'transform .15s ease-out' }}
+          >
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
+        <div className="font-mono text-xs" style={{ color: 'var(--text-3)' }}>
+          {filtered.length} of {pool.length} candidates
+        </div>
       </div>
-      <div className="mb-3.5 flex flex-wrap gap-1.5">
-        {uniqueSkills.map((sk) => (
-          <Pill key={sk} label={sk === 'all' ? 'All skills' : sk} active={skillFilter === sk} onClick={() => onSkillFilter(sk)} />
-        ))}
-      </div>
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3.5">
-        <div className="flex flex-wrap gap-1.5">
-          {YEARS_OPTS.map((y) => (
-            <Pill key={y} label={y === 0 ? 'Any experience' : `${y}+ yrs`} active={minYears === y} onClick={() => onMinYears(y)} />
+
+      <div className={`${filtersOpen ? 'block' : 'hidden'} md:block`}>
+        <div className="mb-3.5 flex flex-wrap gap-1.5">
+          {uniqueLocations.map((loc) => (
+            <Pill
+              key={loc}
+              label={loc === 'all' ? 'All locations' : loc}
+              active={locationFilter === loc}
+              onClick={() => onLocationFilter(loc)}
+            />
           ))}
         </div>
-        <div className="flex shrink-0 items-center gap-4">
+        <div className="mb-3.5 flex flex-wrap gap-1.5">
+          {uniqueSkills.map((sk) => (
+            <Pill key={sk} label={sk === 'all' ? 'All skills' : sk} active={skillFilter === sk} onClick={() => onSkillFilter(sk)} />
+          ))}
+        </div>
+        <div className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-3">
+          <div className="flex flex-wrap gap-1.5">
+            {YEARS_OPTS.map((y) => (
+              <Pill key={y} label={y === 0 ? 'Any experience' : `${y}+ yrs`} active={minYears === y} onClick={() => onMinYears(y)} />
+            ))}
+          </div>
           <div className="flex items-center gap-2">
             <span className="text-[12.5px] font-semibold" style={{ color: 'var(--text-2)' }}>
               Open to work only
             </span>
             <Toggle on={availableOnly} onToggle={onToggleAvailable} label="Show only candidates open to work" />
           </div>
-          <div className="font-mono text-xs" style={{ color: 'var(--text-3)' }}>
-            {filtered.length} of {pool.length} candidates
-          </div>
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-[14px] border" style={{ borderColor: 'var(--border)' }}>
+      <TableScroll>
         <table className="w-full border-collapse text-[13.5px]">
           <thead>
             <tr>
@@ -114,7 +154,7 @@ export default function TalentSearchTab({
                   {h}
                 </th>
               ))}
-              <th className={`text-right ${TH}`} style={{ color: 'var(--text-3)', borderColor: 'var(--border)' }}>
+              <th className={`hidden text-right md:table-cell ${TH}`} style={{ color: 'var(--text-3)', borderColor: 'var(--border)' }}>
                 Action
               </th>
             </tr>
@@ -184,7 +224,7 @@ export default function TalentSearchTab({
                   <td className="border-b px-4 py-3" style={{ borderColor: 'var(--border)' }}>
                     <AvailabilityBadge available={t.available} />
                   </td>
-                  <td className="border-b px-4 py-3 text-right" style={{ borderColor: 'var(--border)' }}>
+                  <td className="hidden border-b px-4 py-3 text-right md:table-cell" style={{ borderColor: 'var(--border)' }}>
                     <button
                       type="button"
                       disabled={sent}
@@ -192,11 +232,11 @@ export default function TalentSearchTab({
                         e.stopPropagation()
                         if (!sent) onReachOut(t.id)
                       }}
-                      className="rounded-full border px-3 py-1.5 text-[11.5px] font-semibold"
+                      className={`${PILL_ACTION} border`}
                       style={
                         sent
-                          ? { borderColor: 'var(--border)', background: 'transparent', color: 'var(--text-3)', cursor: 'default' }
-                          : { borderColor: 'var(--border-glass)', background: 'var(--surface-alt)', color: 'var(--glow-top)', cursor: 'pointer' }
+                          ? { padding: CONTROL_PAD.pill, borderColor: 'var(--border)', background: 'transparent', color: 'var(--text-3)', cursor: 'default' }
+                          : { padding: CONTROL_PAD.pill, borderColor: 'var(--border-glass)', background: 'var(--surface-alt)', color: 'var(--glow-top)', cursor: 'pointer' }
                       }
                     >
                       {sent ? 'Sent ✓' : 'Reach out'}
@@ -207,7 +247,7 @@ export default function TalentSearchTab({
             })}
           </tbody>
         </table>
-      </div>
+      </TableScroll>
     </>
   )
 }

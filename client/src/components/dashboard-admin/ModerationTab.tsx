@@ -4,10 +4,13 @@ import { cap, type Flag, type FlagStatus } from './adminData'
 import {
   Badge,
   FilterTabs,
+  PAD_CARD,
+  RADIUS_CARD,
   ResultsCount,
   flagStatusTone,
-  primaryBtnStyle,
   severityTone,
+  smBtnStyle,
+  smPrimaryBtnStyle,
 } from './adminUi'
 
 type FilterKey = 'all' | FlagStatus
@@ -17,24 +20,6 @@ const FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'escalated', label: 'Escalated' },
   { key: 'resolved', label: 'Resolved' },
 ]
-
-const resolveBtnStyle = {
-  fontSize: 11.5,
-  fontWeight: 600,
-  padding: '7px 14px',
-  borderRadius: 999,
-  border: '1px solid var(--border)',
-  background: 'transparent',
-  color: 'var(--text-2)',
-  cursor: 'pointer',
-} as const
-
-const escalateBtnStyle = {
-  ...primaryBtnStyle,
-  fontSize: 11.5,
-  padding: '7px 14px',
-  borderRadius: 999,
-} as const
 
 export default function ModerationTab({
   flags,
@@ -84,8 +69,8 @@ export default function ModerationTab({
               key={f.id}
               style={{
                 border: '1px solid var(--border)',
-                borderRadius: 14,
-                padding: 16,
+                borderRadius: RADIUS_CARD,
+                padding: PAD_CARD,
                 display: 'flex',
                 alignItems: 'flex-start',
                 justifyContent: 'space-between',
@@ -130,12 +115,12 @@ export default function ModerationTab({
               </div>
               <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
                 {canEscalate && (
-                  <button onClick={() => onEscalate(f.id)} style={escalateBtnStyle}>
+                  <button onClick={() => onEscalate(f.id)} style={smPrimaryBtnStyle}>
                     Escalate
                   </button>
                 )}
                 {canResolve && (
-                  <button onClick={() => onResolve(f.id)} style={resolveBtnStyle}>
+                  <button onClick={() => onResolve(f.id)} style={smBtnStyle}>
                     Resolve
                   </button>
                 )}

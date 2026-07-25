@@ -30,7 +30,7 @@ export default function ExploreTab({ isPro, onUpgrade, onSave }: ExploreTabProps
   const toggleStack = (tech: string) => setStackFilters((s) => (s.includes(tech) ? s.filter((t) => t !== tech) : [...s, tech]))
 
   const pillStyle = (active: boolean) => ({
-    padding: '7px 14px',
+    padding: '8px 14px',
     borderRadius: 999,
     fontSize: 12,
     fontWeight: 600,
@@ -42,7 +42,7 @@ export default function ExploreTab({ isPro, onUpgrade, onSave }: ExploreTabProps
 
   if (!isPro) {
     return (
-      <div className="mx-auto my-16 max-w-[420px] rounded-[20px] p-10 text-center" style={{ border: '1px solid var(--border-glass)', background: 'var(--surface-alt)' }}>
+      <div className="mx-auto my-16 max-w-[420px] rounded-3xl p-6 sm:p-8 text-center" style={{ border: '1px solid var(--border-glass)', background: 'var(--surface-alt)' }}>
         <div className="mb-3.5 text-[12.5px] font-semibold uppercase tracking-[0.06em]" style={{ color: 'var(--glow-top)', fontFamily: 'var(--font-mono)' }}>
           Trackd Pro
         </div>
@@ -50,7 +50,7 @@ export default function ExploreTab({ isPro, onUpgrade, onSave }: ExploreTabProps
         <p className="mb-6 text-[14px] leading-[1.6]" style={{ color: 'var(--text-2)' }}>
           Browse and filter every open role on Trackd by skill, company, tech stack, and location — ranked by your live compatibility score.
         </p>
-        <button type="button" onClick={onUpgrade} style={{ ...primaryBtnStyle, padding: '12px 26px', fontSize: 14 }}>
+        <button type="button" onClick={onUpgrade} style={{ ...primaryBtnStyle, padding: '12px 24px', fontSize: 14, justifyContent: 'center' }}>
           Upgrade to Pro
         </button>
       </div>
@@ -119,6 +119,9 @@ export default function ExploreTab({ isPro, onUpgrade, onSave }: ExploreTabProps
         </div>
       </div>
 
+      <div className="mb-2 flex items-center justify-end gap-1 text-[11px] font-medium sm:hidden" style={{ color: 'var(--text-3)' }} aria-hidden="true">
+        Swipe to see more<span aria-hidden="true">→</span>
+      </div>
       <div className="overflow-x-auto rounded-2xl" style={{ border: '1px solid var(--border)' }}>
         <table className="w-full border-collapse text-[13.5px]">
           <thead>

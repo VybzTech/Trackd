@@ -28,7 +28,7 @@ export default function PostRoleSection() {
 
       <div className="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
         <div
-          className="rounded-2xl border p-[26px] [animation:revealUp_.6s_ease-out_both]"
+          className="rounded-2xl border p-6 [animation:revealUp_.6s_ease-out_both]"
           style={{ borderColor: 'var(--border)' }}
         >
           <CardIcon>
@@ -42,7 +42,7 @@ export default function PostRoleSection() {
         </div>
 
         <div
-          className="rounded-2xl border p-[26px] [animation:revealUp_.6s_ease-out_both]"
+          className="rounded-2xl border p-6 [animation:revealUp_.6s_ease-out_both]"
           style={{ borderColor: 'var(--border)' }}
         >
           <CardIcon>

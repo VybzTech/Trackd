@@ -73,7 +73,7 @@ export default function SettingsTab({ isPro, onTogglePlan }: SettingsTabProps) {
       </p>
 
       <div className="flex max-w-[620px] flex-col gap-6">
-        <section className="rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <section className="rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-4 flex items-center justify-between">
             <div className="text-[13px] font-bold">Basic info</div>
             <span
@@ -135,7 +135,7 @@ export default function SettingsTab({ isPro, onTogglePlan }: SettingsTabProps) {
           </div>
         </section>
 
-        <section className="rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <section className="rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-4 text-[13px] font-bold">Job preferences</div>
           <div className="flex flex-col gap-3.5">
             <div>
@@ -183,7 +183,7 @@ export default function SettingsTab({ isPro, onTogglePlan }: SettingsTabProps) {
           </div>
         </section>
 
-        <section className="rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <section className="rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-4 text-[13px] font-bold">Documents</div>
           <div className="flex flex-col gap-2.5">
             <div className="flex items-center gap-3 rounded-[10px] px-3.5 py-3" style={{ border: '1px solid var(--border)' }}>
@@ -217,10 +217,10 @@ export default function SettingsTab({ isPro, onTogglePlan }: SettingsTabProps) {
           </div>
         </section>
 
-        <section className="rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <section className="rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-1.5 flex items-center justify-between">
             <div className="text-[13px] font-bold">Career story</div>
-            <button type="button" onClick={addMilestone} className="rounded-full px-3 py-1.5 text-[12px] font-semibold" style={{ border: '1px solid var(--border-glass)', background: 'var(--surface-alt)', color: 'var(--glow-top)', cursor: 'pointer' }}>
+            <button type="button" onClick={addMilestone} className="rounded-full px-3.5 py-2 text-[12px] font-semibold" style={{ border: '1px solid var(--border-glass)', background: 'var(--surface-alt)', color: 'var(--glow-top)', cursor: 'pointer' }}>
               + Add milestone
             </button>
           </div>
@@ -272,7 +272,7 @@ export default function SettingsTab({ isPro, onTogglePlan }: SettingsTabProps) {
           ))}
         </section>
 
-        <section className="rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <section className="rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-4 text-[13px] font-bold">Skills</div>
           <div className="mb-3 flex flex-wrap gap-2">
             {settings.skills.map((sk) => (
@@ -304,7 +304,7 @@ export default function SettingsTab({ isPro, onTogglePlan }: SettingsTabProps) {
           />
         </section>
 
-        <section className="rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <section className="rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-4 text-[13px] font-bold">Plan</div>
           <div className="flex flex-wrap items-center justify-between gap-3.5">
             <div>
@@ -316,7 +316,7 @@ export default function SettingsTab({ isPro, onTogglePlan }: SettingsTabProps) {
             <button
               type="button"
               onClick={onTogglePlan}
-              className="rounded-[9px] px-4.5 py-2.5 text-[13px] font-semibold"
+              className="rounded-[10px] px-4 py-2.5 text-[13px] font-semibold"
               style={
                 isPro
                   ? { border: '1px solid var(--border)', background: 'transparent', color: 'var(--text)', cursor: 'pointer' }
@@ -328,7 +328,7 @@ export default function SettingsTab({ isPro, onTogglePlan }: SettingsTabProps) {
           </div>
         </section>
 
-        <section className="rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <section className="rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-4 text-[13px] font-bold">Preferences</div>
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
@@ -352,14 +352,14 @@ export default function SettingsTab({ isPro, onTogglePlan }: SettingsTabProps) {
           </div>
         </section>
 
-        <section className="rounded-2xl p-5" style={{ border: '1px solid var(--border)' }}>
+        <section className="rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
           <div className="mb-1.5 text-[13px] font-bold" style={{ color: 'var(--text-2)' }}>
             Danger zone
           </div>
           <p className="mb-3.5 text-[12.5px]" style={{ color: 'var(--text-3)' }}>
             Permanently delete your account and all application data.
           </p>
-          <button type="button" className="rounded-[9px] px-4 py-2.5 text-[13px] font-semibold" style={{ border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}>
+          <button type="button" className="rounded-[10px] px-4 py-2.5 text-[13px] font-semibold" style={{ border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}>
             Delete account
           </button>
         </section>

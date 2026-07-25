@@ -57,7 +57,7 @@ export default function OverviewTab({ displayName, apps, nextGoal, onGoalChange,
       </div>
 
       <div
-        className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl p-[18px]"
+        className="mb-5 flex flex-wrap items-center gap-4 rounded-2xl p-5 sm:p-6"
         style={{ border: '1px solid var(--border-glass)', background: 'var(--surface-alt)' }}
       >
         <button
@@ -114,7 +114,7 @@ export default function OverviewTab({ displayName, apps, nextGoal, onGoalChange,
               <button
                 type="button"
                 onClick={() => setEditing(false)}
-                className="rounded-lg px-3.5 py-2 text-[12px] font-semibold"
+                className="rounded-[10px] px-3.5 py-2 text-[12px] font-semibold"
                 style={{ border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}
               >
                 Cancel
@@ -127,7 +127,7 @@ export default function OverviewTab({ displayName, apps, nextGoal, onGoalChange,
                   onGoalChange({ text: t, source: 'user', done: false })
                   setEditing(false)
                 }}
-                className="rounded-lg px-3.5 py-2 text-[12px] font-semibold"
+                className="rounded-[10px] px-3.5 py-2 text-[12px] font-semibold"
                 style={{ border: '1px solid var(--border-glass)', background: 'var(--surface)', color: 'var(--glow-top)', cursor: 'pointer' }}
               >
                 Save
@@ -141,7 +141,7 @@ export default function OverviewTab({ displayName, apps, nextGoal, onGoalChange,
                   setDraft(nextGoal.text)
                   setEditing(true)
                 }}
-                className="rounded-lg px-3.5 py-2 text-[12px] font-semibold"
+                className="rounded-[10px] px-3.5 py-2 text-[12px] font-semibold"
                 style={{ border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}
               >
                 Edit
@@ -149,7 +149,7 @@ export default function OverviewTab({ displayName, apps, nextGoal, onGoalChange,
               <button
                 type="button"
                 onClick={() => onGoalChange({ text: AI_SUGGESTION, source: 'ai', done: false })}
-                className="rounded-lg px-3.5 py-2 text-[12px] font-semibold"
+                className="rounded-[10px] px-3.5 py-2 text-[12px] font-semibold"
                 style={{ border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-2)', cursor: 'pointer' }}
               >
                 Suggest one
@@ -202,7 +202,7 @@ export default function OverviewTab({ displayName, apps, nextGoal, onGoalChange,
           <div className="mb-3 text-[12px] font-semibold uppercase tracking-[0.04em]" style={{ color: 'var(--text-3)' }}>
             Recent activity
           </div>
-          <div className="flex flex-col gap-3.5 rounded-2xl p-4" style={{ border: '1px solid var(--border)' }}>
+          <div className="flex flex-col gap-3.5 rounded-2xl p-5 sm:p-6" style={{ border: '1px solid var(--border)' }}>
             {ACTIVITY_FEED.map((a, i) => (
               <div key={i} className="flex items-start gap-3">
                 <span className="mt-1.5 flex-shrink-0" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--glow-top)' }} />

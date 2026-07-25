@@ -7,7 +7,7 @@ import {
   type Job,
   type RecruiterStage,
 } from './data'
-import { SegmentButton, StageBadge, MatchCell, Avatar } from './ui'
+import { SegmentButton, StageBadge, MatchCell, Avatar, TableScroll, PILL_ACTION, BRAND_GRADIENT, CONTROL_PAD } from './ui'
 import { RowActions } from './RowActions'
 
 const TH = 'whitespace-nowrap border-b px-4 py-[11px] text-[11px] font-semibold uppercase tracking-[0.04em]'
@@ -72,7 +72,7 @@ export default function CandidatesTab({
           {SUCCESS_STORIES.map((s) => (
             <div
               key={s.name}
-              className="flex-[0_0_260px] rounded-[14px] border p-4"
+              className="flex-[0_0_260px] rounded-[14px] border p-6"
               style={{ borderColor: 'var(--border-glass)', background: 'var(--surface-alt)' }}
             >
               <div className="mb-2.5 flex items-center gap-2.5">
@@ -102,7 +102,7 @@ export default function CandidatesTab({
 
       {/* Filters + count */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex w-fit gap-0.5 rounded-[10px] border p-[3px]" style={{ borderColor: 'var(--border)' }}>
+        <div className="flex flex-wrap gap-0.5 rounded-[10px] border p-[3px]" style={{ borderColor: 'var(--border)' }}>
           {STAGE_FILTERS.map((f) => (
             <SegmentButton key={f.key} label={f.label} active={stageFilter === f.key} onClick={() => onStageFilter(f.key)} />
           ))}
@@ -115,7 +115,7 @@ export default function CandidatesTab({
       {/* Bulk bar */}
       {selectedIds.length > 0 && (
         <div
-          className="mb-3 flex flex-wrap items-center gap-3 rounded-[12px] border px-4 py-2.5"
+          className="mb-3 flex flex-wrap items-center gap-3 rounded-[14px] border px-4 py-2.5"
           style={{ borderColor: 'var(--border-glass)', background: 'var(--surface-alt)' }}
         >
           <span className="text-[13px] font-semibold" style={{ color: 'var(--text)' }}>
@@ -124,27 +124,23 @@ export default function CandidatesTab({
           <button
             type="button"
             onClick={onBulkInterview}
-            className="rounded-full border px-3.5 py-[7px] text-xs font-semibold text-white"
-            style={{
-              borderColor: 'var(--border-glass)',
-              background:
-                'linear-gradient(180deg, color-mix(in srgb, var(--brand-2) 85%, white 15%), var(--brand-2) 45%, var(--brand) 100%)',
-            }}
+            className={`${PILL_ACTION} border text-white`}
+            style={{ padding: CONTROL_PAD.pill, borderColor: 'var(--border-glass)', background: BRAND_GRADIENT }}
           >
             Move to Interview
           </button>
           <button
             type="button"
             onClick={onClearSelection}
-            className="ml-auto rounded-full border px-3.5 py-[7px] text-xs font-semibold"
-            style={{ borderColor: 'var(--border)', color: 'var(--text-2)', background: 'transparent' }}
+            className={`${PILL_ACTION} ml-auto border`}
+            style={{ padding: CONTROL_PAD.pill, borderColor: 'var(--border)', color: 'var(--text-2)', background: 'transparent' }}
           >
             Clear selection
           </button>
         </div>
       )}
 
-      <div className="overflow-x-auto rounded-[14px] border" style={{ borderColor: 'var(--border)' }}>
+      <TableScroll>
         <table className="w-full border-collapse text-[13.5px]">
           <thead>
             <tr>
@@ -162,7 +158,7 @@ export default function CandidatesTab({
                   {h}
                 </th>
               ))}
-              <th className={`text-right ${TH}`} style={{ color: 'var(--text-3)', borderColor: 'var(--border)' }}>
+              <th className={`hidden text-right md:table-cell ${TH}`} style={{ color: 'var(--text-3)', borderColor: 'var(--border)' }}>
                 Action
               </th>
             </tr>
@@ -221,7 +217,7 @@ export default function CandidatesTab({
                 <td className="whitespace-nowrap border-b px-4 py-3" style={{ color: 'var(--text-2)', borderColor: 'var(--border)' }}>
                   {c.source}
                 </td>
-                <td className="border-b px-4 py-3" style={{ borderColor: 'var(--border)' }}>
+                <td className="hidden border-b px-4 py-3 md:table-cell" style={{ borderColor: 'var(--border)' }}>
                   <RowActions
                     onInterview={() => onSetStage(c.jobId, c.id, 'interview')}
                     onReject={() => onSetStage(c.jobId, c.id, 'rejected')}
@@ -232,7 +228,7 @@ export default function CandidatesTab({
             ))}
           </tbody>
         </table>
-      </div>
+      </TableScroll>
     </>
   )
 }

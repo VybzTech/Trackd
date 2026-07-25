@@ -7,7 +7,7 @@ const TAGS = ['Staff Engineer', '$170–210k', 'Extension capture']
 export default function IngestionCard() {
   return (
     <div
-      className="min-w-[280px] flex-[1_1_380px] rounded-2xl border p-[22px] [animation:revealUp_.6s_ease-out_both]"
+      className="min-w-[280px] flex-[1_1_380px] rounded-2xl border p-6 [animation:revealUp_.6s_ease-out_both]"
       style={{ borderColor: 'var(--border)' }}
     >
       <div className="mb-3.5 font-mono text-[11px] tracking-[0.04em]" style={{ color: 'var(--text-3)' }}>

@@ -48,7 +48,7 @@ export default function DetailDrawer({ app, onClose, onMove }: DetailDrawerProps
         onClick={onClose}
       />
       <div
-        className="fixed bottom-0 right-0 top-0 z-[96] overflow-y-auto p-6"
+        className="fixed bottom-0 right-0 top-0 z-[96] overflow-y-auto p-5 sm:p-6"
         style={{ width: 'min(420px, 100vw)', background: 'var(--surface)', borderLeft: '1px solid var(--border)', animation: 'slideInRight .25s ease-out both' }}
         role="dialog"
         aria-modal="true"
@@ -74,7 +74,7 @@ export default function DetailDrawer({ app, onClose, onMove }: DetailDrawerProps
             onClick={onClose}
             aria-label="Close"
             className="flex items-center justify-center rounded-lg"
-            style={{ width: 28, height: 28, border: 'none', background: 'transparent', color: 'var(--text-3)', cursor: 'pointer', flexShrink: 0 }}
+            style={{ width: 36, height: 36, border: 'none', background: 'transparent', color: 'var(--text-3)', cursor: 'pointer', flexShrink: 0 }}
           >
             <CloseIcon size={15} />
           </button>

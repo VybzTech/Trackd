@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import Logo from '../Logo'
 
 const linkClasses = 'text-[13.5px] transition-colors duration-150'
 const linkStyle = { color: 'var(--text-2)' }
@@ -10,8 +11,8 @@ export default function Footer() {
     <footer className="border-t px-[clamp(20px,5vw,32px)] pb-7 pt-12" style={{ borderColor: 'var(--border)' }}>
       <div className="mx-auto mb-9 flex max-w-[1180px] flex-wrap justify-between gap-10">
         <div className="max-w-[340px] flex-[1_1_280px]">
-          <div className="mb-3 flex items-baseline gap-px text-xl font-extrabold">
-            Trackd<span style={{ color: 'var(--glow-top)' }}>.</span>
+          <div className="mb-3">
+            <Logo height={21} />
           </div>
           <p className="text-[13.5px] leading-[1.6]" style={{ color: 'var(--text-3)' }}>
             The autonomous career engine for candidates and recruiters — one data spine, both

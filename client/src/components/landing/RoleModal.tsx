@@ -27,7 +27,7 @@ export default function RoleModal({ open, confirmed, selectedRole, onClose, onSe
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[460px] rounded-[18px] border p-7 [animation:scaleIn_.18s_ease-out_both] [box-shadow:0_30px_80px_rgba(0,0,0,0.5)]"
+        className="w-full max-w-[460px] rounded-[18px] border p-6 [animation:scaleIn_.18s_ease-out_both] [box-shadow:0_30px_80px_rgba(0,0,0,0.5)]"
         style={{ background: 'var(--surface)', borderColor: 'var(--border-glass)' }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -109,7 +109,7 @@ export default function RoleModal({ open, confirmed, selectedRole, onClose, onSe
             <button
               onClick={onConfirm}
               disabled={!selectedRole}
-              className="w-full rounded-[10px] border-none py-[13px] text-sm font-semibold transition-[transform,opacity] duration-150"
+              className="w-full rounded-xl border-none py-3.5 text-sm font-semibold transition-[transform,opacity] duration-150"
               style={
                 selectedRole
                   ? {
@@ -143,7 +143,7 @@ export default function RoleModal({ open, confirmed, selectedRole, onClose, onSe
             </p>
             <button
               onClick={onClose}
-              className="w-full cursor-pointer rounded-[10px] border py-3 text-sm font-semibold"
+              className="w-full cursor-pointer rounded-xl border py-3.5 text-sm font-semibold"
               style={{ borderColor: 'var(--border)', color: 'var(--text)', background: 'transparent' }}
             >
               Got it

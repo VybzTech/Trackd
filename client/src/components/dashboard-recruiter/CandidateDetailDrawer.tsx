@@ -8,10 +8,12 @@ export default function CandidateDetailDrawer({
   candidate,
   onClose,
   onInterview,
+  onReject,
 }: {
   candidate: Candidate
   onClose: () => void
   onInterview: () => void
+  onReject: () => void
 }) {
   const initials = candidate.name.split(' ').map((w) => w[0]).join('')
   const dashOffset = CIRCUMFERENCE - (candidate.match / 100) * CIRCUMFERENCE
@@ -33,7 +35,7 @@ export default function CandidateDetailDrawer({
         <CloseButton onClose={onClose} />
       </div>
 
-      <div className="mb-5 flex items-center gap-4 rounded-[14px] border p-4" style={{ borderColor: 'var(--border)' }}>
+      <div className="mb-5 flex items-center gap-4 rounded-[14px] border p-6" style={{ borderColor: 'var(--border)' }}>
         <svg width={64} height={64} viewBox="0 0 64 64" style={{ transform: 'rotate(-90deg)', flexShrink: 0 }}>
           <circle cx={32} cy={32} r={26} fill="none" stroke="var(--border)" strokeWidth={6} />
           <circle
@@ -89,13 +91,19 @@ export default function CandidateDetailDrawer({
         </div>
       </div>
 
-      <div className="flex gap-2.5">
-        <GhostButton onClick={onClose} className="flex-1">
-          Close
-        </GhostButton>
-        <PrimaryButton onClick={onInterview} className="flex-1 justify-center">
+      <div className="flex flex-col gap-2.5">
+        <PrimaryButton onClick={onInterview} className="w-full justify-center">
           Move to Interview
         </PrimaryButton>
+        <div className="flex gap-2.5">
+          <GhostButton onClick={onReject} className="flex-1">
+            <span className="h-[6px] w-[6px] rounded-full" style={{ background: STAGE_META.rejected.color }} />
+            Reject
+          </GhostButton>
+          <GhostButton onClick={onClose} className="flex-1">
+            Close
+          </GhostButton>
+        </div>
       </div>
     </DrawerShell>
   )

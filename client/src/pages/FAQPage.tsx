@@ -30,7 +30,7 @@ export default function FAQPage() {
         {/* Hero */}
         <div className="relative mb-14 text-center [animation:revealUp_.5s_ease-out_both]">
           <div
-            className="pointer-events-none absolute -inset-x-[20%] -top-[30%] bottom-auto h-[280px] opacity-50 blur-[50px] [animation:auroraShift_16s_ease-in-out_infinite] [background-size:200%_200%]"
+            className="pointer-events-none absolute inset-x-0 -top-[30%] bottom-auto h-[280px] opacity-50 blur-[50px] [animation:auroraShift_16s_ease-in-out_infinite] [background-size:200%_200%]"
             style={{
               background:
                 'radial-gradient(50% 50% at 50% 30%, color-mix(in srgb, var(--brand) 40%, transparent), transparent 70%)',
@@ -144,7 +144,7 @@ export default function FAQPage() {
 
         {/* Still have questions? contact CTA */}
         <div
-          className="mt-5 rounded-2xl border p-7 text-center"
+          className="mt-5 rounded-2xl border p-6 text-center"
           style={{ borderColor: 'var(--border-glass)', background: 'var(--surface-alt)' }}
         >
           <h3 className="mb-2 text-[17px] font-bold">Still have questions?</h3>
@@ -153,7 +153,7 @@ export default function FAQPage() {
           </p>
           <a
             href="/#contact"
-            className="inline-block rounded-[10px] border border-white/22 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--brand-2)_85%,white_15%),var(--brand-2)_45%,var(--brand)_100%)] px-[22px] py-[11px] text-[13.5px] font-semibold text-white"
+            className="inline-block rounded-xl border border-white/22 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--brand-2)_85%,white_15%),var(--brand-2)_45%,var(--brand)_100%)] px-6 py-3 text-[13.5px] font-semibold text-white"
           >
             Contact support
           </a>

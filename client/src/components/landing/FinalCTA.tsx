@@ -23,12 +23,8 @@ export default function FinalCTA({ onGetStarted, onImHiring }: FinalCTAProps) {
           Two minutes to set up. Free for candidates, forever.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          <PrimaryButton onClick={onGetStarted} className="px-7 py-[14px]">
-            Get started free
-          </PrimaryButton>
-          <SecondaryButton onClick={onImHiring} className="px-7 py-[14px]">
-            I'm hiring →
-          </SecondaryButton>
+          <PrimaryButton onClick={onGetStarted}>Get started free</PrimaryButton>
+          <SecondaryButton onClick={onImHiring}>I'm hiring →</SecondaryButton>
         </div>
       </div>
     </section>

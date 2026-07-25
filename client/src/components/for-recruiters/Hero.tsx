@@ -43,7 +43,7 @@ export default function Hero() {
         </p>
         <Link
           to="/auth?screen=signup&role=recruiter"
-          className="inline-flex items-center gap-2 rounded-xl px-[26px] py-[13px] text-[15px] font-semibold text-white transition-transform duration-150 ease-out hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-[15px] font-semibold text-white transition-transform duration-150 ease-out hover:-translate-y-0.5"
           style={primaryCta}
         >
           Start hiring
