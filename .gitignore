@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# Env files (never commit secrets)
+.env
+.env.local
+.env.*.local
+*.local
+
+# Go
+server/trackd-server
+server/*.exe
+
+# Scraped/local data holding files (server/main.go appends here)
+server/data.txt
+server/data-*.txt
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/

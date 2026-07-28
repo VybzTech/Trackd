@@ -12,9 +12,14 @@ import (
 
 // Define CORS middleware
 func corsMiddleware(next http.Handler) http.Handler {
+	// Defaults to "*" for local/dev use (extension origin, etc). Set ALLOWED_ORIGIN
+	// in production (e.g. your Vercel client URL) to lock this down.
+	allowedOrigin := os.Getenv("ALLOWED_ORIGIN")
+	if allowedOrigin == "" {
+		allowedOrigin = "*"
+	}
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Allow any origin for development, particularly the extension's origin
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
@@ -106,7 +111,10 @@ func main() {
 	// Wrap mux with CORS middleware
 	handler := corsMiddleware(mux)
 
-	port := "8080"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	logger.Info("Server is starting on http://localhost:%s\n", port)
 
 	if err := http.ListenAndServe(":"+port, handler); err != nil {
